@@ -21,13 +21,17 @@ MAIN_DOMAIN = 'pumpkinproject.my.id'
 MEDIA_DOMAIN = 'pumpkinproject.s3.amazonaws.com'
 URL_MEDIA = f"https://{MEDIA_DOMAIN}"
 
+
 # Cors
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Settings
 if PRODUCTION:
-    WEB_DOMAIN = MAIN_DOMAIN
+    WEB_DOMAIN = 'pumpkinproject-website-backend.herokuapp.com'
+    FRONTEND_DOMAIN = 'pumpkinproject.my.id'
     URL_WEB = f"https://{WEB_DOMAIN}"
+    URL_FRONTEND = f"https://{FRONTEND_DOMAIN}"
     ALLOWED_HOSTS = ['.herokuapp.com', f'.{MAIN_DOMAIN}']
 
     SECURE_SSL_REDIRECT = True
@@ -41,8 +45,10 @@ if PRODUCTION:
     }
 else:
     WEB_DOMAIN = '127.0.0.1:8000'
+    FRONTEND_DOMAIN = '127.0.0.1:3000'
     URL_WEB = f"http://{WEB_DOMAIN}"
-    ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]', 'testserver']
+    URL_FRONTEND = f"http://{FRONTEND_DOMAIN}"
+    ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
 
     SECURE_SSL_REDIRECT = False
     

@@ -1,7 +1,7 @@
 import requests
 from django.contrib.auth.models import User
 from django.db import models
-from web.data.setup import URL_MEDIA, URL_WEB
+from web.data.setup import URL_MEDIA, URL_FRONTEND
 
 from apps.account.rank import RANK
 
@@ -42,7 +42,7 @@ class Profile(models.Model):
                 return f"{URL_MEDIA}/{self.banner_img}"
             self.banner_img = None
             self.save()
-        return f"{URL_WEB}/static/apps/account/images/default_banner.png"
+        return f"{URL_FRONTEND}/static/images/user/default_banner.png"
 
     def avatar(self):
         if self.avatar_img:
@@ -51,7 +51,7 @@ class Profile(models.Model):
                 return f"{URL_MEDIA}/{self.avatar_img}"
             self.avatar_img = None
             self.save()
-        return f"{URL_WEB}/static/apps/account/images/default_avatar.png"
+        return f"{URL_FRONTEND}/static/images/user/default_avatar.png"
     
     def api_rank(self):
         pass
