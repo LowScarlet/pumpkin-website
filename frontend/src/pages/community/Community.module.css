@@ -1,0 +1,43 @@
+.hands {
+    position: absolute;
+    width: 100%;
+}
+.hands img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    object-position: top;
+}
+.heroes {
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+    background-color: #222;
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 1.0),
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 1.0)
+        ),
+        url('/static/images/apps/community/header-bg.jpg');
+}
+.featured-banner {
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+    background-color: #222;
+}
+.featured-title {
+    letter-spacing: 0.2rem;
+}
+
+.com-news {
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+    background-color: #222;
+}
+
+.top-member {
+    top: 4.75rem;
+}
