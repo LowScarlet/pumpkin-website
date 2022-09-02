@@ -19,7 +19,6 @@ interface LayoutProps {
 export default function Layout(props: LayoutProps) {
     // Get public data from backend
     let { data } = useSWR(`${API_URL()}/api/`, fetcher)
-    console.log(API_URL())
     
     // Theme
     useEffect(() => {
