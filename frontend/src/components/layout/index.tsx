@@ -4,7 +4,7 @@ import Head from 'next/head'
 import { ReactNode, useEffect } from 'react'
 import useSWR from 'swr'
 import SEO from '../../../next-seo.config'
-import { API_URL } from '../config'
+import { PUBLIC_API_URL } from '../config'
 import Footer from '../footer'
 import Navbar from '../navbar'
 
@@ -18,7 +18,7 @@ interface LayoutProps {
 
 export default function Layout(props: LayoutProps) {
     // Get public data from backend
-    let { data } = useSWR(`${API_URL()}/api/`, fetcher)
+    let { data } = useSWR(`${PUBLIC_API_URL()}/api/`, fetcher)
     
     // Theme
     useEffect(() => {
