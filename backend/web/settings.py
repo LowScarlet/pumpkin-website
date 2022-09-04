@@ -38,12 +38,12 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = 'django-insecure-s0apc%c9&e6psjla+z+q*bw5=6k=k5=a5u$m+ggekow173)$vu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 PRODUCTION = os.getenv('PRODUCTION') != None
 
 DATABASE_URL = 'postgres://xewjoewk:4MbhrZYjK46qPB_EJXMkv8gOU8b8BB9M@heffalump.db.elephantsql.com/xewjoewk'
 
 if PRODUCTION:
+    DEBUG = False
     BACKEND_DOMAIN = f'api.{MAIN_DOMAIN}'
     FRONTEND_DOMAIN = MAIN_DOMAIN
     BACKEND_URL = f"https://{BACKEND_DOMAIN}"
@@ -61,6 +61,7 @@ if PRODUCTION:
         )
     }
 else:
+    DEBUG = True
     BACKEND_DOMAIN = '127.0.0.1:8000'
     FRONTEND_DOMAIN = '127.0.0.1:3000'
     BACKEND_URL = f"https://{BACKEND_DOMAIN}"
