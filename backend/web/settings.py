@@ -11,53 +11,102 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from datetime import timedelta
+from pathlib import Path
 import os
+import dj_database_url
 import sys
 
-from web.data.setup import *
+# Project Attribute
+MAIN_DOMAIN = 'pumpkinproject.my.id'
+
+# Email
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'pumpkinprojectid@gmail.com'
+EMAIL_HOST_PASSWORD = 'cbcxomuuwqrakmjr'
+EMAIL_PORT = 587
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-64g+*9b!m9pxw0sfh*2^gt&pys3r4^nb40ui)#=r6x%b)b6)v%'
+SECRET_KEY = 'django-insecure-s0apc%c9&e6psjla+z+q*bw5=6k=k5=a5u$m+ggekow173)$vu'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+PRODUCTION = os.getenv('PRODUCTION') != None
+
+DATABASE_URL = 'postgres://xewjoewk:4MbhrZYjK46qPB_EJXMkv8gOU8b8BB9M@heffalump.db.elephantsql.com/xewjoewk'
+
+if PRODUCTION:
+    BACKEND_DOMAIN = f'api.{MAIN_DOMAIN}'
+    FRONTEND_DOMAIN = MAIN_DOMAIN
+    BACKEND_URL = f"https://{BACKEND_DOMAIN}"
+    BACKEND_URL = f"https://{FRONTEND_DOMAIN}"
+
+    ALLOWED_HOSTS = ['.herokuapp.com', f'.{MAIN_DOMAIN}', '.vercel.app', '.now.sh']
+
+    SECURE_SSL_REDIRECT = True
+    
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    BACKEND_DOMAIN = '127.0.0.1:8000'
+    FRONTEND_DOMAIN = '127.0.0.1:3000'
+    BACKEND_URL = f"https://{BACKEND_DOMAIN}"
+    BACKEND_URL = f"https://{FRONTEND_DOMAIN}"
+
+    ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
+
+    SECURE_SSL_REDIRECT = False
+    
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 # Application definition
 
 INSTALLED_APPS = [
-    # Default
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-
-    # Addon
-    'rest_framework',
-    'rest_framework.authtoken',
+    'django.contrib.staticfiles',
     'storages',
-    'corsheaders',
-
-    # Apps
-    'apps.api',
-    'apps.account',
-    'apps.discord',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Cors
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Rest Framework
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -69,6 +118,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+# Simple JWT
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
@@ -85,9 +136,7 @@ ROOT_URLCONF = 'web.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'templates',
-        ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,6 +150,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'web.wsgi.application'
+
+
+# Database
+# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
@@ -131,35 +191,28 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
+
+# AWS S3 Configs
+
+AWS_ACCESS_KEY_ID = 'AKIAWVE7HGYJUKGC3WF2'
+AWS_SECRET_ACCESS_KEY = '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'
+if PRODUCTION:
+    AWS_STORAGE_BUCKET_NAME = 'pumpkinproject-backend-production'
+else:
+    AWS_STORAGE_BUCKET_NAME = 'pumpkinproject-backend-nonproduction'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+AWS_DEFAULT_ACL = 'public-read'
+AWS_LOCATION = 'static'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
-
-# This is the directory for storing `collectstatic` results.
-# This shouldn't be included in your Git repository.
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# You can use this directory to store project-wide static files.
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    os.path.join(BASE_DIR, 'static'),
 ]
-
-# Make sure the directories exist to prevent errors when doing `collectstatic`.
-# for directory in [*STATICFILES_DIRS, STATIC_ROOT]:
-#     directory.mkdir(exist_ok=True)
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-# for directory in [*STATICFILES_DIRS, STATIC_ROOT]:
-#     directory.mkdir(exist_ok=True)
-
-# Enable compression and caching features of whitenoise.
-# You can remove this if it causes problems on your setup.
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'core.storages.MediaStore'

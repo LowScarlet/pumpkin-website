@@ -1,12 +1,14 @@
+
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    # Default
     path('admin/', admin.site.urls),
-
-    # Apps
-    path('account/', include('apps.account.urls')),
-    path('api/', include('apps.api.urls')),
-    path('discord/', include('apps.discord.urls')),
 ]
+
+# DEBUG Only
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
