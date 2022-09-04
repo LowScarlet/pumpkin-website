@@ -10,13 +10,26 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 from pathlib import Path
 import os
 import dj_database_url
 import sys
 
 # Project Attribute
+PROJECT = {
+    "project_name": "Pumpkin Project",
+    "project_version": "1.0",
+    "project_date_start": datetime.strptime('1/2/17 07:00:00', '%d/%m/%y %H:%M:%S'),
+    "discord_community": {
+        "vanity": "https://discord.gg/UYhQCqUj6F",
+        "original": "https://discord.gg/UYhQCqUj6F"
+    },
+    "social_media": {
+        "youtube": "https://www.youtube.com/channel/UC7H9aFpR_Jx8ulruUcMvlvw/",
+        "instagram": "https://www.instagram.com/pumpkinprojectid/"
+    }
+}
 MAIN_DOMAIN = 'pumpkinproject.my.id'
 
 # Email
@@ -47,7 +60,7 @@ if PRODUCTION:
     BACKEND_DOMAIN = f'api.{MAIN_DOMAIN}'
     FRONTEND_DOMAIN = MAIN_DOMAIN
     BACKEND_URL = f"https://{BACKEND_DOMAIN}"
-    BACKEND_URL = f"https://{FRONTEND_DOMAIN}"
+    FRONTEND_URL = f"https://{FRONTEND_DOMAIN}"
 
     ALLOWED_HOSTS = ['.herokuapp.com', f'.{MAIN_DOMAIN}', '.vercel.app', '.now.sh']
 
@@ -65,7 +78,7 @@ else:
     BACKEND_DOMAIN = '127.0.0.1:8000'
     FRONTEND_DOMAIN = '127.0.0.1:3000'
     BACKEND_URL = f"https://{BACKEND_DOMAIN}"
-    BACKEND_URL = f"https://{FRONTEND_DOMAIN}"
+    FRONTEND_URL = f"https://{FRONTEND_DOMAIN}"
 
     ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 
@@ -89,6 +102,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
+    'rest_framework.authtoken',
+    'corsheaders',
+
+    # Apps
+    'apps.account',
+    'apps.api',
 ]
 
 MIDDLEWARE = [
