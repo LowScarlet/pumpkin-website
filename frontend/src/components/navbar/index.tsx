@@ -233,7 +233,7 @@ export default function Navbar({data_api}:any) {
                                 <ul className="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdownBlog">
                                     <li><h6 className="dropdown-header">Member Account</h6></li>
                                     <li>
-                                        <Link href="/about">
+                                        <Link href="/account">
                                             <a className="dropdown-item">
                                             <div className="px-3">
                                                 <img src="/static/images/navbar/detail_logo.png" width="55" height="55" alt=""/>
@@ -243,7 +243,7 @@ export default function Navbar({data_api}:any) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/about/team">
+                                        <Link href="/upgrade">
                                             <a className="dropdown-item">
                                             <div className="px-3">
                                                 <img src="/static/images/navbar/upgrade_logo.png" width="55" height="55" alt=""/>
@@ -253,11 +253,11 @@ export default function Navbar({data_api}:any) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/about/terms">
+                                        <Link href="/redeem">
                                             <a className="dropdown-item">
                                             <div className="px-3">
                                                 <img src="/static/images/navbar/redeem_code_logo.png" width="55" height="55" alt=""/>
-                                                Reedem
+                                                Redeem
                                             </div>
                                             </a>
                                         </Link>
