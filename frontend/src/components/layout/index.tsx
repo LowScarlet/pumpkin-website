@@ -7,6 +7,8 @@ import SEO from '../../../next-seo.config'
 import { PUBLIC_API_URL } from '../config'
 import Footer from '../footer'
 import Navbar from '../navbar'
+import { useDispatch } from 'react-redux';
+import { request_refresh } from '../authentication/actions/auth';
 
 // Fetcher for useSWR
 const fetcher = (...args:any) => fetch(args).then((res) => res.json())
@@ -17,6 +19,13 @@ interface LayoutProps {
 }
 
 export default function Layout(props: LayoutProps) {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (dispatch && dispatch !== null && dispatch !== undefined)
+            dispatch(request_refresh() as any);
+    }, [dispatch]);
+
     // Get public data from backend
     let { data } = useSWR('/api/', fetcher)
     

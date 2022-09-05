@@ -264,15 +264,14 @@ export default function Navbar({data_api}:any) {
                                     </li>
                                     <hr />
                                     <li>
-                                        <a className="dropdown-item"
-                                            href='#'
+                                        <button className="dropdown-item"
                                             onClick={() => setLogout_Modal(!logout_modal)}
                                         >
                                         <div className="px-3">
                                             <img src="/static/images/navbar/logout_logo.png" width="55" height="55" alt=""/>
                                             Logout
                                         </div>
-                                        </a>
+                                        </button>
                                     </li>
                                 </ul>
                             </li>
