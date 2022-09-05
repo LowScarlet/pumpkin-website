@@ -1,14 +1,15 @@
 import { toast } from 'react-toastify';
 import {
     AUTHENTICATED_FAIL, AUTHENTICATED_SUCCESS, LOAD_USER_FAIL, LOAD_USER_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_FAIL, LOGOUT_SUCCESS, REFRESH_FAIL, REFRESH_SUCCESS, REGISTER_FAIL, REGISTER_SUCCESS, REMOVE_AUTH_LOADING, RESET_REGISTER_SUCCESS, SET_AUTH_LOADING
-} from '../actions/types';
+} from '../authentication/actions/types';
 
 // Initial State (...state)
 const initialState = {
     user: null,
     isAuthenticated: false,
     loading: false,
-    register_success: false
+    register_success: false,
+    projectinfo: null,
 };
 
 const authReducer = (state = initialState, action:any) => {

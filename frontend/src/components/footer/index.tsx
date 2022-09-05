@@ -10,7 +10,7 @@ export default function Navbar({data_api}:any) {
             <div className="container px-5 text-center">
                 <div className="py-5">
                     <h4 className="fw-bolder py-2 text-uppercase">
-                        Follow {data_api?.web_name}
+                        Follow {data_api?.project_name}
                     </h4>
                     <div className="socialmedia-button d-flex justify-content-center">
                         <div className='p-2'>

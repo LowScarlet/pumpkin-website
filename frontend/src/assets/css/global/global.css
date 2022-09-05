@@ -36,9 +36,9 @@ body::-webkit-scrollbar {
 }
 
 /* Toastify */
-.global-toast-container {
+/* .global-toast-container {
   top: 100px;
-}
+} */
 .global-toast {
   font-family: minecraft !important;
   border-radius: 0% !important;

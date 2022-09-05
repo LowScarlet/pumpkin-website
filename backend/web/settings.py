@@ -77,8 +77,8 @@ else:
     DEBUG = True
     BACKEND_DOMAIN = '127.0.0.1:8000'
     FRONTEND_DOMAIN = '127.0.0.1:3000'
-    BACKEND_URL = f"https://{BACKEND_DOMAIN}"
-    FRONTEND_URL = f"https://{FRONTEND_DOMAIN}"
+    BACKEND_URL = f"http://{BACKEND_DOMAIN}"
+    FRONTEND_URL = f"http://{FRONTEND_DOMAIN}"
 
     ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 
@@ -101,8 +101,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'storages',
+
+    # Lib
+    'rest_framework',
     'rest_framework.authtoken',
+    'storages',
     'corsheaders',
 
     # Apps
@@ -219,9 +222,14 @@ AWS_LOCATION = 'static'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'core.storages.MediaStore'
+if PRODUCTION:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static'),
+    ]
+    STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE = 'web.storages.MediaStore'
+else:
+    STATIC_URL = 'static/'
+    STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')

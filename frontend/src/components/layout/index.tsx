@@ -18,7 +18,7 @@ interface LayoutProps {
 
 export default function Layout(props: LayoutProps) {
     // Get public data from backend
-    let { data } = useSWR(`${PUBLIC_API_URL()}/api/`, fetcher)
+    let { data } = useSWR('/api/', fetcher)
     
     // Theme
     useEffect(() => {
@@ -40,7 +40,7 @@ export default function Layout(props: LayoutProps) {
         <Head>
             <link rel="icon" href="static/logo/brand-logo.ico" />
         </Head>
-        <Navbar data_api={data}/>
+        <Navbar data_api={data?.data}/>
             <motion.div
                 initial={{ 
                     opacity: 0,
@@ -52,7 +52,7 @@ export default function Layout(props: LayoutProps) {
             >
                 {children}
             </motion.div>
-        <Footer data_api={data}/>
+        <Footer data_api={data?.data}/>
         </>
     )
 }
