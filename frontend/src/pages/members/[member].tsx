@@ -23,7 +23,7 @@ const Members_Member: NextPage = () => {
     </Head>
     <Layout>
       <section className={`${styles['bg']}`}>
-        <div className='container-sm py-5'>
+        <div className='container-sm py-2'>
           <div className="row">
             <div className="col-xl-5">
               <div className="shadow card">
@@ -76,7 +76,7 @@ const Members_Member: NextPage = () => {
                 </div>
               </div>
 
-              <div className="col mt-4">
+              <div className="col my-4">
                 <div className="shadow card">
                   <div className="card-body text-dark">
                     <h5 className="card-title"><i className="px-2 bi bi-box"></i>Account Rank</h5>
@@ -151,8 +151,8 @@ const Members_Member: NextPage = () => {
                           <div id="linked-account-accordion-flush-collapse-1" className="accordion-collapse collapse" aria-labelledby="linked-account-accordion-flush-heading-1" data-bs-parent="#linked-account-accordion-flush">
                             <div className="accordion-body">
                               <div className="row">
-                                <div className="col-sm-8">
-                                  <table className="table">
+                                <div className="col-sm-8 px-0">
+                                  <table className="table table-sm table-borderless table-responsive">
                                   <tbody>
                                     <tr>
                                       <td><i className="pe-2 bi bi-hash"/>Nickname</td>
@@ -192,8 +192,8 @@ const Members_Member: NextPage = () => {
                           <div id="flush-collapseTwo" className="accordion-collapse collapse" aria-labelledby="linked-account-accordion-flush-heading-2" data-bs-parent="#linked-account-accordion-flush">
                           <div className="accordion-body">
                               <div className="row">
-                                <div className="col-sm-8">
-                                  <table className="table">
+                                <div className="col-sm-8 px-0">
+                                  <table className="table table-sm table-borderless table-responsive">
                                   <tbody>
                                     <tr>
                                       <td><i className="pe-2 bi bi-hash"/>Nickname</td>
