@@ -46,6 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
         />
+        <link rel="shortcut icon" href="static/logo/brand-logo.ico" />
       </Head>
       <ToastContainer
           hideProgressBar

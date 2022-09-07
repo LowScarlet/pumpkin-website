@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
+import { Button, Modal, ModalBody, ModalFooter, Placeholder } from "reactstrap";
 import { logout } from '../authentication/actions/auth';
 import styles from './Navbar.module.css';
 
@@ -29,7 +29,7 @@ export default function Navbar({data_api}:any) {
     return (
         <>
         {
-            !isAuthenticated ? (
+            !isAuthenticated && data_api ? (
                 <div className={`${styles['optional-navbar']} text-end bg-black w-100 text-white text-uppercase`}>
                     <div id="logreg-div" className="container-md py-1">
                         <Link href="/auth/register"><a className="px-2 text-white">Register</a></Link> 
@@ -43,14 +43,22 @@ export default function Navbar({data_api}:any) {
         <div className="sticky-top">
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-sm">
-                    <Link href="/">
-                        <a className="navbar-brand">
-                            <img src="/static/logo/brand-logo.png" width="50" height="50" alt=""/>
-                        </a>
-                    </Link>
-                    <Link href="/">
-                        <a className={`${styles['navbar-brand']} navbar-brand d-none d-md-block`}>{data_api?.project_name}</a>
-                    </Link>
+                    {
+                        data_api ? (
+                            <>
+                            <Link href="/">
+                                <a className="navbar-brand">
+                                    <img src="/static/logo/brand-logo.png" width="50" height="50" alt=""/>
+                                </a>
+                            </Link>
+                            <Link href="/">
+                                <a className={`${styles['navbar-brand']} navbar-brand d-none d-md-block`}>{data_api?.project_name}</a>
+                            </Link>
+                            </>
+                        ) : (
+                            <Placeholder color="light" xs={3} />
+                        )
+                    }
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"></span></button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">

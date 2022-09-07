@@ -1,3 +1,7 @@
 from django.test import TestCase
+from django.contrib.auth.models import User
 
-# Create your tests here.
+from guild.models import Guild
+
+a = User.objects.get(username="admin")
+print(a.guild.all())

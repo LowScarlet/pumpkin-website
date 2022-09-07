@@ -46,9 +46,6 @@ export default function Layout(props: LayoutProps) {
         <NextSeo
             description="Be a part of a member of the Indonesian pixel game community at Pumpkin Project! Have fun, Create projects and much more you can do here!"
         />
-        <Head>
-            <link rel="icon" href="static/logo/brand-logo.ico" />
-        </Head>
         <Navbar data_api={data?.data}/>
             <motion.div
                 initial={{ 

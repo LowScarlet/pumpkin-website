@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.conf import settings
 
-from apps.account.rank import RANK
+from account.rank import RANK
+from guild.models import Guild
 
 # CHOICES *Gender
 GENDER_CHOICES = (

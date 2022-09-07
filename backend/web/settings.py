@@ -111,6 +111,7 @@ INSTALLED_APPS = [
     # Apps
     'apps.account',
     'apps.api',
+    'apps.guild',
 ]
 
 MIDDLEWARE = [

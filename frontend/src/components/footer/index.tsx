@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { Placeholder } from 'reactstrap'
 import styles from './Footer.module.css'
 
 export default function Navbar({data_api}:any) {
@@ -9,9 +10,17 @@ export default function Navbar({data_api}:any) {
         <div className={`${styles['footer']} text-dark bg-light`}>
             <div className="container px-5 text-center">
                 <div className="py-5">
-                    <h4 className="fw-bolder py-2 text-uppercase">
-                        Follow {data_api?.project_name}
-                    </h4>
+                    {
+                        data_api ? (
+                            <h4 className="fw-bolder py-2 text-uppercase">
+                                Follow {data_api?.project_name}
+                            </h4>
+                        ) : (
+                            <h4 className="fw-bolder py-2 text-uppercase">
+                                <Placeholder xs={4} />
+                            </h4>
+                        )
+                    }
                     <div className="socialmedia-button d-flex justify-content-center">
                         <div className='p-2'>
                             <motion.button
