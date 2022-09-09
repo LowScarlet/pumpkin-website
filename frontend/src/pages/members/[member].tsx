@@ -23,7 +23,7 @@ const Members_Member: NextPage = () => {
     </Head>
     <Layout>
       <section className={`${styles['bg']}`}>
-        <div className='container-sm py-2'>
+        <div className='container-sm py-4'>
           <div className="row">
             <div className="col-xl-5">
               <div className="shadow card">
@@ -32,19 +32,23 @@ const Members_Member: NextPage = () => {
 
                   <div className="my-3">
                     <div className="dropdown float-end">
-                      <a href="#" className="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i className="mdi mdi-dots-vertical"></i>
+                      <a href="#" className="text-dark arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i className="bi bi-front"></i>
                       </a>
                       <div className="dropdown-menu dropdown-menu-end">
                           <button type="button" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#basic_settings_modal_">
-                              Settings
+                            <i className="pe-2 bi bi-gear-fill"></i>
+                            Settings
                           </button>
-                          <a href="javascript:void(0);" className="dropdown-item">Report</a>
+                          <button type="button" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#basic_settings_modal_">
+                            <i className="pe-2 bi bi-flag-fill"></i>
+                            Report
+                          </button>
                       </div>
                     </div>
                       
                     <div className="d-flex align-items-start">
-                      <img src="http://127.0.0.1:3000/static/images/user/default_avatar.png" width={64} className="rounded avatar-lg img-thumbnail" alt="profile-image"/>
+                      <div className={`${styles['member-avatar']} w-100 rounded border border-5`}></div>
                       <div className="w-100 ms-3">
                           <h4 className="my-0">TEGAR MAULANA FAHREZA</h4>
                           <p className="text-muted">@Low_Scarlet - Indonesia</p>
@@ -121,7 +125,7 @@ const Members_Member: NextPage = () => {
                                     </div>
                                 </div>
                                 <div className="col-4">
-                                    <div className="border-bottom border-5 border-secondary">
+                                    <div className="border-bottom border-5 border-success">
                                         <h5 className="text-muted mt-1 mb-2 fw-normal"><i className="px-2 bi bi-eye-fill"></i>Views</h5>
                                         <h2 className="mb-0 fw-bold">5</h2>
                                     </div>
@@ -225,6 +229,32 @@ const Members_Member: NextPage = () => {
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col mt-4">
+                  <div className="shadow card">
+                    <div className="card-body text-dark">
+                      <h5 className="card-title"><i className="px-2 bi bi-link-45deg"></i>Money</h5>
+                      <div className='my-2 py-5 bg-dark'></div>
+                      <table className="table table-sm table-borderless table-responsive text-center">
+                      <thead>
+                        <tr>
+                          <th scope="col">Pumpkin Coin</th>
+                          <th scope="col">Gold Coin</th>
+                          <th scope="col">Silver Coin</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>10 <img src="/static/images/currency/pumpkin_coin.png" width={32} alt="" /></td>
+                          <td>10 <img src="/static/images/currency/gold_coin.png" width={32} alt="" /></td>
+                          <td>10 <img src="/static/images/currency/silver_coin.png" width={32} alt="" /></td>
+                        </tr>
+                      </tbody>
+                      </table>
+                      <button className='btn btn-outline-secondary w-100'>Top Up</button>
                     </div>
                   </div>
                 </div>
