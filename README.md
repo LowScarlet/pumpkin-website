@@ -54,12 +54,12 @@ cd frontend
 npm install
 ```
 4. Jalankan server.
-*Jika server dalam mode Development*
 ```
+*Jika server dalam mode Development*
 npm run dev
 ```
-*Jika server dalam mode Production*
 ```
+*Jika server dalam mode Production*
 npm run build && npm run start
 ```
 Instalasi server frontend telah berhasil, Anda dapat melihatnya di `localhost` dengan port `3000`, jangan ubah port server frontend jika tidak diperlukan!
