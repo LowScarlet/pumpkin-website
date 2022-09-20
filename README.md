@@ -27,16 +27,20 @@ cd backend
 ```
 py -m venv .venv
 ```
-4. Instal semua library yang diperlukan.
+4. Aktifkan virtual environment.
+```
+.venv/Scripts/activate
+```
+5. Instal semua library yang diperlukan.
 ```
 pip install -r requirements.txt
 ```
-5. Jalankan server.
+6. Jalankan server.
 ```
 py manage.py runserver
 ```
 Instalasi server backend telah berhasil, Anda dapat melihatnya di `localhost` dengan port `8000`, jangan ubah port server backend jika tidak diperlukan!
-> Agar website berjalan dengan normal, Anda harus menginstall Server Frontend juga, Ikuti cara dibawah ini untuk menginstall Server Frontend
+Agar website berjalan dengan normal, Anda harus menginstall Server Frontend juga, Ikuti cara dibawah ini untuk menginstall Server Frontend
 
 ### Instalasi Server Frontend
 Untuk frontend server kita menggunakan JavaScript dengan framework dari library react.js yaitu Next.Js, hal ini bertujuan untuk memudahkan kolaborator dalam mengintegrasikan frontend dengan backend.
@@ -50,12 +54,12 @@ cd frontend
 npm install
 ```
 4. Jalankan server.
-> Jika server dalam mode Development
 ```
+*Jika server dalam mode Development*
 npm run dev
 ```
-> Jika server dalam mode Production
 ```
+*Jika server dalam mode Production*
 npm run build && npm run start
 ```
 Instalasi server frontend telah berhasil, Anda dapat melihatnya di `localhost` dengan port `3000`, jangan ubah port server frontend jika tidak diperlukan!
