@@ -56,7 +56,7 @@ PRODUCTION = os.getenv('PRODUCTION') != None
 DATABASE_URL = 'postgres://xewjoewk:4MbhrZYjK46qPB_EJXMkv8gOU8b8BB9M@heffalump.db.elephantsql.com/xewjoewk'
 
 if PRODUCTION:
-    DEBUG = False
+    DEBUG = True
     BACKEND_DOMAIN = f'api.{MAIN_DOMAIN}'
     FRONTEND_DOMAIN = MAIN_DOMAIN
     BACKEND_URL = f"https://{BACKEND_DOMAIN}"
