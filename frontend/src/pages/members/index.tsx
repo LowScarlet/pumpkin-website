@@ -2,11 +2,18 @@
 /* eslint-disable @next/next/no-img-element */
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
 import { Button, Input, InputGroup, InputGroupText } from 'reactstrap'
 import Layout from '../../components/layout'
 import styles from './Members.module.css'
 
 const Members_Index: NextPage = () => {
+  // Init
+  const router = useRouter()
+  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
+  const user_data = useSelector((state: any) => state.auth.user?.data);
+  
   return (
     <>
     <Head>

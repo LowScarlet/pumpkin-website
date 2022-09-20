@@ -1,26 +1,33 @@
 import requests
-from django.db import models
-from django.contrib.auth.models import User
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.db import models
 
 # Guild Model
+
+
 class Guild(models.Model):
-    ownership = models.OneToOneField(User, null=True, blank=True, related_name="get_guild_as_owner", on_delete=models.SET_NULL)
+    ownership = models.OneToOneField(
+        User, null=True, blank=True, related_name="get_guild_as_owner", on_delete=models.SET_NULL)
 
     # Basic
     guildname = models.CharField(max_length=12)
-    guildname_short= models.CharField(max_length=4)
+    guildname_short = models.CharField(max_length=4)
 
     # Media
-    banner_img = models.ImageField(blank=True, null=True, upload_to="guild/banner")
+    banner_img = models.ImageField(
+        blank=True, null=True, upload_to="guild/banner")
     logo_img = models.ImageField(blank=True, null=True, upload_to="guild")
 
     # Admin, Staff & Member list
-    admins = models.ManyToManyField(User, blank=True, related_name='get_guild_as_admin')
-    staffs = models.ManyToManyField(User, blank=True, related_name='get_guild_as_staff')
-    members = models.ManyToManyField(User, blank=True, related_name='get_guild_as_member')
+    admins = models.ManyToManyField(
+        User, blank=True, related_name='get_guild_as_admin')
+    staffs = models.ManyToManyField(
+        User, blank=True, related_name='get_guild_as_staff')
+    members = models.ManyToManyField(
+        User, blank=True, related_name='get_guild_as_member')
 
-    # Magic Method 
+    # Magic Method
     def __str__(self):
         return self.guildname
 
@@ -43,4 +50,3 @@ class Guild(models.Model):
             self.avatar_img = None
             self.save()
         return f"{settings.FRONTEND_URL}/static/images/guild/default_avatar.png"
-    

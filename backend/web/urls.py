@@ -8,8 +8,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # Apps
-    path('account/', include('apps.account.urls')),
-    path('api/', include('apps.api.urls')),
+    path('', include('apps.api.urls')),
+    path('account/', include('apps.api.account.urls')),
+    path('member/', include('apps.api.member.urls')),
+    path('rest/', include('apps.api.rest.urls')),
 ]
 
 # DEBUG Only

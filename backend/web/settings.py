@@ -62,10 +62,11 @@ if PRODUCTION:
     BACKEND_URL = f"https://{BACKEND_DOMAIN}"
     FRONTEND_URL = f"https://{FRONTEND_DOMAIN}"
 
-    ALLOWED_HOSTS = ['.herokuapp.com', f'.{MAIN_DOMAIN}', '.vercel.app', '.now.sh']
+    ALLOWED_HOSTS = ['.herokuapp.com',
+                     f'.{MAIN_DOMAIN}', '.vercel.app', '.now.sh']
 
     SECURE_SSL_REDIRECT = True
-    
+
     DATABASES = {
         'default': dj_database_url.config(
             default=DATABASE_URL,
@@ -83,7 +84,7 @@ else:
     ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 
     SECURE_SSL_REDIRECT = False
-    
+
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -109,9 +110,10 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # Apps
-    'apps.account',
     'apps.api',
-    'apps.guild',
+    'apps.api.account',
+    'apps.api.member',
+    'apps.api.guild',
 ]
 
 MIDDLEWARE = [
@@ -128,17 +130,18 @@ MIDDLEWARE = [
 
 # Cors
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Rest Framework
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
+    ),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser', ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
@@ -149,8 +152,8 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
-    'AUTH_HEADERS_TYPES': ['Bearer'],
-    'AUTH_TOKEN_CLASSES': ['rest_framework_simplejwt.tokens.AccessToken'],
+    'AUTH_HEADERS_TYPES': ('Bearer'),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken'),
 }
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

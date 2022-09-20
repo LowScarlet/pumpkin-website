@@ -1,7 +1,8 @@
-from account.models import Profile
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
+
+from api.account.models import Profile
 
 
 class Basic_UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -10,23 +11,27 @@ class Basic_UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = [
             'url',
             'profile',
-            'username', 
-            'date_joined', 
+            'username',
+            'date_joined',
         ]
+
+
 class Full_UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = [
             'url',
             'profile',
-            'username', 
-            'email', 
-            'date_joined', 
+            'username',
+            'email',
+            'date_joined',
         ]
+
 
 class Basic_ProfileSerializer(serializers.HyperlinkedModelSerializer):
     avatar = serializers.URLField(read_only=True)
     banner = serializers.URLField(read_only=True)
+
     class Meta:
         model = Profile
         fields = [
@@ -43,9 +48,12 @@ class Basic_ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'avatar',
             'banner',
         ]
+
+
 class Full_ProfileSerializer(serializers.HyperlinkedModelSerializer):
     avatar = serializers.URLField(read_only=True)
     banner = serializers.URLField(read_only=True)
+
     class Meta:
         model = Profile
         fields = [
@@ -64,6 +72,7 @@ class Full_ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'avatar',
             'banner',
         ]
+
 
 class Auth_TokenSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

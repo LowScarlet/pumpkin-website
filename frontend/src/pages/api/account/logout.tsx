@@ -9,7 +9,7 @@ const ApiAccountLogout = async  (req:any, res:any) => {
                     secure: process.env.NODE_ENV !== 'development',
                     expires: new Date(0),
                     sameSite: 'strict',
-                    path: '/api/'
+                    path: '/'
                 }
             ),
             cookie.serialize(
@@ -18,7 +18,7 @@ const ApiAccountLogout = async  (req:any, res:any) => {
                     secure: process.env.NODE_ENV !== 'development',
                     expires: new Date(0),
                     sameSite: 'strict',
-                    path: '/api/'
+                    path: '/'
                 }
             )
         ]);

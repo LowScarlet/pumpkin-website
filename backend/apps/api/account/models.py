@@ -1,10 +1,9 @@
 import requests
+from api.account.rank import RANK
+from api.guild.models import Guild
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.conf import settings
-
-from account.rank import RANK
-from guild.models import Guild
 
 # CHOICES *Gender
 GENDER_CHOICES = (
@@ -14,15 +13,21 @@ GENDER_CHOICES = (
 
 # CHOICES *Rank
 RANK_CHOICES = []
-for x in RANK: RANK_CHOICES.append((x,RANK[x]["attribute"]["displayname"]))
+for x in RANK:
+    RANK_CHOICES.append((x, RANK[x]["attribute"]["displayname"]))
 
 # Profile Model
+
+
 class Profile(models.Model):
-    user = models.OneToOneField(User, null=True, blank=True, related_name="profile", on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User, null=True, blank=True, related_name="profile", on_delete=models.CASCADE)
 
     # Basic
-    gender = models.CharField(max_length=12, choices=GENDER_CHOICES, blank=True, default="male")
-    rank = models.CharField(max_length=12, choices=RANK_CHOICES, blank=True, default="wooden")
+    gender = models.CharField(
+        max_length=12, choices=GENDER_CHOICES, blank=True, default="male")
+    rank = models.CharField(
+        max_length=12, choices=RANK_CHOICES, blank=True, default="wooden")
     bio = models.TextField(max_length=500, blank=True, null=True)
 
     # Location
@@ -30,7 +35,8 @@ class Profile(models.Model):
     city = models.CharField(max_length=30, blank=True, default="Jakarta")
 
     # Media
-    banner_img = models.ImageField(blank=True, null=True, upload_to="user/banner")
+    banner_img = models.ImageField(
+        blank=True, null=True, upload_to="user/banner")
     avatar_img = models.ImageField(blank=True, null=True, upload_to="user")
 
     # Economy
@@ -40,9 +46,10 @@ class Profile(models.Model):
 
     # Likes & Dislikes
     likes = models.ManyToManyField(User, blank=True, related_name='user_like')
-    dislikes = models.ManyToManyField(User, blank=True, related_name='user_dislike')
+    dislikes = models.ManyToManyField(
+        User, blank=True, related_name='user_dislike')
 
-    # Magic Method 
+    # Magic Method
     def __str__(self):
         return self.user.username
 
@@ -70,7 +77,7 @@ class Profile(models.Model):
         # Custom Permission
         permissions = (
             ("status_staff", "Status Staff"),
-            
+
             ("status_sponsor", "Status Sponsor"),
             ("status_donator", "Status Donator"),
             ("status_partner", "Status Partner"),

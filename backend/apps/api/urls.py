@@ -1,16 +1,7 @@
-from django.urls import include, path
-from rest_framework import routers
+from django.urls import path
 
-from .views import (Auth_TokenViewSet, ProfileViewSet,
-                    UserViewSet, PublicViewSet)
-
-router = routers.DefaultRouter()
-
-router.register('users', UserViewSet)
-router.register('profiles', ProfileViewSet)
-router.register('auth_token', Auth_TokenViewSet)
+from .views import PublicViewSet
 
 urlpatterns = [
     path('', PublicViewSet.as_view()),
-    path('models/', include(router.urls)),
 ]

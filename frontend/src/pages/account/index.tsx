@@ -1,22 +1,23 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Layout from '../../components/layout'
-import Under_Construction from '../../components/under_construction'
-import styles from './Pumpkincraft.module.css'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
-const Pumpkincraft: NextPage = () => {
-  return (
-    <>
-    <Head>
-        <title>Pumpkincraft</title>
-    </Head>
-    <Layout>
-        <Under_Construction/>
-    </Layout>
-    </>
-  )
+function Account() {
+  // Init
+  const router = useRouter()
+  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
+  const user_data = useSelector((state: any) => state.auth.user?.data);
+  
+  // Redirect to /members/user if autenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push(`/members/${user_data?.user.username}`, undefined, { shallow: true })
+    } else {
+      router.push('/auth', undefined)
+    }
+  })
 }
 
-export default Pumpkincraft
+export default Account
