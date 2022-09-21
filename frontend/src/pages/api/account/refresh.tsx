@@ -8,7 +8,7 @@ const ApiAccountRefresh = async (req:any, res:any) => {
 
         if (refresh === null) {
             return res.status(401).json({
-                error: 'User unauthorized to make this request'
+                detail: 'User unauthorized to make this request'
             });
         }
 
@@ -17,7 +17,7 @@ const ApiAccountRefresh = async (req:any, res:any) => {
         });
 
         try {
-            const apiRes = await fetch(`${API_URL()}/account/api/jwt/token/refresh`, {
+            const apiRes = await fetch(`${API_URL()}/account/user/token/refresh`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -35,6 +35,15 @@ const ApiAccountRefresh = async (req:any, res:any) => {
                             httpOnly: true,
                             secure: process.env.NODE_ENV !== 'development',
                             maxAge: 60 * 30,
+                            sameSite: 'strict',
+                            path: '/'
+                        }
+                    ),
+                    cookie.serialize(
+                        'refresh', refresh, {
+                            httpOnly: true,
+                            secure: process.env.NODE_ENV !== 'development',
+                            maxAge: 60 * 60 * 24,
                             sameSite: 'strict',
                             path: '/'
                         }

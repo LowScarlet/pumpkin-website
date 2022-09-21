@@ -3,7 +3,7 @@ import { API_URL } from '../../components/config';
 const ApiProjectInfo = async (req:any, res:any) => {
     if (req.method === 'GET') {
         try {
-            const apiRes = await fetch(`${API_URL()}/api/`, {
+            const apiRes = await fetch(`${API_URL()}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

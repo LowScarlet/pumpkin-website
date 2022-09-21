@@ -1,7 +1,7 @@
 import cookie from 'cookie';
 import { API_URL } from '../../../components/config';
 
-const ApiAccountLogin = async (req:any, res:any) => {
+const Main = async (req:any, res:any) => {
     if (req.method === 'POST') {
         const { username, password } = req.body;
 
@@ -11,7 +11,7 @@ const ApiAccountLogin = async (req:any, res:any) => {
         });
 
         try {
-            const apiRes = await fetch(`${API_URL()}/account/api/jwt/token`, {
+            const apiRes = await fetch(`${API_URL()}/account/user/token`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -65,4 +65,4 @@ const ApiAccountLogin = async (req:any, res:any) => {
     } 
 };
 
-export default ApiAccountLogin
+export default Main

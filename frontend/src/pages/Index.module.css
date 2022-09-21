@@ -28,3 +28,16 @@
     
     min-height: 300px;
 }
+.heroes-404 {
+    background-position: bottom;
+    background-repeat: repeat;
+    background-size: cover;
+    background-color: #222;
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 1.0),
+            rgba(0, 0, 0, 0.3),
+            rgba(0, 0, 0, 1.0)
+        ), 
+        url('/static/images/other/bg-under_construction.gif');
+}

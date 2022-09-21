@@ -21,7 +21,7 @@ const ApiAccountRegister = async (req:any, res:any) => {
         });
 
         try {
-            const apiRes = await fetch(`${API_URL()}/account/api/user/register`, {
+            const apiRes = await fetch(`${API_URL()}/account/user/register`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

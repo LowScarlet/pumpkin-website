@@ -13,7 +13,7 @@ const ApiAccountUser = async (req:any, res:any) => {
         }
 
         try {
-            const apiRes = await fetch(`${API_URL()}/account/api/user`, {
+            const apiRes = await fetch(`${API_URL()}/account/user`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -32,7 +32,6 @@ const ApiAccountUser = async (req:any, res:any) => {
                 });
             }
         } catch(err) {
-            console.log(err)
             return res.status(500).json({
                 detail: 'Something went wrong when retrieving user'
             });

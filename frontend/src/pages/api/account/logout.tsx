@@ -1,6 +1,6 @@
 import cookie from 'cookie';
 
-const ApiAccountLogout = async  (req:any, res:any) => {
+const Main = async  (req:any, res:any) => {
     if (req.method === 'POST') {
         res.setHeader('Set-Cookie', [
             cookie.serialize(
@@ -34,4 +34,4 @@ const ApiAccountLogout = async  (req:any, res:any) => {
     }
 };
 
-export default ApiAccountLogout
+export default Main
