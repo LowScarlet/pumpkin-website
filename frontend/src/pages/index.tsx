@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import Discord_Embed from '../components/discord_embed'
 import Layout from '../components/layout'
-import styles from './index.module.css'
+import styles from './Index.module.css'
 
 const Index: NextPage = ({ data_api }: any) => {
     // Check is authenticated or not

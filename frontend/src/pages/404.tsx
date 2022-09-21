@@ -5,7 +5,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Layout from '../components/layout'
 import Under_Construction from '../components/under_construction'
-import styles from './index.module.css'
+import styles from './Index.module.css'
 
 const Main: NextPage = () => {
   return (
