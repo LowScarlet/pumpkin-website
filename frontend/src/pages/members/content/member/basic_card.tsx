@@ -20,7 +20,7 @@ export default function Main(props: any) {
     if (!props.isLoading && props.data) {
       setLikes(props.data.profile.likes.length)
       setDislikes(props.data.profile.dislikes.length)
-      
+
       setIsLike(props.data.other.liked)
       setIsDislike(props.data.other.disliked)
 
@@ -42,7 +42,7 @@ export default function Main(props: any) {
         setIsDislike(data.data.other.disliked)
 
         setlikedislikeLoading(false)
-    })
+      })
   }
 
   function Toggle_Dislikes() {
@@ -57,7 +57,7 @@ export default function Main(props: any) {
         setIsDislike(data.data.other.disliked)
 
         setlikedislikeLoading(false)
-    })
+      })
   }
 
   if (props.isLoading || !props.data) {
