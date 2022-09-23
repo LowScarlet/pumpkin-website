@@ -24,8 +24,11 @@ export default function Main(props: any) {
       setIsLike(props.data.other.liked)
       setIsDislike(props.data.other.disliked)
 
-      if (props.data.profile.bio.length > 0) {
-        setBio(props.data.profile.bio)
+
+      if (props.data.profile.bio !== null) {
+        if (props.data.profile.bio.length > 0) {
+          setBio(props.data.profile.bio)
+        }
       }
     }
   }, [props.data, props.isLoading])
