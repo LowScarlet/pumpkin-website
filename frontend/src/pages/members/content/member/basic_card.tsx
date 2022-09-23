@@ -3,7 +3,7 @@
 import styles from '../../Members.module.css'
 
 export default function Main(props: any) {
-    if (props.isLoading) {
+    if (props.isLoading || !props.data) {
       return (
         <div className="shadow card">
           <div className="card-body text-dark">
