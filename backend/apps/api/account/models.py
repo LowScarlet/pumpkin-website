@@ -24,6 +24,7 @@ class Profile(models.Model):
         User, null=True, blank=True, related_name="profile", on_delete=models.CASCADE)
 
     # Basic
+    views = models.IntegerField(default=0)
     gender = models.CharField(
         max_length=12, choices=GENDER_CHOICES, blank=True, default="male")
     rank = models.CharField(

@@ -1,7 +1,7 @@
 import cookie from 'cookie';
-import { API_URL } from '../../../components/config';
+import { API_URL } from '../../../../components/config';
 
-const ApiMemberMember = async (req:any, res:any) => {
+const Main = async (req:any, res:any) => {
     const { member } = req.query
     
     if (req.method === 'GET') {
@@ -12,22 +12,22 @@ const ApiMemberMember = async (req:any, res:any) => {
 
         try {
             if (access) {
-                apiRes = await fetch(`${API_URL()}/member/${member}`, {
-                    method: 'GET',
+                apiRes = await fetch(`${API_URL()}/member/${member}/toggle_dislike`, {
+                    method: 'POST',
                     headers: {
                         'Accept': 'application/json',
                         'Authorization': `Bearer ${access}`
                     }
                 });
             } else {
-                apiRes = await fetch(`${API_URL()}/member/${member}`, {
-                    method: 'GET',
+                apiRes = await fetch(`${API_URL()}/member/${member}/toggle_dislike`, {
+                    method: 'POST',
                     headers: {
                         'Accept': 'application/json',
                     }
-                });   
+                });
             }
-
+            
             const data = await apiRes.json();
 
             if (apiRes.status === 200) {
@@ -41,7 +41,7 @@ const ApiMemberMember = async (req:any, res:any) => {
             }
         } catch(err) {
             return res.status(500).json({
-                detail: 'Something went wrong when retrieving user'
+                detail: 'Something went wrong with Api'
             });
         }
     } else {
@@ -52,4 +52,4 @@ const ApiMemberMember = async (req:any, res:any) => {
     }
 };
 
-export default ApiMemberMember
+export default Main

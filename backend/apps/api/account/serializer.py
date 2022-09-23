@@ -50,6 +50,8 @@ class Basic_ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'goldcoin',
             'likes',
             'dislikes',
+            'bio',
+            'views',
 
             'avatar',
             'banner',
@@ -74,6 +76,8 @@ class Full_ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'goldcoin',
             'likes',
             'dislikes',
+            'bio',
+            'views',
 
             'avatar',
             'banner',

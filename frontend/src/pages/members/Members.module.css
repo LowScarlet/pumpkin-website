@@ -20,7 +20,12 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #222;
-    background-image: url('/static/images/user/default_avatar.png');
+}
+.member-banner {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #222;
 }
 .bg {
     background-position: bottom;
