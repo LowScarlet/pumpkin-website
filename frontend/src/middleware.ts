@@ -2,14 +2,22 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// This function can be marked `async` if using `await` inside
-export default function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith('/auth')) {
-    return NextResponse.redirect(new URL('/auth/login', request.url))
-  }
-}
-
-// See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/auth'],
+  matcher: [
+    /*
+     * Match all paths except for:
+     * 1. /api routes
+     * 2. /_next (Next.js internals)
+     * 3. /static (inside /public)
+     * 5. all root files inside /public (e.g. /favicon.ico)
+     */
+    "/((?!api|_next|static|[\\w-]+\\.\\w+).*)",
+  ],
+};
+
+// This function can be marked `async` if using `await` inside
+export default function middleware(req: NextRequest) {
+  if (req.nextUrl.pathname.endsWith('/auth')) {
+    return NextResponse.redirect(new URL('/auth/login', req.url))
+  }
 }

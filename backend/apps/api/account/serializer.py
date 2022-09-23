@@ -12,6 +12,9 @@ class Basic_UserSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'profile',
             'username',
+            'get_full_name',
+            'first_name',
+            'last_name',
             'date_joined',
         ]
 
@@ -23,6 +26,9 @@ class Full_UserSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'profile',
             'username',
+            'get_full_name',
+            'first_name',
+            'last_name',
             'email',
             'date_joined',
         ]

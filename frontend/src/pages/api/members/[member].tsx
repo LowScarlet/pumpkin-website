@@ -12,7 +12,7 @@ const ApiMemberMember = async (req:any, res:any) => {
 
         try {
             if (access) {
-                apiRes = await fetch(`${API_URL()}/member/api/member/${member}`, {
+                apiRes = await fetch(`${API_URL()}/member/${member}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -20,7 +20,7 @@ const ApiMemberMember = async (req:any, res:any) => {
                     }
                 });
             } else {
-                apiRes = await fetch(`${API_URL()}/member/api/member/${member}`, {
+                apiRes = await fetch(`${API_URL()}/member/${member}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',

@@ -1,7 +1,7 @@
 import cookie from 'cookie';
 import { API_URL } from '../../../components/config';
 
-const ApiAccountRefresh = async (req:any, res:any) => {
+const ApiAccountRefresh = async (req: any, res: any) => {
     if (req.method === 'GET') {
         const cookies = cookie.parse(req.headers.cookie ?? '');
         const refresh = cookies.refresh ?? null;
@@ -32,21 +32,21 @@ const ApiAccountRefresh = async (req:any, res:any) => {
                 res.setHeader('Set-Cookie', [
                     cookie.serialize(
                         'access', data.access, {
-                            httpOnly: true,
-                            secure: process.env.NODE_ENV !== 'development',
-                            maxAge: 60 * 30,
-                            sameSite: 'strict',
-                            path: '/'
-                        }
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV !== 'development',
+                        maxAge: 60 * 30,
+                        sameSite: 'strict',
+                        path: '/'
+                    }
                     ),
                     cookie.serialize(
                         'refresh', refresh, {
-                            httpOnly: true,
-                            secure: process.env.NODE_ENV !== 'development',
-                            maxAge: 60 * 60 * 24,
-                            sameSite: 'strict',
-                            path: '/'
-                        }
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV !== 'development',
+                        maxAge: 60 * 60 * 24,
+                        sameSite: 'strict',
+                        path: '/'
+                    }
                     )
                 ]);
 
@@ -58,7 +58,7 @@ const ApiAccountRefresh = async (req:any, res:any) => {
                     detail: 'Failed to fulfill refresh request'
                 });
             }
-        } catch(err) {
+        } catch (err) {
             return res.status(500).json({
                 detail: 'Something went wrong when trying to fulfill refresh request'
             });

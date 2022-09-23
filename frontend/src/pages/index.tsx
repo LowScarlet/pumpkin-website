@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { motion } from 'framer-motion'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -44,24 +45,45 @@ const Index: NextPage = ({ data_api }: any) => {
                                     <div className="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
                                         {
                                             !isAuthenticated ? (
-                                                <Link href="/auth/login">
-                                                    <a className="btn btn-primary btn-lg px-4 me-sm-3">
-                                                        Join Now!
-                                                    </a>
-                                                </Link>
+                                                <motion.button
+                                                    className='btn btn-primary btn-lg px-4 me-sm-3'
+                                                    whileHover={{ scale: 1.1 }}
+                                                    whileTap={{ scale: 0.9 }}
+                                                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                                                >
+                                                    <Link href="/auth/login">
+                                                        <a className="text-reset">
+                                                            Join Now!
+                                                        </a>
+                                                    </Link>
+                                                </motion.button>
                                             ) : (
-                                                <Link href="/account">
-                                                    <a className="btn btn-primary btn-lg px-4 me-sm-3">
-                                                        My Account
-                                                    </a>
-                                                </Link>
+                                                <motion.button
+                                                    className='btn btn-primary btn-lg px-4 me-sm-3'
+                                                    whileHover={{ scale: 1.1 }}
+                                                    whileTap={{ scale: 0.9 }}
+                                                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                                                >
+                                                    <Link href="/account">
+                                                        <a className="text-reset">
+                                                            My Account
+                                                        </a>
+                                                    </Link>
+                                                </motion.button>
                                             )
                                         }
-                                        <Link href="/community">
-                                            <a className="btn btn-outline-light btn-lg px-4">
-                                                Community
-                                            </a>
-                                        </Link>
+                                        <motion.button
+                                            className='btn btn-outline-light btn-lg px-4'
+                                            whileHover={{ scale: 1.1 }}
+                                            whileTap={{ scale: 0.9 }}
+                                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                                        >
+                                            <Link href="/community">
+                                                <a className="text-reset">
+                                                    Community
+                                                </a>
+                                            </Link>
+                                        </motion.button>
                                     </div>
                                 </div>
                             </div>
@@ -80,9 +102,16 @@ const Index: NextPage = ({ data_api }: any) => {
                                 To make this happen we have a VISION and MISSION that we must complete!
                             </p>
                             <span className='px-2'>
-                                <Link href="/about">
-                                    <a className='btn btn-outline-primary'>Read More</a>
-                                </Link>
+                                <motion.button
+                                    className='btn btn-outline-primary'
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                                >
+                                    <Link href="/about">
+                                        <a className='text-reset'>Read More</a>
+                                    </Link>
+                                </motion.button>
                             </span>
                         </div>
                     </div>

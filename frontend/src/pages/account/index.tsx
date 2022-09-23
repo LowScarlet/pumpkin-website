@@ -13,7 +13,7 @@ function Account() {
   // Redirect to /members/user if autenticated
   useEffect(() => {
     if (isAuthenticated) {
-      router.push(`/members/${user_data?.user.username}`, undefined, { shallow: true })
+      router.push(`/members/${user_data?.user.username}`, undefined, { shallow: false })
     } else {
       router.push('/auth', undefined)
     }
