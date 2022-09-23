@@ -21,9 +21,10 @@ export default function Main(props: any) {
       setLikes(props.data.profile.likes.length)
       setDislikes(props.data.profile.dislikes.length)
 
-      setIsLike(props.data.other.liked)
-      setIsDislike(props.data.other.disliked)
-
+      if (props.isAuthenticated) {
+        setIsLike(props.data.other.liked)
+        setIsDislike(props.data.other.disliked)
+      }
 
       if (props.data.profile.bio !== null) {
         if (props.data.profile.bio.length > 0) {
@@ -31,36 +32,40 @@ export default function Main(props: any) {
         }
       }
     }
-  }, [props.data, props.isLoading])
+  }, [props.data, props.isAuthenticated, props.isLoading])
 
   function Toggle_Likes() {
-    setlikedislikeLoading(true)
-    fetch(`/api/members/${props.data.user.username}/toggle_like`)
-      .then((res) => res.json())
-      .then((data) => {
-        setLikes(data.data.profile.likes.length)
-        setDislikes(data.data.profile.dislikes.length)
+    if (props.isAuthenticated) {
+      setlikedislikeLoading(true)
+      fetch(`/api/members/${props.data.user.username}/toggle_like`)
+        .then((res) => res.json())
+        .then((data) => {
+          setLikes(data.data.profile.likes.length)
+          setDislikes(data.data.profile.dislikes.length)
 
-        setIsLike(data.data.other.liked)
-        setIsDislike(data.data.other.disliked)
+          setIsLike(data.data.other.liked)
+          setIsDislike(data.data.other.disliked)
 
-        setlikedislikeLoading(false)
-      })
+          setlikedislikeLoading(false)
+        })
+    }
   }
 
   function Toggle_Dislikes() {
-    setlikedislikeLoading(true)
-    fetch(`/api/members/${props.data.user.username}/toggle_dislike`)
-      .then((res) => res.json())
-      .then((data) => {
-        setLikes(data.data.profile.likes.length)
-        setDislikes(data.data.profile.dislikes.length)
+    if (props.isAuthenticated) {
+      setlikedislikeLoading(true)
+      fetch(`/api/members/${props.data.user.username}/toggle_dislike`)
+        .then((res) => res.json())
+        .then((data) => {
+          setLikes(data.data.profile.likes.length)
+          setDislikes(data.data.profile.dislikes.length)
 
-        setIsLike(data.data.other.liked)
-        setIsDislike(data.data.other.disliked)
+          setIsLike(data.data.other.liked)
+          setIsDislike(data.data.other.disliked)
 
-        setlikedislikeLoading(false)
-      })
+          setlikedislikeLoading(false)
+        })
+    }
   }
 
   if (props.isLoading || !props.data) {
@@ -136,9 +141,13 @@ export default function Main(props: any) {
           <div className="col">
             <button onClick={() => Toggle_Dislikes()} className={`btn ${isDislike ? ('btn-outline-secondary') : ('btn-danger')} w-100 ${likedislikeLoading ? ('disabled') : ('')}`}><i className="px-2 bi bi-hand-thumbs-down"></i>{millify(dislikes)} {isDislike ? ('Disliked!') : ('Dislike')}</button>
           </div>
-          <div className="col-sm-100 mt-2">
-            <button type="button" className="btn btn-outline-success w-100"><i className="px-2 bi bi-gift-fill"></i>Give Gifts</button>
-          </div>
+          {
+            props.isAuthenticated ? (
+              <div className="col-sm-100 mt-2">
+                <button type="button" className="btn btn-outline-success w-100"><i className="px-2 bi bi-gift-fill"></i>Give Gifts</button>
+              </div>
+            ) : (<></>)
+          }
         </div>
 
         <div className='mt-4'>

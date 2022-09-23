@@ -12,11 +12,14 @@ import Rank_Card from './content/member/rank_card'
 import Stats_Card from './content/member/stats_card'
 import Link_Acc_Card from './content/member/link_acc_card'
 import Money_Card from './content/member/money_card'
+import { useSelector } from 'react-redux'
 
 const Main: NextPage = () => {
   // Init
   const router = useRouter()
   const { member } = router.query
+  
+  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
 
   // Initial useState
   const [data, setData] = useState(null)
@@ -54,20 +57,20 @@ const Main: NextPage = () => {
           <div className='container-sm py-4'>
             <div className="row">
               <div className="col-xl-5">
-                <Basic_Card isLoading={isLoading} data={data} />
+                <Basic_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
                 <div className="col my-4">
-                  <Rank_Card isLoading={isLoading} data={data} />
+                  <Rank_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
                 </div>
               </div>
               <div className="col">
                 <div className="col">
-                  <Stats_Card isLoading={isLoading} data={data}/>
+                  <Stats_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data}/>
                 </div>
                 <div className="col mt-4">
-                  <Link_Acc_Card isLoading={isLoading} data={data}/>
+                  <Link_Acc_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data}/>
                 </div>
                 <div className="col mt-4">
-                  <Money_Card isLoading={isLoading} data={data}/>
+                  <Money_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data}/>
                 </div>
               </div>
             </div>
