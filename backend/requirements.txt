@@ -18,7 +18,7 @@ jmespath==1.0.1
 Markdown==3.4.1
 # mysql-connector-python==8.0.30
 Pillow==9.2.0
-protobuf==3.20.1
+protobuf==3.20.2
 psycopg2-binary==2.9.3
 pycodestyle==2.9.1
 PyJWT==2.4.0
