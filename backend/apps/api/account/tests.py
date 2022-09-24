@@ -1,7 +1,9 @@
-from django.test import TestCase
-# from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.conf import settings
+from django.core.mail import EmailMessage
 
-# from guild.models import Guild
+msg = EmailMessage('Request Callback',
+                    'Here is the message.', to=['namaetohyaakiradesu@gmail.com'])
+msg.send()
 
-# a = User.objects.get(username="admin")
-# print(a.guild.all())
+print("Success")

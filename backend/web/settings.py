@@ -33,11 +33,14 @@ PROJECT = {
 MAIN_DOMAIN = 'pumpkinproject.my.id'
 
 # Email
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'pumpkinprojectid@gmail.com'
-EMAIL_HOST_PASSWORD = 'cbcxomuuwqrakmjr'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.zoho.com'
+SERVER_EMAIL = f"no.reply@{MAIN_DOMAIN}"
+DEFAULT_FROM_EMAIL = f"Pumpkin Project <{SERVER_EMAIL}>"
+EMAIL_HOST_USER = SERVER_EMAIL
+EMAIL_HOST_PASSWORD = 'FFALjxr7sgtX'
 EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent

@@ -10,6 +10,7 @@ from api.account.models import Profile
 from api.account.rank import BENEFIT, RANK
 from api.account.serializer import (Basic_ProfileSerializer, Basic_UserSerializer,
                          Full_ProfileSerializer, Full_UserSerializer)
+from django.core.mail import EmailMessage
 
 
 # Rank & Benefits
