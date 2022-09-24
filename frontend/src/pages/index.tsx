@@ -8,12 +8,12 @@ import Discord_Embed from '../components/discord_embed'
 import Layout from '../components/layout'
 import styles from './Index.module.css'
 
-const Index: NextPage = ({ data_api }: any) => {
+const Index: NextPage = (props: any) => {
     // Check is authenticated or not
-    const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
+    const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
     // Get User data as json
-    const user_data = useSelector((state: any) => state.auth.user?.data);
-    
+    const user_data = useSelector((state: any) => state.auth.user?.data)
+
     return (
         <>
             <Head>

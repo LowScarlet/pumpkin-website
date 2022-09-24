@@ -9,7 +9,6 @@ const initialState = {
     isAuthenticated: false,
     loading: false,
     register_success: false,
-    projectinfo: null,
 };
 
 const authReducer = (state = initialState, action:any) => {

@@ -13,30 +13,29 @@ import '../assets/css/global/global.css';
 import { useStore } from "../store";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // Initial useState
+  const [isLoading, setIsloading] = useState(true)
+
+  // Initial redux
+  const store = useStore(pageProps.initialReduxState)
+
   // User Bootstrap for Styling
   useEffect(() => {
     typeof document !== undefined 
     ? require('bootstrap/dist/js/bootstrap') 
     : null
-  }, []);
+  }, [])
 
   // Progress Bar
-  const [loading, setLoading] = useState(false);
-  NProgress.configure({ showSpinner: false });
+  NProgress.configure({ showSpinner: false })
   Router.events.on("routeChangeStart", (url) => {
-    NProgress.start();
-    setLoading(true);
-  });
+    NProgress.start()
+  })
   Router.events.on("routeChangeComplete", (url) => {
-    NProgress.done();
-    setLoading(false);
-  });
+    NProgress.done()
+  })
 
-  // Redux
-  const store = useStore(pageProps.initialReduxState);
-
-  return (
-    <>
+  return (<>
     <Provider store={store}>
       <Head>
         <link
@@ -48,6 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         <link rel="icon" href="/static/logo/brand-logo.ico" />
       </Head>
+
       <ToastContainer
           hideProgressBar
           position="top-right"
@@ -55,10 +55,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           toastClassName="global-toast"
           bodyClassName="global-body-toast"
       />
-      <Component {...pageProps} />
+      
+      <Component {...pageProps}/>
     </Provider>
-    </>
-  )
+    </>)
 }
 
 export default MyApp
