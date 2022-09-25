@@ -21,7 +21,7 @@ export default function Main(props: any) {
       setLikes(props.data.profile.likes.length)
       setDislikes(props.data.profile.dislikes.length)
 
-      if (props.isAuthenticated) {
+      if (props.isAuthenticated && !props.isSelf && props.data.other) {
         setIsLike(props.data.other.liked)
         setIsDislike(props.data.other.disliked)
       }
@@ -32,10 +32,10 @@ export default function Main(props: any) {
         }
       }
     }
-  }, [props.data, props.isAuthenticated, props.isLoading])
+  }, [props.data, props.isAuthenticated, props.isLoading, props.isSelf])
 
   function Toggle_Likes() {
-    if (props.isAuthenticated) {
+    if (props.isAuthenticated && !props.isSelf) {
       setlikedislikeLoading(true)
       fetch(`/api/members/${props.data.user.username}/toggle_like`)
         .then((res) => res.json())
@@ -52,7 +52,7 @@ export default function Main(props: any) {
   }
 
   function Toggle_Dislikes() {
-    if (props.isAuthenticated) {
+    if (props.isAuthenticated && !props.isSelf) {
       setlikedislikeLoading(true)
       fetch(`/api/members/${props.data.user.username}/toggle_dislike`)
         .then((res) => res.json())
@@ -112,22 +112,36 @@ export default function Main(props: any) {
               <i className="bi bi-front"></i>
             </a>
             <div className="dropdown-menu dropdown-menu-end">
-              <button type="button" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#basic_settings_modal_">
-                <i className="pe-2 bi bi-gear-fill"></i>
-                Settings
-              </button>
-              <button type="button" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#basic_settings_modal_">
-                <i className="pe-2 bi bi-flag-fill"></i>
-                Report
-              </button>
+              {
+                props.isSelf ? (
+                  <button type="button" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#basic_settings_modal_">
+                    <i className="pe-2 bi bi-gear-fill"></i>
+                    Settings
+                  </button>
+                ) : ('')
+              }
+              {
+                !props.isSelf ? (
+                  <button type="button" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#basic_settings_modal_">
+                    <i className="pe-2 bi bi-flag-fill"></i>
+                    Report
+                  </button>
+                ) : ('')
+              }
             </div>
           </div>
 
           <div className="d-flex align-items-start">
             <div className={`${styles['member-avatar']} w-100 rounded border border-5`} style={{ backgroundImage: `url('${props.data.profile.avatar}')` }} />
             <div className="w-100 ms-3">
-              <h4 className="my-0">
-                {props.data.user.get_full_name}
+              <h4 className="my-0 text-uppercase">
+                {
+                  props.data.user.get_full_name.length === 0 ? (
+                    "Unknown Member"
+                  ) : (
+                    props.data.user.get_full_name
+                  )
+                }
               </h4>
               <p className="text-muted">@{props.data.user.username} - {props.data.profile.country}</p>
             </div>
@@ -136,18 +150,22 @@ export default function Main(props: any) {
 
         <div className="row">
           <div className="col">
-            <button onClick={() => Toggle_Likes()} className={`btn ${isLike ? ('btn-outline-secondary') : ('btn-primary')} w-100 ${likedislikeLoading ? ('disabled') : ('')}`}><i className="px-2 bi bi-hand-thumbs-up"></i>{millify(likes)} {isLike ? ('Liked!') : ('Like')}</button>
+            <button onClick={() => Toggle_Likes()} className={`btn ${isLike ? ('btn-outline-secondary') : ('btn-primary')} w-100 ${likedislikeLoading || props.isSelf || !props.isAuthenticated ? ('disabled') : ('')}`}><i className="px-2 bi bi-hand-thumbs-up"></i>{millify(likes)} {isLike ? ('Liked!') : ('Like')}</button>
           </div>
           <div className="col">
-            <button onClick={() => Toggle_Dislikes()} className={`btn ${isDislike ? ('btn-outline-secondary') : ('btn-danger')} w-100 ${likedislikeLoading ? ('disabled') : ('')}`}><i className="px-2 bi bi-hand-thumbs-down"></i>{millify(dislikes)} {isDislike ? ('Disliked!') : ('Dislike')}</button>
+            <button onClick={() => Toggle_Dislikes()} className={`btn ${isDislike ? ('btn-outline-secondary') : ('btn-danger')} w-100 ${likedislikeLoading || props.isSelf || !props.isAuthenticated ? ('disabled') : ('')}`}><i className="px-2 bi bi-hand-thumbs-down"></i>{millify(dislikes)} {isDislike ? ('Disliked!') : ('Dislike')}</button>
           </div>
-          {
-            props.isAuthenticated ? (
-              <div className="col-sm-100 mt-2">
-                <button type="button" className="btn btn-outline-success w-100"><i className="px-2 bi bi-gift-fill"></i>Send Gifts</button>
-              </div>
-            ) : (<></>)
-          }
+          <div className="col-sm-100 mt-2">
+            <button type="button" className={`btn btn-outline-success w-100 ${!props.isAuthenticated ? ('disabled') : ('')}`}>
+              {
+                props.isSelf ? (<>
+                  <i className="px-2 bi bi-gift-fill"></i>Inventory
+                </>) : (<>
+                  <i className="px-2 bi bi-gift-fill"></i>Send Gifts
+                </>)
+              }
+            </button>
+          </div>
         </div>
 
         <div className='mt-4'>

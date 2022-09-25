@@ -93,7 +93,16 @@ export default function Main(props: any) {
             Object.keys(discord_account).length !== 0 ? (
               <Discord_Account {...props} />
             ) : (
-              <>No data :D</>
+              <div className='px-3 text-center text-muted'>
+                {
+                  props.isSelf ? (<>
+                    <p>You haven't linked any third party account here!</p>
+                    <button className="btn btn-primary w-100">Link third party accounts!</button>
+                  </>) : (<>
+                    <p>This member has not associated any third party accounts!</p>
+                  </>) 
+                }
+              </div>
             )
           }
         </div>

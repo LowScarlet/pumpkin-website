@@ -19,23 +19,36 @@ const Main: NextPage = () => {
   const router = useRouter()
   const { member } = router.query
 
-  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
+
+  // Get user data as json
+  const user_data = useSelector((state:any) => state.auth.user?.data)
 
   // Initial useState
   const [data, setData] = useState(null)
+  const [isSelf, setIsSelf] = useState(false)
   const [isLoading, setLoading] = useState(true)
 
   // Fetch Member Data
   useEffect(() => {
-    if (member) {
+    if (user_data && member && user_data.user.username === member) {
+      setIsSelf(true)
+    }
+    console.log(isSelf)
+    if (member && !isSelf) {
       fetch(`/api/members/${member}`)
         .then((res) => res.json())
         .then((data) => {
           setData(data.data)
           setLoading(false)
         })
+    } else {
+      if (isAuthenticated && user_data) {
+        setData(user_data)
+        setLoading(false)
+      }
     }
-  }, [member])
+  }, [isAuthenticated, isSelf, member, user_data])
 
   // Condition after loading finish and there no data will render error template
   if (!isLoading && !data) return <Error_1 />
@@ -57,20 +70,20 @@ const Main: NextPage = () => {
           <div className='container-sm py-4'>
             <div className="row">
               <div className="col-xl-5">
-                <Basic_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+                <Basic_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} isSelf={isSelf}/>
                 <div className="col my-4">
-                  <Rank_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+                  <Rank_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} isSelf={isSelf} />
                 </div>
               </div>
               <div className="col">
                 <div className="col">
-                  <Stats_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+                  <Stats_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} isSelf={isSelf} />
                 </div>
                 <div className="col mt-4">
-                  <Link_Acc_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+                  <Link_Acc_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} isSelf={isSelf} />
                 </div>
                 <div className="col mt-4">
-                  <Money_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+                  <Money_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} isSelf={isSelf} />
                 </div>
               </div>
             </div>

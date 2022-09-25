@@ -52,7 +52,13 @@ export default function Main(props: any) {
             </tr>
           </tbody>
         </table>
-        <button className='btn btn-outline-secondary w-100'>Top Up</button>
+        {
+          props.isSelf ? (
+            <button className='btn btn-outline-secondary w-100'>Top Up</button>
+          ) : (
+            <button className={`btn btn-outline-secondary w-100 ${!props.isAuthenticated ? ('disabled') : ('')}`}>Transfer coin to this member!</button>
+          )
+        }
       </div>
     </div>
   )
