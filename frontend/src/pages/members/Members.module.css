@@ -28,8 +28,16 @@
     background-color: #222;
 }
 .bg {
+    background-color: #c4d1d9;
     background-position: bottom;
-    background-repeat: repeat;
+    background-repeat: no-repeat;
     background-size: auto;
     background-image: url('/static/images/other/bg-blue-island.png');
+}
+.money-banner {
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #222;
+    background-image: url('/static/images/apps/members/money-bg.png');
 }

@@ -18,7 +18,7 @@ const Main: NextPage = () => {
                     <div className="container py-4 text-center">
                         <div className='px-sm-5'>
                             <h1 className="display-4">
-                                You find astronauts roasting marshmallows
+                                Do you like marshmallows?
                             </h1>
                             <p className="lead my-3 text-white-50">
                                 Sorry, it looks like you can't be here because the page doesn't exist or is under construction, come another time

@@ -99,6 +99,7 @@ class Basic_Discord_AccountSerializer(serializers.HyperlinkedModelSerializer):
             'nickname',
             'uid',
             'exp',
+            'discordcoin',
 
             'avatar',
             'level',
@@ -127,6 +128,7 @@ class Full_Discord_AccountSerializer(serializers.HyperlinkedModelSerializer):
             'exp',
             'daily',
             'daily_day',
+            'discordcoin',
 
             'avatar',
             'level',

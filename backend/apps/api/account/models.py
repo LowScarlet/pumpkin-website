@@ -104,6 +104,9 @@ class Discord_Account(models.Model):
     # Leveling System
     raw_level= models.IntegerField(default=0)
     exp = models.IntegerField(default=0)
+
+    # Economy
+    discordcoin = models.IntegerField(default=0)
     
     # Daily
     daily = models.DateTimeField(default=datetime.now, blank=True)

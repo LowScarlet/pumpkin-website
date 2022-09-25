@@ -10,7 +10,7 @@ export const load_user = () => async (dispatch:any) => {
     // Trigger
     try {
         // Fetch
-        const res = await fetch('/api/account/user', {
+        const res = await fetch('/api/account', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json'
