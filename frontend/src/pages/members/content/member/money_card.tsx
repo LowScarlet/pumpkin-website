@@ -46,9 +46,9 @@ export default function Main(props: any) {
           </thead>
           <tbody>
             <tr>
-              <td>10 <img src="/static/images/currency/pumpkin_coin.png" width={32} alt="" /></td>
-              <td>10 <img src="/static/images/currency/gold_coin.png" width={32} alt="" /></td>
-              <td>10 <img src="/static/images/currency/silver_coin.png" width={32} alt="" /></td>
+              <td>{props.data.profile.pumpkincoin} <img src="/static/images/currency/pumpkin_coin.png" width={32} alt="" /></td>
+              <td>{props.data.profile.goldcoin} <img src="/static/images/currency/gold_coin.png" width={32} alt="" /></td>
+              <td>{props.data.profile.silvercoin} <img src="/static/images/currency/silver_coin.png" width={32} alt="" /></td>
             </tr>
           </tbody>
         </table>

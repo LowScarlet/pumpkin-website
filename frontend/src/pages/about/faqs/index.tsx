@@ -10,12 +10,10 @@ import styles from '../About.module.css'
 const About_Faqs: NextPage = () => {
   return (
     <>
-    <Head>
+      <Head>
         <title>About - FAQ's</title>
-    </Head>
-    <Layout>
-        <Under_Construction/>
-    </Layout>
+      </Head>
+      <Under_Construction />
     </>
   )
 }

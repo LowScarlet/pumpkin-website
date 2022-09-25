@@ -10,12 +10,10 @@ import styles from '../About.module.css'
 const Store_PumpkinStore: NextPage = () => {
   return (
     <>
-    <Head>
+      <Head>
         <title>Store - Pumpkin Store</title>
-    </Head>
-    <Layout>
-        <Under_Construction/>
-    </Layout>
+      </Head>
+      <Under_Construction />
     </>
   )
 }

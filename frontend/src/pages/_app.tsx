@@ -1,16 +1,17 @@
 /* eslint-disable @next/next/no-sync-scripts */
-import "bootstrap-icons/font/bootstrap-icons.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import type { AppProps } from 'next/app';
-import Head from "next/head";
-import { Router } from "next/router";
-import NProgress from "nprogress";
-import { useEffect, useState } from "react";
-import { Provider } from "react-redux";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import '../assets/css/global/global.css';
-import { useStore } from "../store";
+import "bootstrap-icons/font/bootstrap-icons.css"
+import "bootstrap/dist/css/bootstrap.min.css"
+import type { AppProps } from 'next/app'
+import Head from "next/head"
+import { Router } from "next/router"
+import NProgress from "nprogress"
+import { useEffect, useState } from "react"
+import { Provider } from "react-redux"
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import '../assets/css/global/global.css'
+import { useStore } from "../store"
+import Layout from '../components/layout'
 
 function MyApp({ Component, pageProps }: AppProps) {
   // Initial useState
@@ -21,9 +22,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // User Bootstrap for Styling
   useEffect(() => {
-    typeof document !== undefined 
-    ? require('bootstrap/dist/js/bootstrap') 
-    : null
+    if (typeof document !== undefined) {
+      require('bootstrap/dist/js/bootstrap')
+
+      document.body.classList.add("d-flex");
+      document.body.classList.add("flex-column");
+      document.body.classList.add("h-100");
+      document.body.classList.add("text-bg-dark");
+    }
   }, [])
 
   // Progress Bar
@@ -56,7 +62,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           bodyClassName="global-body-toast"
       />
       
-      <Component {...pageProps}/>
+      <Layout>
+        <Component {...pageProps}/>
+      </Layout>
     </Provider>
     </>)
 }

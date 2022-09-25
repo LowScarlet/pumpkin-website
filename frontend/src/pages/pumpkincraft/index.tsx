@@ -9,12 +9,10 @@ import styles from './Pumpkincraft.module.css'
 const Pumpkincraft: NextPage = () => {
   return (
     <>
-    <Head>
+      <Head>
         <title>Pumpkincraft</title>
-    </Head>
-    <Layout>
-        <Under_Construction/>
-    </Layout>
+      </Head>
+      <Under_Construction />
     </>
   )
 }

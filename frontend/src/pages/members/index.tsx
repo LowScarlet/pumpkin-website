@@ -13,13 +13,12 @@ const Members_Index: NextPage = () => {
   const router = useRouter()
   const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
   const user_data = useSelector((state: any) => state.auth.user?.data);
-  
+
   return (
     <>
-    <Head>
+      <Head>
         <title>Members</title>
-    </Head>
-    <Layout>
+      </Head>
       <section className={`${styles['heroes']} p-4 p-md-5 text-bg-dark`}>
         <div className="container py- text-center">
           <h1 className="display-4">
@@ -43,7 +42,6 @@ const Members_Index: NextPage = () => {
           </div>
         </div>
       </section>
-    </Layout>
     </>
   )
 }

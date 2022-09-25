@@ -9,12 +9,10 @@ import styles from './Event.module.css'
 const Events: NextPage = () => {
   return (
     <>
-    <Head>
+      <Head>
         <title>Events</title>
-    </Head>
-    <Layout>
-        <Under_Construction/>
-    </Layout>
+      </Head>
+      <Under_Construction />
     </>
   )
 }

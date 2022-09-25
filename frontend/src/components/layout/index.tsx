@@ -20,12 +20,6 @@ export default function Layout(props: any) {
     const { children } = props
 
     useEffect(() => {
-        // Add initial class
-        document.body.classList.add("d-flex");
-        document.body.classList.add("flex-column");
-        document.body.classList.add("h-100");
-        document.body.classList.add("text-bg-dark");
-
         // Fetching
         fetch(`/api/`)
             .then((res) => res.json())

@@ -10,12 +10,10 @@ import styles from '../About.module.css'
 const About_Index: NextPage = () => {
   return (
     <>
-    <Head>
+      <Head>
         <title>About - US</title>
-    </Head>
-    <Layout>
-        <Under_Construction/>
-    </Layout>
+      </Head>
+      <Under_Construction />
     </>
   )
 }

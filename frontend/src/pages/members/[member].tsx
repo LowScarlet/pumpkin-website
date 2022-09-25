@@ -18,7 +18,7 @@ const Main: NextPage = () => {
   // Init
   const router = useRouter()
   const { member } = router.query
-  
+
   const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
 
   // Initial useState
@@ -52,31 +52,29 @@ const Main: NextPage = () => {
           )
         }
       </Head>
-      <Layout>
-        <section className={`${styles['bg']}`}>
-          <div className='container-sm py-4'>
-            <div className="row">
-              <div className="col-xl-5">
-                <Basic_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
-                <div className="col my-4">
-                  <Rank_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
-                </div>
+      <section className={`${styles['bg']}`}>
+        <div className='container-sm py-4'>
+          <div className="row">
+            <div className="col-xl-5">
+              <Basic_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+              <div className="col my-4">
+                <Rank_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
               </div>
+            </div>
+            <div className="col">
               <div className="col">
-                <div className="col">
-                  <Stats_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data}/>
-                </div>
-                <div className="col mt-4">
-                  <Link_Acc_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data}/>
-                </div>
-                <div className="col mt-4">
-                  <Money_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data}/>
-                </div>
+                <Stats_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+              </div>
+              <div className="col mt-4">
+                <Link_Acc_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+              </div>
+              <div className="col mt-4">
+                <Money_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
               </div>
             </div>
           </div>
-        </section>
-      </Layout>
+        </div>
+      </section>
     </>
   )
 }

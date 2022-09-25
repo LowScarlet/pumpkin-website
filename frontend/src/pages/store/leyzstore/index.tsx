@@ -10,12 +10,10 @@ import styles from '../About.module.css'
 const Store_LeyzStore: NextPage = () => {
   return (
     <>
-    <Head>
+      <Head>
         <title>About - Leyz Store</title>
-    </Head>
-    <Layout>
-        <Under_Construction/>
-    </Layout>
+      </Head>
+      <Under_Construction />
     </>
   )
 }

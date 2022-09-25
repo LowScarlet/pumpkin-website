@@ -10,12 +10,10 @@ import styles from '../About.module.css'
 const About_Rules: NextPage = () => {
   return (
     <>
-    <Head>
+      <Head>
         <title>About - Rules</title>
-    </Head>
-    <Layout>
-        <Under_Construction/>
-    </Layout>
+      </Head>
+      <Under_Construction />
     </>
   )
 }
