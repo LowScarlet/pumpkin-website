@@ -1,11 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Placeholder } from 'reactstrap'
-import styles from './Footer.module.css'
+import { useSelector } from 'react-redux'
+import styles from '../Layout.module.css'
 
-export default function Navbar(props: any) {
-    if (props.isLoading || !props.data) {
+export default function Main() {
+    // Get inital data
+    const data = useSelector((state:any) => state.global.data)
+
+    if (!data) {
         return (<>
             <div className={`${styles['footer']} text-dark bg-light placeholder-glow`}>
                 <div className="container px-5 text-center">
@@ -42,7 +45,7 @@ export default function Navbar(props: any) {
                 <div className="container px-5 text-center">
                     <div className="py-5">
                         <h4 className="fw-bolder py-2 text-uppercase">
-                            Follow {props.data.project_name}
+                            Follow {data.project_name}
                         </h4>
                         <div className="socialmedia-button d-flex justify-content-center">
                             <div className='p-2'>
@@ -59,7 +62,7 @@ export default function Navbar(props: any) {
                                         borderRadius: "100%"
                                     }}
                                 >
-                                    <Link href={`${props.data.social_media.youtube}`}>
+                                    <Link href={`${data.social_media.youtube}`}>
                                         <a target="_blank"><img src='/static/images/button/youtube.png' width="50" alt="" /></a>
                                     </Link>
                                 </motion.button>
@@ -78,7 +81,7 @@ export default function Navbar(props: any) {
                                         borderRadius: "100%"
                                     }}
                                 >
-                                    <Link href={`${props.data.social_media.instagram}`}>
+                                    <Link href={`${data.social_media.instagram}`}>
                                         <a target="_blank"><img src='/static/images/button/instagram.png' width="50" alt="" /></a>
                                     </Link>
                                 </motion.button>
@@ -97,7 +100,7 @@ export default function Navbar(props: any) {
                                         borderRadius: "100%"
                                     }}
                                 >
-                                    <Link href={`${props.data.discord_community.vanity}`}>
+                                    <Link href={`${data.discord_community.vanity}`}>
                                         <a target="_blank"><img src='/static/images/button/discord.png' width="50" alt="" /></a>
                                     </Link>
                                 </motion.button>
@@ -111,7 +114,7 @@ export default function Navbar(props: any) {
                     <div className="row align-items-center justify-content-between flex-column flex-sm-row">
                         <div className="col-auto">
                             <Link href="/">
-                                <a className="small m-0 text-white">Copyright &copy; <span>{props.data.web_name}</span> 2017 - 2022</a>
+                                <a className="small m-0 text-white">Copyright &copy; <span>{data.web_name}</span> 2017 - 2022</a>
                             </Link>
                         </div>
                         <div className="col-auto">

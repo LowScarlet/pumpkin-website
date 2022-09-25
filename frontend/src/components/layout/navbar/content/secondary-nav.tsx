@@ -1,12 +1,19 @@
 import Link from 'next/link'
-import styles from '../Navbar.module.css'
+import { useSelector } from 'react-redux'
+import styles from '../../Layout.module.css'
 
-export default function Main(props: any) {
-    if (props.isAuthenticated) {
+export default function Main() {
+    // Get inital data
+    const data = useSelector((state:any) => state.global.data)
+
+    // Check if user is authenticated or not
+    const isAuthenticated = useSelector((state:any) => state.auth.isAuthenticated)
+    
+    if (isAuthenticated) {
         return (<></>)
     }
     // Skeleton
-    if (props.isLoading || !props.data) {
+    if (!data) {
         return (
             <div className={`${styles['secondary-navbar']} text-end bg-black w-100 placeholder-glow`}>
                 <div className="container-md py-1">

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from api.account.models import Profile
+from api.account.models import Profile, Discord_Account
 
 
 class Basic_UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -81,6 +81,57 @@ class Full_ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
             'avatar',
             'banner',
+        ]
+
+
+class Basic_Discord_AccountSerializer(serializers.HyperlinkedModelSerializer):
+    avatar = serializers.URLField(read_only=True)
+    level = serializers.IntegerField(read_only=True)
+    levelup_exp_needed = serializers.IntegerField(read_only=True)
+    is_level_max = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        model = Discord_Account
+        fields = [
+            'url',
+            'user',
+            'whitelist_datetime',
+            'nickname',
+            'uid',
+            'exp',
+
+            'avatar',
+            'level',
+            'levelup_exp_needed',
+            'is_level_max',
+        ]
+
+
+
+class Full_Discord_AccountSerializer(serializers.HyperlinkedModelSerializer):
+    avatar = serializers.URLField(read_only=True)
+    level = serializers.IntegerField(read_only=True)
+    levelup_exp_needed = serializers.IntegerField(read_only=True)
+    is_level_max = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        model = Discord_Account
+        fields = [
+            'url',
+            'user',
+            'whitelist_datetime',
+            'nickname',
+            'uid',
+            'avatar_img',
+            'raw_level',
+            'exp',
+            'daily',
+            'daily_day',
+
+            'avatar',
+            'level',
+            'levelup_exp_needed',
+            'is_level_max',
         ]
 
 

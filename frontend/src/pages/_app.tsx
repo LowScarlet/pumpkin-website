@@ -6,12 +6,12 @@ import Head from "next/head"
 import { Router } from "next/router"
 import NProgress from "nprogress"
 import { useEffect, useState } from "react"
-import { Provider } from "react-redux"
+import { Provider, useDispatch, } from "react-redux"
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import '../assets/css/global/global.css'
 import { useStore } from "../store"
-import Layout from '../components/layout'
+import Init from '../components/layout/init'
 
 function MyApp({ Component, pageProps }: AppProps) {
   // Initial useState
@@ -43,28 +43,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (<>
     <Provider store={store}>
+
       <Head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css"
-          integrity="sha512-42kB9yDlYiCEfx2xVwq0q7hT4uf26FUgSIZBK8uiaEnTdShXjwr8Ip1V4xGJMg3mHkUt9nNuTDxunHF0/EgxLQ=="
-          crossOrigin="anonymous"
-          referrerPolicy="no-referrer"
-        />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" integrity="sha512-42kB9yDlYiCEfx2xVwq0q7hT4uf26FUgSIZBK8uiaEnTdShXjwr8Ip1V4xGJMg3mHkUt9nNuTDxunHF0/EgxLQ==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
         <link rel="icon" href="/static/logo/brand-logo.ico" />
       </Head>
-
-      <ToastContainer
-          hideProgressBar
-          position="top-right"
-          className="global-toast-container"
-          toastClassName="global-toast"
-          bodyClassName="global-body-toast"
-      />
+      <ToastContainer hideProgressBar position="top-right" className="global-toast-container" toastClassName="global-toast" bodyClassName="global-body-toast" />
       
-      <Layout>
+      <Init>
         <Component {...pageProps}/>
-      </Layout>
+      </Init>
+
     </Provider>
     </>)
 }

@@ -8,7 +8,7 @@ import styles from './DiscordEmbed.module.css'
 // Fetcher
 const fetcher = (...args:any) => fetch(args).then((res) => res.json())
 
-export default function Discord_Embed() {
+export default function Main() {
     // Get public data from discord widget
     let { data, error } = useSWR('https://discord.com/api/guilds/637896558435893248/widget.json', fetcher)
 

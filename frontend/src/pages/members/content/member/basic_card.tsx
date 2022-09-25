@@ -144,7 +144,7 @@ export default function Main(props: any) {
           {
             props.isAuthenticated ? (
               <div className="col-sm-100 mt-2">
-                <button type="button" className="btn btn-outline-success w-100"><i className="px-2 bi bi-gift-fill"></i>Give Gifts</button>
+                <button type="button" className="btn btn-outline-success w-100"><i className="px-2 bi bi-gift-fill"></i>Send Gifts</button>
               </div>
             ) : (<></>)
           }

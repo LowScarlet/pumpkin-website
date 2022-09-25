@@ -1,17 +1,16 @@
+from api.account.models import Profile, Discord_Account
+from api.account.rank import BENEFIT, RANK
+from api.account.serializer import (Auth_TokenSerializer,
+                                    Full_Discord_AccountSerializer,
+                                    Full_ProfileSerializer,
+                                    Full_UserSerializer)
 from django.contrib.auth.models import User
+from django.core.mail import EmailMessage
 from rest_framework import permissions, status, viewsets
+from rest_framework.authtoken.models import Token
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.authtoken.models import Token
-
-from api.account.serializer import Auth_TokenSerializer
-from api.account.models import Profile
-from api.account.rank import BENEFIT, RANK
-from api.account.serializer import (Basic_ProfileSerializer, Basic_UserSerializer,
-                         Full_ProfileSerializer, Full_UserSerializer)
-from django.core.mail import EmailMessage
-
 
 # Rank & Benefits
 
@@ -61,10 +60,16 @@ class UserViewSet(APIView):
         user_data = Full_UserSerializer(user, context=serializer_context)
         profile_data = Full_ProfileSerializer(
             user.profile, context=serializer_context)
+        if Discord_Account.objects.filter(user=user):
+            discord_account_data = Full_Discord_AccountSerializer(
+                user.discord_account, context=serializer_context).data
+        else:
+            discord_account_data = {}
         return Response(
             {
                 'user': user_data.data,
                 'profile': profile_data.data,
+                'discord_account': discord_account_data,
             },
             status=status.HTTP_200_OK
         )

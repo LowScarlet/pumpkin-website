@@ -1,12 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
-import { logout } from '../../authentication/actions/auth'
-import styles from '../Navbar.module.css'
+import { logout } from '../../../redux/authentication/actions/auth'
+import styles from '../../Layout.module.css'
 
-export default function Main(props: any) {
+export default function Main() {
+    // Get inital data
+    const data = useSelector((state:any) => state.global.data)
+
+    // Check if user is authenticated or not
+    const isAuthenticated = useSelector((state:any) => state.auth.isAuthenticated)
+
+    // Get user data as json
+    const user_data = useSelector((state:any) => state.auth.user?.data)
+    
     // Initial dispatch
     const dispatch = useDispatch()
 
@@ -21,7 +30,7 @@ export default function Main(props: any) {
     }
 
     // Skeleton
-    if (props.isLoading || !props.data) {
+    if (!data) {
         return (
             <div className="sticky-top">
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -75,7 +84,7 @@ export default function Main(props: any) {
                         </a>
                     </Link>
                     <Link href="/">
-                        <a className={`${styles['navbar-brand']} navbar-brand d-none d-md-block`}>{props.data.project_name}</a>
+                        <a className={`${styles['navbar-brand']} navbar-brand d-none d-md-block`}>{data.project_name}</a>
                     </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"></span></button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -250,10 +259,10 @@ export default function Main(props: any) {
                                 </ul>
                             </li>
                             {
-                                props.isAuthenticated ? (
+                                isAuthenticated ? (
                                     <li className="nav-item dropdown">
                                         <a className="nav-link dropdown-toggle" id="navbarDropdownProfile" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img className='me-2' src={props.user_data?.profile.avatar} width="40" height="40" alt="" />
+                                            <img className='me-2' src={user_data?.profile.avatar} width="40" height="40" alt="" />
                                             Account
                                         </a>
                                         <ul className="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdownBlog">

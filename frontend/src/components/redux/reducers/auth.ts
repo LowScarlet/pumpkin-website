@@ -6,7 +6,7 @@ import {
 // Initial State (...state)
 const initialState = {
     user: null,
-    isAuthenticated: false,
+    isAuthenticated: null,
     loading: false,
     register_success: false,
 };

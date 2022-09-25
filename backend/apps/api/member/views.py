@@ -1,11 +1,17 @@
 from urllib import response
-from api.account.serializer import (Basic_ProfileSerializer, Basic_UserSerializer,
-                                    Full_ProfileSerializer, Full_UserSerializer)
+
+from api.account.serializer import (Basic_Discord_AccountSerializer,
+                                    Basic_ProfileSerializer,
+                                    Basic_UserSerializer,
+                                    Full_Discord_AccountSerializer,
+                                    Full_ProfileSerializer,
+                                    Full_UserSerializer)
+from api.account.models import Discord_Account
 from django.contrib.auth.models import User
+from django.shortcuts import redirect
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.shortcuts import redirect
 
 # User
 
@@ -29,15 +35,28 @@ class MemberViewSet(APIView):
                 user_data = Full_UserSerializer(member, context=serializer_context)
                 profile_data = Full_ProfileSerializer(
                     member.profile, context=serializer_context)
+
+                if Discord_Account.objects.filter(user=member):
+                    discord_account_data = Full_Discord_AccountSerializer(
+                        member.discord_account, context=serializer_context).data
+                else:
+                    discord_account_data = {}
             else:
                 user_data = Basic_UserSerializer(
                     member, context=serializer_context)
                 profile_data = Basic_ProfileSerializer(
                     member.profile, context=serializer_context)
+
+                if Discord_Account.objects.filter(user=member):
+                    discord_account_data = Basic_Discord_AccountSerializer(
+                        member.discord_account, context=serializer_context).data
+                else:
+                    discord_account_data = {}
             
             response = {
                 'user': user_data.data,
                 'profile': profile_data.data,
+                'discord_account': discord_account_data,
             }
             if user.is_authenticated:
                 response['other'] = {
@@ -47,7 +66,8 @@ class MemberViewSet(APIView):
             return Response(response,
                 status=status.HTTP_200_OK
             )
-        except:
+        except Exception as e:
+            print(e)
             return Response(
                 {
                     'detail': f"Member not found!",

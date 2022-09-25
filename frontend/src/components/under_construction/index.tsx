@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from './UnderConstruction.module.css'
 
-export default function Under_Construction() {
+export default function Main() {
     return (
         <>
         <section className={`${styles['heroes']} p-4 p-md-5 text-bg-dark`}>

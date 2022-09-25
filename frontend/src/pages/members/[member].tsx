@@ -52,29 +52,31 @@ const Main: NextPage = () => {
           )
         }
       </Head>
-      <section className={`${styles['bg']}`}>
-        <div className='container-sm py-4'>
-          <div className="row">
-            <div className="col-xl-5">
-              <Basic_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
-              <div className="col my-4">
-                <Rank_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+      <Layout>
+        <section className={`${styles['bg']}`}>
+          <div className='container-sm py-4'>
+            <div className="row">
+              <div className="col-xl-5">
+                <Basic_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+                <div className="col my-4">
+                  <Rank_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+                </div>
               </div>
-            </div>
-            <div className="col">
               <div className="col">
-                <Stats_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
-              </div>
-              <div className="col mt-4">
-                <Link_Acc_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
-              </div>
-              <div className="col mt-4">
-                <Money_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+                <div className="col">
+                  <Stats_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+                </div>
+                <div className="col mt-4">
+                  <Link_Acc_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+                </div>
+                <div className="col mt-4">
+                  <Money_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </Layout>
     </>
   )
 }

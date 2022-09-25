@@ -1,3 +1,4 @@
+from datetime import datetime
 import requests
 from api.account.rank import RANK
 from api.guild.models import Guild
@@ -16,14 +17,17 @@ RANK_CHOICES = []
 for x in RANK:
     RANK_CHOICES.append((x, RANK[x]["attribute"]["displayname"]))
 
+# Discord Leveling Map
+def levelmap():
+    return [(x*10)**2 for x in range(25)]
+
 # Profile Model
-
-
 class Profile(models.Model):
     user = models.OneToOneField(
         User, null=True, blank=True, related_name="profile", on_delete=models.CASCADE)
 
     # Basic
+    email_confirmation = models.BooleanField(null=True, blank=True, default=False)
     views = models.IntegerField(default=0)
     gender = models.CharField(
         max_length=12, choices=GENDER_CHOICES, blank=True, default="male")
@@ -83,3 +87,55 @@ class Profile(models.Model):
             ("status_donator", "Status Donator"),
             ("status_partner", "Status Partner"),
         )
+
+# Discord Account Model
+class Discord_Account(models.Model):
+    user = models.OneToOneField(
+        User, null=True, blank=True, related_name="discord_account", on_delete=models.CASCADE)
+    whitelist_datetime = models.DateTimeField(default=datetime.now, blank=True)
+
+    # Basic
+    nickname = models.CharField(max_length=64)
+    uid = models.CharField(max_length=32, unique=True)
+
+    # Media
+    avatar_img = models.ImageField(blank=True, null=True, upload_to="discord_member")
+
+    # Leveling System
+    raw_level= models.IntegerField(default=0)
+    exp = models.IntegerField(default=0)
+    
+    # Daily
+    daily = models.DateTimeField(default=datetime.now, blank=True)
+    daily_day = models.IntegerField(default=0)
+
+    # Magic Method
+    def __str__(self):
+        if self.nickname:
+            return f"{self.nickname} ({self.uid})"
+        return f"{self.uid}"
+
+    # Custom Method *Get Avatar URL
+    def avatar(self):
+        if self.avatar_img:
+            r = requests.get(f'{settings.STATIC_URL}/{self.avatar_img}')
+            if r.status_code == 200:
+                return f"{settings.STATIC_URL}/{self.avatar_img}"
+            self.avatar_img = None
+            self.save()
+        return f"{settings.FRONTEND_URL}/static/images/user/default_avatar_discord.png"
+    
+    # Get Level of Discord Member
+    def level(self):
+        v = 0
+        for x in levelmap():
+            if self.exp >= x: v = x
+        return levelmap().index(v)
+    
+    # Get Total Exp to Levelup
+    def levelup_exp_needed(self):
+        return levelmap()[self.level()+1]-self.exp
+    
+    # Is Level max
+    def is_level_max(self):
+        return True

@@ -12,7 +12,9 @@ const Events: NextPage = () => {
       <Head>
         <title>Events</title>
       </Head>
-      <Under_Construction />
+      <Layout>
+        <Under_Construction />
+      </Layout>
     </>
   )
 }
