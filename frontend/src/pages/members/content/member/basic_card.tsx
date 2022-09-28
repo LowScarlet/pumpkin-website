@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
+import { motion } from 'framer-motion'
 import millify from 'millify'
 import { useEffect, useState } from 'react'
 import styles from '../../Members.module.css'
@@ -150,13 +151,34 @@ export default function Main(props: any) {
 
         <div className="row">
           <div className="col">
-            <button onClick={() => Toggle_Likes()} className={`btn ${isLike ? ('btn-outline-secondary') : ('btn-primary')} w-100 ${likedislikeLoading || props.isSelf || !props.isAuthenticated ? ('disabled') : ('')}`}><i className="px-2 bi bi-hand-thumbs-up"></i>{millify(likes)} {isLike ? ('Liked!') : ('Like')}</button>
+            <motion.button
+              className={`btn ${isLike ? ('btn-outline-secondary') : ('btn-primary')} w-100 ${likedislikeLoading || props.isSelf || !props.isAuthenticated ? ('disabled') : ('')}`}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              type="button"
+              onClick={() => Toggle_Likes()}
+            >
+              <i className="px-2 bi bi-hand-thumbs-up"></i>{millify(likes)} {isLike ? ('Liked!') : ('Like')}
+            </motion.button>
           </div>
           <div className="col">
-            <button onClick={() => Toggle_Dislikes()} className={`btn ${isDislike ? ('btn-outline-secondary') : ('btn-danger')} w-100 ${likedislikeLoading || props.isSelf || !props.isAuthenticated ? ('disabled') : ('')}`}><i className="px-2 bi bi-hand-thumbs-down"></i>{millify(dislikes)} {isDislike ? ('Disliked!') : ('Dislike')}</button>
+            <motion.button
+              className={`btn ${isDislike ? ('btn-outline-secondary') : ('btn-danger')} w-100 ${likedislikeLoading || props.isSelf || !props.isAuthenticated ? ('disabled') : ('')}`}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              type="button"
+              onClick={() => Toggle_Dislikes()}
+            >
+              <i className="px-2 bi bi-hand-thumbs-down"></i>{millify(dislikes)} {isDislike ? ('Disliked!') : ('Dislike')}
+            </motion.button>
           </div>
           <div className="col-sm-100 mt-2">
-            <button type="button" className={`btn btn-outline-success w-100 ${!props.isAuthenticated ? ('disabled') : ('')}`}>
+            <motion.button
+              className={`btn btn-outline-success w-100 ${!props.isAuthenticated ? ('disabled') : ('')}`}
+              whileTap={{ scale: 0.92 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              type="button"
+            >
               {
                 props.isSelf ? (<>
                   <i className="px-2 bi bi-gift-fill"></i>Inventory
@@ -164,7 +186,7 @@ export default function Main(props: any) {
                   <i className="px-2 bi bi-gift-fill"></i>Send Gifts
                 </>)
               }
-            </button>
+            </motion.button>
           </div>
         </div>
 

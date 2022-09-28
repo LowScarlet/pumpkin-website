@@ -9,19 +9,8 @@ export default function Main() {
     // Check if user is authenticated or not
     const isAuthenticated = useSelector((state:any) => state.auth.isAuthenticated)
     
-    if (isAuthenticated) {
-        return (<></>)
-    }
-    // Skeleton
-    if (!data) {
-        return (
-            <div className={`${styles['secondary-navbar']} text-end bg-black w-100 placeholder-glow`}>
-                <div className="container-md py-1">
-                    <span className="mx-2 placeholder col-2"/>
-                    <span className="mx-2 placeholder col-2"/>
-                </div>
-            </div>
-        )
+    if (isAuthenticated || !data) {
+        return (null)
     }
     // Actual Content
     return (
