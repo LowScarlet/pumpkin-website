@@ -1,14 +1,11 @@
-from api.account.models import Profile, Discord_Account
+from django.conf import settings
+from api.account.models import Discord_Account
 from api.account.rank import BENEFIT, RANK
-from api.account.serializer import (Auth_TokenSerializer,
-                                    Full_Discord_AccountSerializer,
+from api.account.serializer import (Full_Discord_AccountSerializer,
                                     Full_ProfileSerializer,
                                     Full_UserSerializer)
 from django.contrib.auth.models import User
-from django.core.mail import EmailMessage
-from rest_framework import permissions, status, viewsets
-from rest_framework.authtoken.models import Token
-from rest_framework.request import Request
+from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -80,6 +77,11 @@ class User_RegisterViewSet(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
+        if settings.PRODUCTION and request.META.get('HTTP_SECRET_CODE') != settings.SECRET_CODE:
+            return Response(
+                {'detail': 'Requires SECRET-CODE header'},
+                status=status.HTTP_403_FORBIDDEN
+            )
         try:
             data = request.data
 

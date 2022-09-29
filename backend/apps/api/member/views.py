@@ -1,5 +1,7 @@
 from urllib import response
 
+from django.conf import settings
+
 from api.account.serializer import (Basic_Discord_AccountSerializer,
                                     Basic_ProfileSerializer,
                                     Basic_UserSerializer,
@@ -76,6 +78,11 @@ class MemberViewSet(APIView):
             )
 
     def post(self, request, member, cmd=None, format=None):
+        if settings.PRODUCTION and request.META.get('HTTP_SECRET_CODE') != settings.SECRET_CODE:
+            return Response(
+                {'detail': 'Requires SECRET-CODE header'},
+                status=status.HTTP_403_FORBIDDEN
+            )
         user = request.user
         if not user.is_authenticated:
             return Response(

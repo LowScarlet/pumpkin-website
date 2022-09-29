@@ -25,7 +25,8 @@ const ApiAccountRegister = async (req:any, res:any) => {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Secret-Code': `${process.env.API_URL}`
                 },
                 body: body
             });

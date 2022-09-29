@@ -58,6 +58,8 @@ PRODUCTION = os.getenv('PRODUCTION') != None
 
 DATABASE_URL = 'postgres://xewjoewk:4MbhrZYjK46qPB_EJXMkv8gOU8b8BB9M@heffalump.db.elephantsql.com/xewjoewk'
 
+SECRET_CODE = 'v5cP1n968s'
+
 if PRODUCTION:
     DEBUG = False
     BACKEND_DOMAIN = f'api.{MAIN_DOMAIN}'
