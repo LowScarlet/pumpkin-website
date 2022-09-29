@@ -17,7 +17,7 @@ const Main = async (req:any, res:any) => {
                     headers: {
                         'Accept': 'application/json',
                         'Authorization': `Bearer ${access}`,
-                        'Secret-Code': `${process.env.API_URL}`
+                        'Secret-Code': `${process.env.SECRET_CODE}`
                     }
                 });
             } else {
@@ -25,7 +25,7 @@ const Main = async (req:any, res:any) => {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
-                        'Secret-Code': `${process.env.API_URL}`
+                        'Secret-Code': `${process.env.SECRET_CODE}`
                     }
                 });
             }
