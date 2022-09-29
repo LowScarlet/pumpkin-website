@@ -34,7 +34,6 @@ const Main: NextPage = () => {
     if (user_data && member && user_data.user.username === member) {
       setIsSelf(true)
     }
-    console.log(isSelf)
     if (member && !isSelf) {
       fetch(`/api/members/${member}`)
         .then((res) => res.json())
