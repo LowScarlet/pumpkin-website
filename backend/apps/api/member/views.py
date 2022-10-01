@@ -30,8 +30,9 @@ class MemberViewSet(APIView):
         try:
             member = User.objects.get(username=member)
 
-            member.profile.views += 1
-            member.save()
+            if user != member:
+                member.profile.views += 1
+                member.save()
 
             if user.is_staff or user == member:
                 user_data = Full_UserSerializer(member, context=serializer_context)

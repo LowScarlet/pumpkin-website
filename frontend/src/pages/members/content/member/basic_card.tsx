@@ -46,9 +46,9 @@ export default function Main(props: any) {
 
           setIsLike(data.data.other.liked)
           setIsDislike(data.data.other.disliked)
-
-          setlikedislikeLoading(false)
         })
+
+      setlikedislikeLoading(false)
     }
   }
 
@@ -63,9 +63,8 @@ export default function Main(props: any) {
 
           setIsLike(data.data.other.liked)
           setIsDislike(data.data.other.disliked)
-
-          setlikedislikeLoading(false)
         })
+      setlikedislikeLoading(false)
     }
   }
 

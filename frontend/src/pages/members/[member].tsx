@@ -31,26 +31,27 @@ const Main: NextPage = () => {
 
   // Fetch Member Data
   useEffect(() => {
-    if (user_data && member && user_data.user.username === member) {
-      setIsSelf(true)
-    }
-    if (member && !isSelf) {
-      fetch(`/api/members/${member}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setData(data.data)
-          setLoading(false)
-        })
-    } else {
-      if (isAuthenticated && user_data) {
+    if (!data && member && isAuthenticated !== null) {
+      if (user_data && user_data.user.username === member) setIsSelf(true)
+
+      if (isSelf === true && isAuthenticated === true && user_data) {
         setData(user_data)
         setLoading(false)
       }
+      if (isSelf === false && isAuthenticated !== null) {
+        fetch(`/api/members/${member}`)
+          .then((res) => res.json())
+          .then((data) => {
+              setData(data.data)
+              setLoading(false)
+          })
+      }
     }
-  }, [isAuthenticated, isSelf, member, user_data])
+
+  }, [data, isAuthenticated, isLoading, isSelf, member, user_data])
 
   // Condition after loading finish and there no data will render error template
-  if (!isLoading && !data) return <Error_1 />
+  if (!isLoading && !data) return <Error_1/>
 
   // Here we go
   return (

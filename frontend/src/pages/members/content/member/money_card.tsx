@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
+import { motion } from 'framer-motion'
 import styles from '../../Members.module.css'
 
 export default function Main(props: any) {
@@ -62,13 +63,20 @@ export default function Main(props: any) {
             </tr>
           </tbody>
         </table>
-        {
-          props.isSelf ? (
-            <button className='btn btn-outline-secondary w-100'>Top Up</button>
-          ) : (
-            <button className={`btn btn-outline-secondary w-100 ${!props.isAuthenticated ? ('disabled') : ('')}`}>Transfer coin to this member!</button>
-          )
-        }
+        <motion.button
+          className={`btn btn-outline-secondary w-100 ${!props.isAuthenticated ? ('disabled') : ('')}`}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          type="button"
+        >
+          {
+            props.isSelf ? (
+              'Top Up'
+            ) : (
+              'Transfer coin to this member!'
+            )
+          }
+        </motion.button>
       </div>
     </div>
   )
