@@ -26,5 +26,6 @@
       "src": "/(.*)",
       "dest": "web/wsgi.py"
     }
-  ]
+  ],
+  "regions": ["sin1"]
 }
