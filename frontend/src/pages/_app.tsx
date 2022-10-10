@@ -10,6 +10,8 @@ import '../styles/css/global.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify"
 import { useEffect } from "react"
+import NProgress from "nprogress"
+import { Router } from "next/router"
 
 function Main({ Component, pageProps }: AppProps) {
   // Initial setup
@@ -19,6 +21,14 @@ function Main({ Component, pageProps }: AppProps) {
   useEffect(() => {
       require('bootstrap/dist/js/bootstrap')
   }, [])
+  
+  NProgress.configure({ showSpinner: false })
+  Router.events.on("routeChangeStart", (url) => {
+    NProgress.start()
+  })
+  Router.events.on("routeChangeComplete", (url) => {
+    NProgress.done()
+  })
 
   // Here we go
   return (<>
