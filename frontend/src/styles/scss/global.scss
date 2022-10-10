@@ -1,0 +1,16 @@
+$theme-colors: (
+  'pumpkin': #ff7518,
+  'dark': #171615,
+  "primary": #0d6efd,
+  "secondary": #6c757d,
+  "success": #198754,
+  "info": #0dcaf0,
+  "warning": #ffc107,
+  "danger": #dc3545,
+  "light": #f8f9fa,
+);
+$btn-border-radius: None;
+$btn-border-radius-sm: None;
+$btn-border-radius-lg: None;
+
+@import '/node_modules/bootstrap/scss/bootstrap.scss';

@@ -93,6 +93,12 @@ class Discord_Account(models.Model):
     user = models.OneToOneField(
         User, null=True, blank=True, related_name="discord_account", on_delete=models.CASCADE)
     whitelist_datetime = models.DateTimeField(default=datetime.now, blank=True)
+    active = models.BooleanField(default=False)
+
+    # Secret
+    access = models.CharField(max_length=64, null=True, blank=True)
+    refresh = models.CharField(max_length=64, null=True, blank=True)
+    # token_exp = models.DateTimeField(null=True, blank=True)
 
     # Basic
     nickname = models.CharField(max_length=64)

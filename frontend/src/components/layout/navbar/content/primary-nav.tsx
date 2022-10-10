@@ -1,69 +1,87 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
-import { logout } from '../../../redux/authentication/actions/auth'
-import styles from '../../Layout.module.css'
+import { send_toast } from '../../../customToast'
+import { logout } from '../../../redux/authentication/auth'
+import { FETCH_FAIL } from '../../../redux/messages'
+import styles from '../../Style.module.css'
 
-export default function Main() {
-    // Get inital data
-    const data = useSelector((state:any) => state.global.data)
-
-    // Check if user is authenticated or not
-    const isAuthenticated = useSelector((state:any) => state.auth.isAuthenticated)
-
-    // Get user data as json
-    const user_data = useSelector((state:any) => state.auth.user?.data)
-    
-    // Initial dispatch
+export default function Main(props:any) {
+    // Initial setup
     const dispatch = useDispatch()
-
-    // Initial useState
     const [logout_modal, setLogout_Modal] = useState(false)
+    const [submitLoading, setSubmitLoading] = useState(false)
+    const {data, isAuthenticated, user_data} = props
 
-    // Logout Handler
-    const logoutHandler = () => {
-        if (dispatch && dispatch !== null && dispatch !== undefined)
-            dispatch(logout() as any);
-            setLogout_Modal(false);
+    // Some button
+    const logoutHandler = async (e: any) => {
+        e.preventDefault()
+        setSubmitLoading(true)
+        if (dispatch && dispatch !== null && dispatch !== undefined) {
+            try {
+                const res = await fetch('/api/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+        
+                // Get response as Json
+                const data = await res.json()
+        
+                // Validation
+                if (res.status === 200) {
+                    dispatch(logout(res.status, data) as any)
+                    send_toast('success', data.detail)
+                    setLogout_Modal(false)
+                } else {
+                    send_toast('error', data.detail)
+                }
+            } catch {
+                send_toast('error', FETCH_FAIL)
+            }
+        }
+        setSubmitLoading(false)
     }
 
-    // Skeleton
+    // Skeleton view
     if (!data) {
         return (
             <div className="sticky-top">
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div className="container-sm placeholder-glow">
-                        <span className='placeholder me-2' style={{ width: 50, height: 50 }}></span>
-                        <span className={`${styles['navbar-brand']} navbar-brand d-none d-md-block placeholder col-2`} />
+                        <span className='bg-pumpkin placeholder me-2' style={{ width: 50, height: 50 }}></span>
+                        <span className='bg-light placeholder col-2'/>
 
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"></span></button>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
                                     <a className="nav-link" href="#">
-                                        <span className='placeholder me-2' style={{ width: 40, height: 40 }}></span>
+                                        <span className='bg-light placeholder me-2' style={{ width: 40, height: 40 }}></span>
                                     </a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link" href="#">
-                                        <span className='placeholder me-2' style={{ width: 40, height: 40 }}></span>
+                                        <span className='bg-light placeholder me-2' style={{ width: 40, height: 40 }}></span>
                                     </a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link" href="#">
-                                        <span className='placeholder me-2' style={{ width: 40, height: 40 }}></span>
+                                        <span className='bg-light placeholder me-2' style={{ width: 40, height: 40 }}></span>
                                     </a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link" href="#">
-                                        <span className='placeholder me-2' style={{ width: 40, height: 40 }}></span>
+                                        <span className='bg-light placeholder me-2' style={{ width: 40, height: 40 }}></span>
                                     </a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link" href="#">
-                                        <span className='placeholder me-2' style={{ width: 40, height: 40 }}></span>
+                                        <span className='bg-light placeholder me-2' style={{ width: 40, height: 40 }}></span>
                                     </a>
                                 </li>
                             </ul>
@@ -73,18 +91,19 @@ export default function Main() {
             </div>
         )
     }
-    // Actual Content
+
+    // Here we go
     return (<>
         <div className="sticky-top">
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-sm">
                     <Link href="/">
                         <a className="navbar-brand">
-                            <img src="/static/logo/brand-logo.png" width="50" height="50" alt="" />
+                            <img src="/static/logo/brand-logo.png" width="40" alt="" />
                         </a>
                     </Link>
                     <Link href="/">
-                        <a className={`${styles['navbar-brand']} navbar-brand d-none d-md-block`}>{data.project_name}</a>
+                        <a className={`${styles['navbar-brand']} navbar-brand`}>{data.project_name}</a>
                     </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"></span></button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -268,7 +287,7 @@ export default function Main() {
                                         <ul className="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdownBlog">
                                             <li><h6 className="dropdown-header">Member Account</h6></li>
                                             <li>
-                                                <Link href="/account">
+                                                <Link href={`/members/${user_data?.user.username}`}>
                                                     <a className="dropdown-item">
                                                         <div className="px-3">
                                                             <img src="/static/images/navbar/detail_logo.png" width="55" height="55" alt="" />
@@ -338,18 +357,23 @@ export default function Main() {
             </ModalBody>
             <ModalFooter>
                 <Button
-                    className="btn btn-secondary"
+                    color='secondary'
                     type="button"
                     onClick={() => setLogout_Modal(!logout_modal)}
+                    disabled={submitLoading}
                 >
                     Cancel
                 </Button>
                 <Button
-                    className="btn btn-primary"
+                    color='pumpkin'
+                    className='text-light'
                     type="button"
                     onClick={logoutHandler}
+                    disabled={submitLoading}
                 >
-                    Logout
+                    {submitLoading ? (
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+                    ) : (<></>)} Logout
                 </Button>
             </ModalFooter>
         </Modal>

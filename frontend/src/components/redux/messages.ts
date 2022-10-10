@@ -1,0 +1,1 @@
+export const FETCH_FAIL = 'There was a problem communicating with the API server! Contact the staff for consultation on this matter'

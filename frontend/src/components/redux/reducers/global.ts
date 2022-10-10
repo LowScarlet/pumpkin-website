@@ -1,16 +1,15 @@
-import { toast } from 'react-toastify';
 import {
     INITIAL_LOAD_SUCCESS, INITIAL_LOAD_FAIL
-} from '../global/actions/types';
+} from '../global/types'
 
 // Initial State (...state)
 const initialState = {
     data: null,
-};
+}
 
-const globalReducer = (state = initialState, action:any) => {
+const Main = (state = initialState, action:any) => {
     // Init
-    const { type, message, payload } = action;
+    const { type, message, payload } = action
 
     switch(type) {
         // Load
@@ -20,7 +19,6 @@ const globalReducer = (state = initialState, action:any) => {
                 data: payload
             }
         case INITIAL_LOAD_FAIL:
-            toast.error(message);
             return {
                 ...state,
                 data: null
@@ -28,8 +26,8 @@ const globalReducer = (state = initialState, action:any) => {
 
         // Default
         default:
-            return state;
-    };
-};
+            return state
+    }
+}
 
-export default globalReducer;
+export default Main

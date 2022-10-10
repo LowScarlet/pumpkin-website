@@ -1,97 +1,133 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
-import type { NextPage } from 'next'
 import Head from 'next/head'
-import Layout from '../../components/layout'
-import styles from './Members.module.css'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import Error_1 from '../../components/error/error_1'
+import { useSelector } from 'react-redux'
+import useSWR from 'swr'
+import { BACKEND_URL } from '../../components/config'
+import { send_toast } from '../../components/customToast'
+import Layout from '../../components/layout'
+import { FETCH_FAIL } from '../../components/redux/messages'
 import Basic_Card from './content/member/basic_card'
-import Rank_Card from './content/member/rank_card'
-import Stats_Card from './content/member/stats_card'
 import Link_Acc_Card from './content/member/link_acc_card'
 import Money_Card from './content/member/money_card'
-import { useSelector } from 'react-redux'
+import Rank_Card from './content/member/rank_card'
+import Stats_Card from './content/member/stats_card'
+import styles from './Style.module.css'
 
-const Main: NextPage = () => {
-  // Init
+const Main = (props: any) => {
+  // Initial setup
   const router = useRouter()
   const { member } = router.query
-
-  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
-
-  // Get user data as json
-  const user_data = useSelector((state:any) => state.auth.user?.data)
-
-  // Initial useState
-  const [data, setData] = useState(null)
+  const [fetchingLoading, setFetchingLoading] = useState(true)
+  const [memberData, setMemberData] = useState<any>(null)
   const [isSelf, setIsSelf] = useState(false)
-  const [isLoading, setLoading] = useState(true)
+  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
+  const user_data = useSelector((state: any) => state.auth.user)
 
-  // Fetch Member Data
-  useEffect(() => {
-    if (!data && member && isAuthenticated !== null) {
-      if (user_data && user_data.user.username === member) setIsSelf(true)
+  const fetcher = async (...args: any) => {
+    try {
+      const res = await fetch(args, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+      const data = await res.json()
 
-      if (isSelf === true && isAuthenticated === true && user_data) {
-        setData(user_data)
-        setLoading(false)
+      if (res.status === 200) {
+        setMemberData(data)
       }
-      if (isSelf === false && isAuthenticated !== null) {
-        fetch(`/api/members/${member}`)
-          .then((res) => res.json())
-          .then((data) => {
-              setData(data.data)
-              setLoading(false)
-          })
-      }
+    } catch {
+      send_toast('error', FETCH_FAIL)
     }
+    setFetchingLoading(false)
+  }
 
-  }, [data, isAuthenticated, isLoading, isSelf, member, user_data])
+  useSWR(`/api/members/${member}`, member ? (fetcher) : (() => { }))
 
-  // Condition after loading finish and there no data will render error template
-  if (!isLoading && !data) return <Error_1/>
+  useEffect(() => {
+    if (isAuthenticated && user_data) {
+      setIsSelf(user_data.user.username == member)
+    } else {
+      setIsSelf(false)
+    }
+  }, [isAuthenticated, member, user_data])
 
-  // Here we go
-  return (
-    <>
+  if (!member || fetchingLoading) {
+    return (<>
       <Head>
-        {
-          member ? (
-            <title>Members - {member}</title>
-          ) : (
-            <title>Members</title>
-          )
-        }
+        <title>{member ? `Member - ${member}` : 'Member'}</title>
       </Head>
       <Layout>
-        <section className={`${styles['bg']}`}>
+        <section style={{backgroundColor: '#bfccd4'}}>
           <div className='container-sm py-4'>
             <div className="row">
               <div className="col-xl-5">
-                <Basic_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} isSelf={isSelf}/>
+                <Basic_Card/>
                 <div className="col my-4">
-                  <Rank_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} isSelf={isSelf} />
+                  {/* <Rank_Card/> */}
                 </div>
               </div>
               <div className="col">
                 <div className="col">
-                  <Stats_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} isSelf={isSelf} />
+                  <Stats_Card/>
                 </div>
                 <div className="col mt-4">
-                  <Link_Acc_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} isSelf={isSelf} />
+                  <Link_Acc_Card/>
                 </div>
                 <div className="col mt-4">
-                  <Money_Card isAuthenticated={isAuthenticated} isLoading={isLoading} data={data} isSelf={isSelf} />
+                  <Money_Card/>
                 </div>
               </div>
             </div>
           </div>
         </section>
       </Layout>
-    </>
-  )
+    </>)
+  }
+
+  if (!fetchingLoading && !memberData) {
+    return (<>
+      <Head>
+        <title>404 - Member Not Found</title>
+      </Head>
+    </>)
+  }
+  
+  // Here we go
+  return (<>
+    <Head>
+      <title>{member ? `Member - ${member}` : 'Member'}</title>
+    </Head>
+    <Layout>
+      <section className={`${styles['bg']}`}>
+        <div className='container-sm py-4'>
+          <div className="row">
+            <div className="col-xl-5">
+              <Basic_Card isSelf={isSelf} memberData={memberData} fetchingLoading={fetchingLoading}/>
+              {/* <div className="col my-4">
+                <Rank_Card memberData={memberData} fetchingLoading={fetchingLoading}/>
+              </div> */}
+            </div>
+            <div className="col">
+              <div className="col">
+                <Stats_Card isSelf={isSelf} memberData={memberData} fetchingLoading={fetchingLoading}/>
+              </div>
+              <div className="col mt-4">
+                <Link_Acc_Card isSelf={isSelf} memberData={memberData} fetchingLoading={fetchingLoading}/>
+              </div>
+              <div className="col mt-4">
+                <Money_Card memberData={memberData} fetchingLoading={fetchingLoading}/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </Layout>
+  </>)
 }
 
 export default Main

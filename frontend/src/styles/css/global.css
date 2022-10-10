@@ -1,0 +1,28 @@
+/* Main Font */
+@font-face {
+    font-family: 'minecraft';
+    src: url("../fonts/minecraft.otf") format("truetype");
+  }
+@font-face {
+    font-family: 'minecrafter';
+    src: url("../fonts/minecrafter.ttf") format("truetype");
+}
+
+/* Body */
+body {
+    margin: 0;
+    font-family: 'minecraft', 'minecrafter';
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    background-color: var(--bs-dark);
+}
+@media (prefers-reduced-motion: no-preference) {
+    :root {
+        scroll-behavior: smooth;
+    }
+}
+body::-webkit-scrollbar {
+  display: none;
+}

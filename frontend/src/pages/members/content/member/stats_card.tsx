@@ -1,11 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 import millify from 'millify'
-import { useEffect, useState } from 'react'
-import styles from '../../Members.module.css'
 
 export default function Main(props: any) {
-  if (props.isLoading || !props.data) {
+  if (props.fetchingLoading || !props.memberData) {
     return (
       <div className="shadow card">
         <div className="card-body text-center text-dark">
@@ -41,12 +39,12 @@ export default function Main(props: any) {
           <div className="col-4 px-sm-2 px-0">
             <div className="border-bottom border-5 border-success">
               <h5 className="text-muted mt-1 mb-2 fw-normal"><i className="pe-2 bi bi-eye-fill"></i>Views</h5>
-              <h2 className="mb-0 fw-bold">{millify(props.data.profile.views)}</h2>
+              <h2 className="mb-0 fw-bold">{millify(props.memberData.profile.views)}</h2>
             </div>
           </div>
           <div className="col-4 px-sm-2 px-0">
-            <div className="border-bottom border-5 border-primary">
-              <h5 className="text-muted mt-1 mb-2 fw-normal"><i className="pe-2 bi bi-trophy-fill"></i>Crown</h5>
+            <div className="border-bottom border-5 border-pumpkin">
+              <h5 className="text-muted mt-1 mb-2 fw-normal"><i className="pe-2 bi bi-trophy-fill"></i>Trophy</h5>
               <h2 className="mb-0 fw-bold">{millify(0)}</h2>
             </div>
           </div>

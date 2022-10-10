@@ -1,55 +1,44 @@
-import cookie from 'cookie';
-import { API_URL } from '../../../../components/config';
+import cookie from 'cookie'
+import { BACKEND_URL } from '../../../../components/config'
+import { FETCH_FAIL } from '../../../../components/redux/messages'
 
 const Main = async (req:any, res:any) => {
     const { member } = req.query
     
     if (req.method === 'GET') {
-        const cookies = cookie.parse(req.headers.cookie ?? '');
-        const access = cookies.access ?? null;
+        const cookies = cookie.parse(req.headers.cookie ?? '')
+        const access = cookies.access ?? null
 
-        let apiRes;
+        let apiRes
+        let headers
 
         try {
-            if (access) {
-                apiRes = await fetch(`${API_URL()}/member/${member}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${access}`
-                    }
-                });
-            } else {
-                apiRes = await fetch(`${API_URL()}/member/${member}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                    }
-                });
-            }
+            headers = access ? ({
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${access}`,
+            }) : ({
+                'Accept': 'application/json',
+            })
 
-            const data = await apiRes.json();
+            apiRes = await fetch(`${BACKEND_URL}/member/${member}`, {
+                method: 'GET',
+                headers: headers
+            })
+
+            const data = await apiRes.json()
 
             if (apiRes.status === 200) {
-                return res.status(200).json({
-                    data
-                });
+                return res.status(200).json(data)
             } else {
-                return res.status(apiRes.status).json({
-                    detail: data.detail
-                });
+                return res.status(apiRes.status).json({detail: data.detail})
             }
-        } catch(err) {
-            return res.status(500).json({
-                detail: 'Something went wrong with Api'
-            });
+        } catch {
+            return res.status(500).json({detail: FETCH_FAIL})
         }
     } else {
-        res.setHeader('Allow', ['GET']);
-        return res.status(405).json({
-            detail: `Method ${req.method} not allowed`
-        });
+        res.setHeader('Allow', ['GET'])
+        return res.status(405).json({detail: `Method ${req.method} not allowed`})
     }
-};
+}
 
 export default Main

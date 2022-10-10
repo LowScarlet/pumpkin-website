@@ -1,0 +1,18 @@
+.auth-title {
+    letter-spacing: 2px;
+    font-family: minecrafter;
+    color: #2e293a;
+}
+.welcome-header {
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #222;
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 1.0),
+            rgba(0, 0, 0, 0.2),
+            rgba(0, 0, 0, 1.0)
+        ),
+        url('/static/images/apps/auth/bg.jpg');
+}

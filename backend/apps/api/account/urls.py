@@ -21,4 +21,8 @@ urlpatterns = [
          name='api_jwt_token_refresh'),
     path('user/token/verify', TokenVerifyView.as_view(),
          name='api_jwt_token_verify'),
+
+    # User Third Party
+    path('third_party/discord',
+         views.Third_Party_DiscordViewSet.as_view(), name='api_third_party_discord'),
 ]

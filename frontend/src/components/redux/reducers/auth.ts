@@ -1,7 +1,7 @@
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 import {
     AUTHENTICATED_FAIL, AUTHENTICATED_SUCCESS, LOAD_USER_FAIL, LOAD_USER_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_FAIL, LOGOUT_SUCCESS, REFRESH_FAIL, REFRESH_SUCCESS, REGISTER_FAIL, REGISTER_SUCCESS, REMOVE_AUTH_LOADING, RESET_REGISTER_SUCCESS, SET_AUTH_LOADING
-} from '../authentication/actions/types';
+} from '../authentication/types'
 
 // Initial State (...state)
 const initialState = {
@@ -9,22 +9,20 @@ const initialState = {
     isAuthenticated: null,
     loading: false,
     register_success: false,
-};
+}
 
-const authReducer = (state = initialState, action:any) => {
+const Main = (state = initialState, action:any) => {
     // Init
-    const { type, message, payload } = action;
+    const { type, message, payload } = action
 
     switch(type) {
         // Register
         case REGISTER_SUCCESS:
-            toast.success(message);
             return {
                 ...state,
                 register_success: true
             }
         case REGISTER_FAIL:
-            toast.error(message);
             return {
                 ...state,
                 register_success: false
@@ -37,13 +35,11 @@ const authReducer = (state = initialState, action:any) => {
 
         // Login
         case LOGIN_SUCCESS:
-            toast.success(message);
             return {
                 ...state,
                 isAuthenticated: true
             }
         case LOGIN_FAIL:
-            toast.error(message);
             return {
                 ...state,
                 isAuthenticated: false
@@ -51,14 +47,12 @@ const authReducer = (state = initialState, action:any) => {
             
         // Logout
         case LOGOUT_SUCCESS:
-            toast.success(message);
             return {
                 ...state,
                 isAuthenticated: false,
                 user: null
             }
         case LOGOUT_FAIL:
-            toast.error(message);
             return {
                 ...state,
                 message: message
@@ -71,7 +65,6 @@ const authReducer = (state = initialState, action:any) => {
                 user: payload
             }
         case LOAD_USER_FAIL:
-            toast.error(message);
             return {
                 ...state,
                 user: null
@@ -116,8 +109,8 @@ const authReducer = (state = initialState, action:any) => {
 
         // Default
         default:
-            return state;
-    };
-};
+            return state
+    }
+}
 
-export default authReducer;
+export default Main
