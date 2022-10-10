@@ -34,6 +34,7 @@ function Main({ Component, pageProps }: AppProps) {
   return (<>
     <Provider store={store}>
       <Head>
+        <meta name="theme-color" content="#FF7518" />
         <link rel="icon" href="/static/logo/brand-logo.ico" />
       </Head>
       <Init>
