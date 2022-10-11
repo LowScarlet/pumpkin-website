@@ -205,9 +205,6 @@ class Third_Party_DiscordViewSet(APIView):
 
         user = request.user
 
-        
-
-
     # Register/Update a third party account
     def post(self, request, format=None):
         serializer_context = {
@@ -282,6 +279,3 @@ class Third_Party_DiscordViewSet(APIView):
             {'detail': 'Successfully linked discord account {1}'},
             status=200
         )
-
-        
-            
