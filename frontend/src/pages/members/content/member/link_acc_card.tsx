@@ -130,6 +130,7 @@ export default function Main(props: any) {
       <ModalHeader toggle={toggle}>Select Third Party Account</ModalHeader>
       <ModalBody className='mb-3'>
         <button onClick={(e) => {
+            console.log('asdasd',process.env.PRODUCTION)
             const url = `https://discord.com/api/oauth2/authorize?client_id=1024709157393268868&redirect_uri=${FRONTEND_URL}%2Faccount%2Fthird_party%2Fdiscord&response_type=code&scope=identify%20guilds`
             theNewWindow(url, 'Discord Account')
           }} 
