@@ -163,7 +163,7 @@ class Third_Party_DiscordViewSet(APIView):
         self.api_end_point = 'https://discord.com/api/v10'
         self.client_id = '1024709157393268868'
         self.client_secret = 'h8cv8a9DJTnB5iDQesDaixEUlRVztHL6'
-        self.redirect_uri = f'{settings.BACKEND_URL}/account/third_party/discord'
+        self.redirect_uri = f'{settings.FRONTEND_URL}/api/account/third_party/discord'
 
     # Discord exchange code
     def exchange_code(self, code=None):
@@ -197,22 +197,15 @@ class Third_Party_DiscordViewSet(APIView):
             return r.json(), r.status_code
         return {'detail': r.json()['message']}, r.status_code
 
-    # Get data of third party account
-    def get(self, request, fortmat=None):
-        serializer_context = {
-            'request': request,
-        }
-
-        user = request.user
-
     # Register/Update a third party account
     def post(self, request, format=None):
-        serializer_context = {
-            'request': request,
-        }
+        # serializer_context = {
+        #     'request': request,
+        # }
 
         user = request.user
         code = request.GET.get('code')
+        print(request.POST)
 
         # Fetching
         exchange_code, exchange_code_status = self.exchange_code(code)
@@ -279,3 +272,16 @@ class Third_Party_DiscordViewSet(APIView):
             {'detail': 'Successfully linked discord account {1}'},
             status=200
         )
+
+class TestViewSet(APIView):
+    async def get(self, request, format=None):
+        serializer_context = {
+            'request': request,
+        }
+
+        return Response(
+            {},
+            status=status.HTTP_200_OK
+        )
+        
+            

@@ -56,7 +56,19 @@ export default function Main(props: any) {
   const [discord_account, setDiscord_Account] = useState({})
   const [modal, setModal] = useState(false)
 
-  const toggle = () => setModal(!modal)
+  const toggle = () => {
+    setModal(!modal)
+  }
+
+  const theNewWindow = (href: any, title: any) => {
+    if (typeof window !== "undefined") {
+      const width = screen.width/1.2
+      const height = screen.width/1.2
+      const left = (screen.width/2)-(width/2)
+      const top = (screen.height/2)-(height/2)
+      window.open(href, title, `width=${width}, height=${height}, top=${top}, left=${left}`)
+    }
+  }
 
   useEffect(() => {
     if (!props.fetchingLoading && props.memberData) {
@@ -105,7 +117,7 @@ export default function Main(props: any) {
                     <button className="btn btn-pumpkin text-light w-100" onClick={toggle}>Link third party accounts!</button>
                   </>) : (<>
                     <p className='mb-0'>This member has not associated any third party accounts!</p>
-                  </>) 
+                  </>)
                 }
               </div>
             )
@@ -116,9 +128,11 @@ export default function Main(props: any) {
     <Modal className='text-dark' isOpen={modal} toggle={toggle} centered>
       <ModalHeader toggle={toggle}>Select Third Party Account</ModalHeader>
       <ModalBody className='mb-3'>
-        <Link href='/'>
-          <a target='_blank' className='btn btn-primary w-100 disabled'><i className="pe-2 bi bi-discord"/>Discord Account</a>
-        </Link>
+        <button onClick={(e) => {
+            const url = 'https://discord.com/api/oauth2/authorize?client_id=1024709157393268868&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fapi%2Faccount%2Fthird_party%2Fdiscord&response_type=code&scope=identify%20guilds'
+            theNewWindow(url, 'Discord Account')
+          }} 
+          className='btn btn-primary w-100'><i className="pe-2 bi bi-discord" />Discord Account</button>
       </ModalBody>
     </Modal>
   </>)

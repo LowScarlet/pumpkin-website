@@ -29,7 +29,6 @@ const Main = async (req:any, res:any) => {
                             httpOnly: true,
                             secure: process.env.NODE_ENV !== 'development',
                             maxAge: 60 * 30,
-                            sameSite: 'strict',
                             path: '/'
                         }
                     ),
@@ -38,7 +37,6 @@ const Main = async (req:any, res:any) => {
                             httpOnly: true,
                             secure: process.env.NODE_ENV !== 'development',
                             maxAge: 60 * 60 * 24,
-                            sameSite: 'strict',
                             path: '/'
                         }
                     )
