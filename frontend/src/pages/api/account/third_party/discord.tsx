@@ -2,7 +2,7 @@ import cookie from 'cookie'
 import { BACKEND_URL } from '../../../../components/config'
 
 const Main = async (req:any, res:any) => {
-    if (req.method === 'GET') {
+    if (req.method === 'POST') {
         const cookies = cookie.parse(req.headers.cookie ?? '')
         const access = cookies.access ?? null
 
@@ -38,7 +38,7 @@ const Main = async (req:any, res:any) => {
             })
         }
     } else {
-        res.setHeader('Allow', ['GET'])
+        res.setHeader('Allow', ['POST'])
         return res.status(405).json({
             detail: `Method ${req.method} not allowed`
         })

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
+import { FRONTEND_URL } from '../../../../components/config'
 import styles from '../../Style.module.css'
 
 function Discord_Account(props: any) {
@@ -129,7 +130,7 @@ export default function Main(props: any) {
       <ModalHeader toggle={toggle}>Select Third Party Account</ModalHeader>
       <ModalBody className='mb-3'>
         <button onClick={(e) => {
-            const url = 'https://discord.com/api/oauth2/authorize?client_id=1024709157393268868&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000%2Fapi%2Faccount%2Fthird_party%2Fdiscord&response_type=code&scope=identify%20guilds'
+            const url = `https://discord.com/api/oauth2/authorize?client_id=1024709157393268868&redirect_uri=${FRONTEND_URL}%2Faccount%2Fthird_party%2Fdiscord&response_type=code&scope=identify%20guilds`
             theNewWindow(url, 'Discord Account')
           }} 
           className='btn btn-primary w-100'><i className="pe-2 bi bi-discord" />Discord Account</button>

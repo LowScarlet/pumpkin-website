@@ -163,7 +163,7 @@ class Third_Party_DiscordViewSet(APIView):
         self.api_end_point = 'https://discord.com/api/v10'
         self.client_id = '1024709157393268868'
         self.client_secret = 'h8cv8a9DJTnB5iDQesDaixEUlRVztHL6'
-        self.redirect_uri = f'{settings.FRONTEND_URL}/api/account/third_party/discord'
+        self.redirect_uri = f'{settings.FRONTEND_URL}/account/third_party/discord'
 
     # Discord exchange code
     def exchange_code(self, code=None):
@@ -245,6 +245,7 @@ class Third_Party_DiscordViewSet(APIView):
         if member.exists():
             member = member.first()
             if not member.user:
+                member.user = user
                 member.active = True
                 member.uid = get_me.get('id')
                 member.nickname = get_me.get('username')
@@ -272,16 +273,4 @@ class Third_Party_DiscordViewSet(APIView):
             {'detail': 'Successfully linked discord account {1}'},
             status=200
         )
-
-class TestViewSet(APIView):
-    async def get(self, request, format=None):
-        serializer_context = {
-            'request': request,
-        }
-
-        return Response(
-            {},
-            status=status.HTTP_200_OK
-        )
-        
             
