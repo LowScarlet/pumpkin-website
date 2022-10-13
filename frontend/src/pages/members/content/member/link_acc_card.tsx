@@ -40,16 +40,20 @@ function Discord_Account(props: any) {
                   </tr>
                 </tbody>
               </table>
-              <div className='text-lg-right text-center mb-1'>
-                <button className='mx-1 col btn btn-sm btn-danger'>
-                  Unlink Account
-                </button>
-                <button onClick={(e) => {
-                  props.theNewWindow(DISCORD_OAUTH2, 'Discord Account')
-                }} className='mx-1 col btn btn-sm btn-primary'>
-                  Refresh/Update
-                </button>
-              </div>
+              {
+                props.isSelf ? (
+                  <div className='text-lg-right text-center mb-1'>
+                    <button className='mx-1 col btn btn-sm btn-danger'>
+                      Unlink Account
+                    </button>
+                    <button onClick={(e) => {
+                      props.theNewWindow(DISCORD_OAUTH2, 'Discord Account')
+                    }} className='mx-1 col btn btn-sm btn-primary'>
+                      Refresh/Update
+                    </button>
+                  </div>
+                ) : (null)
+              }
             </div>
             <div className="col text-center">
               <img className='rounded' src={`${props.memberData.discord_account.avatar}`} width="150" alt="" />
