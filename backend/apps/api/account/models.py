@@ -105,7 +105,7 @@ class Discord_Account(models.Model):
     uid = models.CharField(max_length=32, unique=True)
 
     # Media
-    avatar_img = models.ImageField(blank=True, null=True, upload_to="discord_member")
+    avatar_code = models.CharField(max_length=64, null=True, blank=True)
 
     # Leveling System
     raw_level= models.IntegerField(default=0)
@@ -126,10 +126,11 @@ class Discord_Account(models.Model):
 
     # Custom Method *Get Avatar URL
     def avatar(self):
-        if self.avatar_img:
-            r = requests.get(f'{settings.STATIC_URL}/{self.avatar_img}')
+        if self.avatar_code:
+            r = requests.get(f'https://cdn.discordapp.com/avatars/{self.uid}/{self.avatar_code}')
+            # print(f'https://cdn.discordapp.com/avatars/{self.uid}/{self.avatar_code}')
             if r.status_code == 200:
-                return f"{settings.STATIC_URL}/{self.avatar_img}"
+                return f"https://cdn.discordapp.com/avatars/{self.uid}/{self.avatar_code}"
             self.avatar_img = None
             self.save()
         return f"{settings.FRONTEND_URL}/static/images/user/default_avatar_discord.png"

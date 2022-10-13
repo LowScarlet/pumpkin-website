@@ -52,7 +52,7 @@ function Discord_Account(props: any) {
               </div>
             </div>
             <div className="col text-center">
-              <img src={`${props.memberData.discord_account.avatar}`} width="150" alt="" />
+              <img className='rounded' src={`${props.memberData.discord_account.avatar}`} width="150" alt="" />
             </div>
           </div>
         </div>

@@ -123,7 +123,7 @@ class Full_Discord_AccountSerializer(serializers.HyperlinkedModelSerializer):
             'whitelist_datetime',
             'nickname',
             'uid',
-            'avatar_img',
+            'avatar_code',
             'raw_level',
             'exp',
             'daily',

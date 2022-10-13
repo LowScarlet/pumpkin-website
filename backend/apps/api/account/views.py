@@ -205,7 +205,6 @@ class Third_Party_DiscordViewSet(APIView):
 
         user = request.user
         code = request.GET.get('code')
-        print(request.POST)
 
         # Fetching
         exchange_code, exchange_code_status = self.exchange_code(code)
@@ -230,6 +229,7 @@ class Third_Party_DiscordViewSet(APIView):
                 member1.nickname = get_me.get('username')
                 member1.access = exchange_code.get('access_token')
                 member1.refresh = exchange_code.get('refresh_token')
+                member1.avatar_code = get_me.get('avatar')
 
                 member1.save()
                 return Response(
@@ -251,6 +251,7 @@ class Third_Party_DiscordViewSet(APIView):
                 member.nickname = get_me.get('username')
                 member.access = exchange_code.get('access_token')
                 member.refresh = exchange_code.get('refresh_token')
+                member.avatar_code = get_me.get('avatar')
 
                 member.save()
                 return Response(
@@ -267,7 +268,8 @@ class Third_Party_DiscordViewSet(APIView):
             uid=get_me.get('id'),
             nickname=get_me.get('username'),
             access=exchange_code.get('access_token'),
-            refresh=exchange_code.get('refresh_token')
+            refresh=exchange_code.get('refresh_token'),
+            avatar=get_me.get('avatar')
         )
         return Response(
             {'detail': 'Successfully linked discord account {1}'},
