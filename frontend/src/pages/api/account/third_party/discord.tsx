@@ -2,7 +2,7 @@ import cookie from 'cookie'
 import { BACKEND_URL } from '../../../../components/config'
 
 const Main = async (req:any, res:any) => {
-    if (req.method === 'POST') {
+    if (req.method === 'POST' || req.method === 'DELETE') {
         const cookies = cookie.parse(req.headers.cookie ?? '')
         const access = cookies.access ?? null
 
@@ -16,7 +16,7 @@ const Main = async (req:any, res:any) => {
 
         try {
             const apiRes = await fetch(`${BACKEND_URL}/account/third_party/discord?code=${code}`, {
-                method: 'POST',
+                method: req.method,
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',

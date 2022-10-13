@@ -1,9 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
-import { FRONTEND_URL } from '../../../../components/config'
+import { Modal, ModalBody, ModalHeader } from 'reactstrap'
+import { DISCORD_OAUTH2, FRONTEND_URL } from '../../../../components/config'
 import styles from '../../Style.module.css'
 
 function Discord_Account(props: any) {
@@ -17,7 +16,7 @@ function Discord_Account(props: any) {
       <div id="linked-account-accordion-flush-collapse-1" className="accordion-collapse collapse" aria-labelledby="linked-account-accordion-flush-heading-1" data-bs-parent="#linked-account-accordion-flush">
         <div className="accordion-body">
           <div className="row">
-            <div className="col-sm-8 px-0">
+            <div className="col col-sm-0 px-0">
               <table className="table table-sm table-borderless table-responsive">
                 <tbody>
                   <tr>
@@ -41,6 +40,16 @@ function Discord_Account(props: any) {
                   </tr>
                 </tbody>
               </table>
+              <div className='text-lg-right text-center mb-1'>
+                <button className='mx-1 col btn btn-sm btn-danger'>
+                  Unlink Account
+                </button>
+                <button onClick={(e) => {
+                  props.theNewWindow(DISCORD_OAUTH2, 'Discord Account')
+                }} className='mx-1 col btn btn-sm btn-primary'>
+                  Refresh/Update
+                </button>
+              </div>
             </div>
             <div className="col text-center">
               <img src={`${props.memberData.discord_account.avatar}`} width="150" alt="" />
@@ -109,7 +118,7 @@ export default function Main(props: any) {
         <div className="accordion accordion-flush" id="linked-account-accordion-flush">
           {
             Object.keys(discord_account).length !== 0 ? (
-              <Discord_Account {...props} />
+              <Discord_Account {...props} theNewWindow={theNewWindow}/>
             ) : (
               <div className='px-3 text-center text-muted'>
                 {
@@ -130,10 +139,9 @@ export default function Main(props: any) {
       <ModalHeader toggle={toggle}>Select Third Party Account</ModalHeader>
       <ModalBody className='mb-3'>
         <button onClick={(e) => {
-            const url = `https://discord.com/api/oauth2/authorize?client_id=1024709157393268868&redirect_uri=${FRONTEND_URL}%2Faccount%2Fthird_party%2Fdiscord&response_type=code&scope=identify%20guilds`
-            theNewWindow(url, 'Discord Account')
+            theNewWindow(DISCORD_OAUTH2, 'Discord Account')
           }} 
-          className='btn btn-primary w-100'><i className="pe-2 bi bi-discord" />Discord Account</button>
+          className={`btn btn-primary w-100 ${Object.keys(discord_account).length !== 0 ? 'disabled' : '' }`}><i className="pe-2 bi bi-discord" />Discord Account</button>
       </ModalBody>
     </Modal>
   </>)

@@ -14,7 +14,7 @@ export default function Main(props: any) {
                 <title>Third Party Account - Discord</title>
             </Head>
             <Layout>
-                <section className={`p-4 p-md-5`} style={{backgroundColor: '#201b3a'}}>
+                <section className={`p-4 p-md-5`} style={{backgroundColor: 'black'}}>
                     <div className="container py-4 text-center">
                         <div className='px-sm-5 placeholder-glow'>
                             <h1 className="display-4">
