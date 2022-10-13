@@ -8,6 +8,7 @@ import useSWR from 'swr'
 import { send_toast } from '../../../components/customToast'
 import Layout from '../../../components/layout'
 import { FETCH_FAIL } from '../../../components/redux/messages'
+import Content from './content/main'
 
 const Main = (props: any) => {
   // Initial setup
@@ -39,37 +40,9 @@ const Main = (props: any) => {
 
   useSWR(`/api/account/third_party/discord?code=${code ? code : ''}`, fetcher)
 
-  if (!isAuthenticated) {
-    return (<>
-      <Head>
-        <title>Third Party Account - Discord</title>
-      </Head>
-      <Layout>
-        Is not Authenticated!
-      </Layout>
-    </>)
-  }
-
-  if (!code || fetchingLoading || !payload) {
-    send_toast('error', 'LOADING')
-    return (<>
-      <Head>
-        <title>Third Party Account - Discord</title>
-      </Head>
-      <Layout>
-        Loading..
-      </Layout>
-    </>)
-  }
-  
   // Here we go
   return (<>
-    <Head>
-      <title>Third Party Account - Discord</title>
-    </Head>
-    <Layout>
-        {payload.detail}
-    </Layout>
+    <Content code={code} fetchingLoading={fetchingLoading} payload={payload} isAuthenticated={isAuthenticated} />
   </>)
 }
 

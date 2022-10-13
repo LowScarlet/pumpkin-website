@@ -20,8 +20,6 @@ export default function Main(props: any) {
 
   const [bio, setBio] = useState("I have no data to show off!")
 
-  console.log(props.isSelf)
-
   useEffect(() => {
     if (!props.fetchingLoading && props.memberData) {
       setLikes(props.memberData.profile.likes.length)
