@@ -32,6 +32,10 @@ PROJECT = {
 }
 MAIN_DOMAIN = 'pumpkinproject.my.id'
 
+# Discord
+DISCORD_BOT_TOKEN = 'MTAyNDcwOTE1NzM5MzI2ODg2OA.GHqOSs.fahAUIhKMH9deYo8o20ozjpCexoPRU8lOlLwYU'
+DISCORD_MAIN_GUILD = '637896558435893248'
+
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.zoho.com'

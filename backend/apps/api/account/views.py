@@ -227,9 +227,10 @@ class Third_Party_DiscordViewSet(APIView):
                 member1.active = True
                 member1.uid = get_me.get('id')
                 member1.nickname = get_me.get('username')
+                member1.avatar_code = get_me.get('avatar')
+
                 member1.access = exchange_code.get('access_token')
                 member1.refresh = exchange_code.get('refresh_token')
-                member1.avatar_code = get_me.get('avatar')
 
                 member1.save()
                 return Response(
@@ -249,9 +250,10 @@ class Third_Party_DiscordViewSet(APIView):
                 member.active = True
                 member.uid = get_me.get('id')
                 member.nickname = get_me.get('username')
+                member.avatar_code = get_me.get('avatar')
+
                 member.access = exchange_code.get('access_token')
                 member.refresh = exchange_code.get('refresh_token')
-                member.avatar_code = get_me.get('avatar')
 
                 member.save()
                 return Response(
@@ -267,12 +269,34 @@ class Third_Party_DiscordViewSet(APIView):
             active=True,
             uid=get_me.get('id'),
             nickname=get_me.get('username'),
+            avatar_code=get_me.get('avatar'),
             access=exchange_code.get('access_token'),
             refresh=exchange_code.get('refresh_token'),
-            avatar=get_me.get('avatar')
         )
         return Response(
             {'detail': 'Successfully linked discord account {1}'},
             status=200
         )
+
+    # Delete a third party account
+    def delete(self, request, format=None):
+
+        user = request.user
+
+        member = Discord_Account.objects.filter(user=user)
+        if member.exists():
+            member = member.first()
+            member.user = None
+            member.save()
+            return Response(
+                {'detail': 'Successfully unlinked discord account {0}'},
+                status=200
+            )
+        return Response(
+            {'detail': 'You haven''t linked a discord account before!'},
+            status=400
+        )
+        
+
+
             

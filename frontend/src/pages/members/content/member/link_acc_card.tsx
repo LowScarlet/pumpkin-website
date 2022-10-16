@@ -1,11 +1,44 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
+import Router from 'next/router'
 import { useEffect, useState } from 'react'
-import { Modal, ModalBody, ModalHeader } from 'reactstrap'
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
+import useSWR from 'swr'
 import { DISCORD_OAUTH2, FRONTEND_URL } from '../../../../components/config'
+import { send_toast } from '../../../../components/customToast'
+import { FETCH_FAIL } from '../../../../components/redux/messages'
 import styles from '../../Style.module.css'
 
 function Discord_Account(props: any) {
+  const [discordModal, setDiscordModal] = useState(false)
+
+  const discordUnlinkHandler = async (e: any) => {
+    e.preventDefault()
+    try {
+      const res = await fetch('/api/account/third_party/discord', {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+
+      // Get response as Json
+      const data = await res.json()
+
+      // Validation
+      if (res.status === 200) {
+        props.setDiscord_Account({})
+        send_toast('success', data.detail)
+        setDiscordModal(false)
+      } else {
+        send_toast('error', data.detail)
+      }
+    } catch {
+      send_toast('error', FETCH_FAIL)
+    }
+  }
+
   return (<>
     <div className="accordion-item">
       <h2 className="accordion-header" id="linked-account-accordion-flush-heading-1">
@@ -42,13 +75,13 @@ function Discord_Account(props: any) {
               </table>
               {
                 props.isSelf ? (
-                  <div className='text-lg-right text-center mb-1'>
-                    <button className='mx-1 col btn btn-sm btn-danger'>
+                  <div className='text-center mb-1'>
+                    <button onClick={() => setDiscordModal(!discordModal)} className='me-1 col btn btn-sm btn-danger'>
                       Unlink Account
                     </button>
                     <button onClick={(e) => {
                       props.theNewWindow(DISCORD_OAUTH2, 'Discord Account')
-                    }} className='mx-1 col btn btn-sm btn-primary'>
+                    }} className='col btn btn-sm btn-primary'>
                       Refresh/Update
                     </button>
                   </div>
@@ -62,6 +95,41 @@ function Discord_Account(props: any) {
         </div>
       </div>
     </div>
+    <Modal className='modal-dialog-centered' toggle={() => setDiscordModal(!discordModal)} isOpen={discordModal}>
+      <div className="modal-header text-dark ">
+        <h5 className="modal-title" id="exampleModalLabel">
+          Confirm your action
+        </h5>
+        <button
+          aria-label="Close"
+          className="btn-close"
+          type="button"
+          onClick={() => setDiscordModal(!discordModal)}
+        >
+          <span aria-hidden={true}></span>
+        </button>
+      </div>
+      <ModalBody className='text-dark'>
+        Are you sure about this action?
+      </ModalBody>
+      <ModalFooter>
+        <Button
+          color='secondary'
+          type="button"
+          onClick={() => setDiscordModal(!discordModal)}
+        >
+          Cancel
+        </Button>
+        <Button
+          color='pumpkin'
+          className='text-light'
+          type="button"
+          onClick={discordUnlinkHandler}
+        >
+          Unlink Discord Account
+        </Button>
+      </ModalFooter>
+    </Modal>
   </>)
 }
 
@@ -76,10 +144,10 @@ export default function Main(props: any) {
 
   const theNewWindow = (href: any, title: any) => {
     if (typeof window !== "undefined") {
-      const width = screen.width/1.2
-      const height = screen.width/1.2
-      const left = (screen.width/2)-(width/2)
-      const top = (screen.height/2)-(height/2)
+      const width = screen.width / 1.2
+      const height = screen.width / 1.2
+      const left = (screen.width / 2) - (width / 2)
+      const top = (screen.height / 2) - (height / 2)
       window.open(href, title, `width=${width}, height=${height}, top=${top}, left=${left}`)
     }
   }
@@ -122,7 +190,7 @@ export default function Main(props: any) {
         <div className="accordion accordion-flush" id="linked-account-accordion-flush">
           {
             Object.keys(discord_account).length !== 0 ? (
-              <Discord_Account {...props} theNewWindow={theNewWindow}/>
+              <Discord_Account {...props} theNewWindow={theNewWindow} discord_account={discord_account} setDiscord_Account={setDiscord_Account}/>
             ) : (
               <div className='px-3 text-center text-muted'>
                 {
@@ -143,9 +211,9 @@ export default function Main(props: any) {
       <ModalHeader toggle={toggle}>Select Third Party Account</ModalHeader>
       <ModalBody className='mb-3'>
         <button onClick={(e) => {
-            theNewWindow(DISCORD_OAUTH2, 'Discord Account')
-          }} 
-          className={`btn btn-primary w-100 ${Object.keys(discord_account).length !== 0 ? 'disabled' : '' }`}><i className="pe-2 bi bi-discord" />Discord Account</button>
+          theNewWindow(DISCORD_OAUTH2, 'Discord Account')
+        }}
+          className={`btn btn-primary w-100 ${Object.keys(discord_account).length !== 0 ? 'disabled' : ''}`}><i className="pe-2 bi bi-discord" />Discord Account</button>
       </ModalBody>
     </Modal>
   </>)
