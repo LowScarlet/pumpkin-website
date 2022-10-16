@@ -11,6 +11,8 @@ import styles from '../../Style.module.css'
 
 function Discord_Account(props: any) {
   const [discordModal, setDiscordModal] = useState(false)
+  const {theNewWindow} = props
+  const {fetchingLoading, isSelf, memberData, member_DiscordData, setMember_DiscordData} = props.props
 
   const discordUnlinkHandler = async (e: any) => {
     e.preventDefault()
@@ -28,7 +30,7 @@ function Discord_Account(props: any) {
 
       // Validation
       if (res.status === 200) {
-        props.setDiscord_Account({})
+        setMember_DiscordData({})
         send_toast('success', data.detail)
         setDiscordModal(false)
       } else {
@@ -43,7 +45,7 @@ function Discord_Account(props: any) {
     <div className="accordion-item">
       <h2 className="accordion-header" id="linked-account-accordion-flush-heading-1">
         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#linked-account-accordion-flush-collapse-1" aria-expanded="false" aria-controls="linked-account-accordion-flush-collapse-1">
-          <i className="px-2 bi bi-discord"></i>{props.memberData.discord_account.nickname}
+          <i className="px-2 bi bi-discord"></i>{member_DiscordData.nickname}
         </button>
       </h2>
       <div id="linked-account-accordion-flush-collapse-1" className="accordion-collapse collapse" aria-labelledby="linked-account-accordion-flush-heading-1" data-bs-parent="#linked-account-accordion-flush">
@@ -54,33 +56,33 @@ function Discord_Account(props: any) {
                 <tbody>
                   <tr>
                     <td><i className="pe-2 bi bi-hash" />Nickname</td>
-                    <td>{props.memberData.discord_account.nickname}</td>
+                    <td>{member_DiscordData.nickname}</td>
                   </tr>
                   <tr>
                     <td><i className="pe-2 bi bi-hash" />Level</td>
                     <td>
-                      {props.memberData.discord_account.level} {props.memberData.discord_account.is_level_max ? ('(Max)') : ('')}
+                      {member_DiscordData.level} {member_DiscordData.is_level_max ? ('(Max)') : ('')}
                     </td>
                   </tr>
                   <tr>
                     <td><i className="pe-2 bi bi-hash" />Exp</td>
                     <td>
-                      {props.memberData.discord_account.exp} / {props.memberData.discord_account.levelup_exp_needed} ({props.memberData.discord_account.exp / props.memberData.discord_account.levelup_exp_needed * 100}%)
+                      {member_DiscordData.exp} / {member_DiscordData.levelup_exp_needed} ({member_DiscordData.exp / member_DiscordData.levelup_exp_needed * 100}%)
                       <div className="progress">
-                        <div className="progress-bar" role="progressbar" style={{ width: `${props.memberData.discord_account.exp / props.memberData.discord_account.levelup_exp_needed * 100}%` }} />
+                        <div className="progress-bar" role="progressbar" style={{ width: `${member_DiscordData.exp / member_DiscordData.levelup_exp_needed * 100}%` }} />
                       </div>
                     </td>
                   </tr>
                 </tbody>
               </table>
               {
-                props.isSelf ? (
+                isSelf ? (
                   <div className='text-center mb-1'>
                     <button onClick={() => setDiscordModal(!discordModal)} className='me-1 col btn btn-sm btn-danger'>
                       Unlink Account
                     </button>
                     <button onClick={(e) => {
-                      props.theNewWindow(DISCORD_OAUTH2, 'Discord Account')
+                      theNewWindow(DISCORD_OAUTH2, 'Discord Account')
                     }} className='col btn btn-sm btn-primary'>
                       Refresh/Update
                     </button>
@@ -89,7 +91,7 @@ function Discord_Account(props: any) {
               }
             </div>
             <div className="col text-center">
-              <img className='rounded' src={`${props.memberData.discord_account.avatar}`} width="150" alt="" />
+              <img className='rounded' src={`${member_DiscordData.avatar}`} width="150" alt="" />
             </div>
           </div>
         </div>
@@ -135,8 +137,8 @@ function Discord_Account(props: any) {
 
 export default function Main(props: any) {
   // Inital useState
-  const [discord_account, setDiscord_Account] = useState({})
   const [modal, setModal] = useState(false)
+  const {fetchingLoading, memberData, member_DiscordData, isSelf} = props
 
   const toggle = () => {
     setModal(!modal)
@@ -152,13 +154,7 @@ export default function Main(props: any) {
     }
   }
 
-  useEffect(() => {
-    if (!props.fetchingLoading && props.memberData) {
-      setDiscord_Account(props.memberData.discord_account)
-    }
-  }, [props.memberData, props.fetchingLoading])
-
-  if (props.fetchingLoading || !props.memberData) {
+  if (fetchingLoading || !memberData) {
     return (
       <div className="shadow card placeholder-glow">
         <div className="card-body text-dark">
@@ -183,18 +179,19 @@ export default function Main(props: any) {
       </div>
     )
   }
+
   return (<>
     <div className="shadow card">
       <div className="card-body text-dark">
         <h5 className="card-title"><i className="px-2 bi bi-link-45deg"></i>Linked Account</h5>
         <div className="accordion accordion-flush" id="linked-account-accordion-flush">
           {
-            Object.keys(discord_account).length !== 0 ? (
-              <Discord_Account {...props} theNewWindow={theNewWindow} discord_account={discord_account} setDiscord_Account={setDiscord_Account}/>
+            Object.keys(member_DiscordData).length !== 0 ? (
+              <Discord_Account {...{props,theNewWindow}}/>
             ) : (
               <div className='px-3 text-center text-muted'>
                 {
-                  props.isSelf ? (<>
+                  isSelf ? (<>
                     <p>You haven't linked any third party account here!</p>
                     <button className="btn btn-pumpkin text-light w-100" onClick={toggle}>Link third party accounts!</button>
                   </>) : (<>
@@ -213,7 +210,7 @@ export default function Main(props: any) {
         <button onClick={(e) => {
           theNewWindow(DISCORD_OAUTH2, 'Discord Account')
         }}
-          className={`btn btn-primary w-100 ${Object.keys(discord_account).length !== 0 ? 'disabled' : ''}`}><i className="pe-2 bi bi-discord" />Discord Account</button>
+          className={`btn btn-primary w-100 ${Object.keys(member_DiscordData).length !== 0 ? 'disabled' : ''}`}><i className="pe-2 bi bi-discord" />Discord Account</button>
       </ModalBody>
     </Modal>
   </>)

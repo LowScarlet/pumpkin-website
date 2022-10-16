@@ -20,58 +20,27 @@ export default function Main(props: any) {
 
   const [bio, setBio] = useState("I have no data to show off!")
 
-  useEffect(() => {
-    if (!props.fetchingLoading && props.memberData) {
-      setLikes(props.memberData.profile.likes.length)
-      setDislikes(props.memberData.profile.dislikes.length)
+  const {fetchingLoading, memberData, isSelf} = props
 
-      if (isAuthenticated && !props.isSelf && props.memberData.other) {
-        setIsLike(props.memberData.other.liked)
-        setIsDislike(props.memberData.other.disliked)
+  useEffect(() => {
+    if (!fetchingLoading && memberData) {
+      setLikes(memberData.profile.likes.length)
+      setDislikes(memberData.profile.dislikes.length)
+
+      if (isAuthenticated && !isSelf && memberData.other) {
+        setIsLike(memberData.other.liked)
+        setIsDislike(memberData.other.disliked)
       }
 
-      if (props.memberData.profile.bio !== null) {
-        if (props.memberData.profile.bio.length > 0) {
-          setBio(props.memberData.profile.bio)
+      if (memberData.profile.bio !== null) {
+        if (memberData.profile.bio.length > 0) {
+          setBio(memberData.profile.bio)
         }
       }
     }
-  }, [props.fetchingLoading, isAuthenticated, props.isSelf, props.memberData])
+  }, [fetchingLoading, isAuthenticated, isSelf, memberData])
 
-  // function Toggle_Likes() {
-  //   if (isAuthenticated && !props.isSelf) {
-  //     setlikedislikeLoading(true)
-  //     fetch(`/api/members/${props.memberData.user.username}/toggle_like`)
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setLikes(data.data.profile.likes.length)
-  //         setDislikes(data.data.profile.dislikes.length)
-
-  //         setIsLike(data.data.other.liked)
-  //         setIsDislike(data.data.other.disliked)
-  //       })
-
-  //     setlikedislikeLoading(false)
-  //   }
-  // }
-
-  // function Toggle_Dislikes() {
-  //   if (isAuthenticated && !props.isSelf) {
-  //     setlikedislikeLoading(true)
-  //     fetch(`/api/members/${props.memberData.user.username}/toggle_dislike`)
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setLikes(data.data.profile.likes.length)
-  //         setDislikes(data.data.profile.dislikes.length)
-
-  //         setIsLike(data.data.other.liked)
-  //         setIsDislike(data.data.other.disliked)
-  //       })
-  //     setlikedislikeLoading(false)
-  //   }
-  // }
-
-  if (props.fetchingLoading || !props.memberData) {
+  if (fetchingLoading || !memberData) {
     return (
       <div className="shadow card placeholder-glow">
         <div className="card-body text-dark">
@@ -108,7 +77,7 @@ export default function Main(props: any) {
   return (
     <div className="shadow card">
       <div className="card-body text-dark">
-        <div className={`${styles['member-banner']} py-5 bg-dark`} style={{ backgroundImage: `url('${props.memberData.profile.banner}')` }} />
+        <div className={`${styles['member-banner']} py-5 bg-dark`} style={{ backgroundImage: `url('${memberData.profile.banner}')` }} />
 
         <div className="mt-3 mb-1">
           <div className="dropdown float-end">
@@ -117,7 +86,7 @@ export default function Main(props: any) {
             </a>
             <div className="dropdown-menu dropdown-menu-end">
               {
-                props.isSelf ? (
+                isSelf ? (
                   <button type="button" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#basic_settings_modal_">
                     <i className="pe-2 bi bi-gear-fill"></i>
                     Settings
@@ -125,7 +94,7 @@ export default function Main(props: any) {
                 ) : null
               }
               {
-                !props.isSelf ? (
+                !isSelf ? (
                   <button type="button" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#basic_settings_modal_">
                     <i className="pe-2 bi bi-flag-fill"></i>
                     Report
@@ -136,16 +105,16 @@ export default function Main(props: any) {
           </div>
 
           <div className="d-flex align-items-start">
-            <div className={`${styles['member-avatar']} w-100 rounded border border-5`} style={{ backgroundImage: `url('${props.memberData.profile.avatar}')` }} />
+            <div className={`${styles['member-avatar']} w-100 rounded border border-5`} style={{ backgroundImage: `url('${memberData.profile.avatar}')` }} />
             <div className="w-100 ms-3">
               <h4 className="my-0 text-uppercase">
-                {props.memberData.user.get_full_name.length === 0 ? (
+                {memberData.user.get_full_name.length === 0 ? (
                   "Unknown Member"
                 ) : (
-                  props.memberData.user.get_full_name
+                  memberData.user.get_full_name
                 )}
               </h4>
-              <p className="text-muted">@{props.memberData.user.username} - {props.memberData.profile.country}</p>
+              <p className="text-muted">@{memberData.user.username} - {memberData.profile.country}</p>
             </div>
           </div>
         </div>
@@ -153,7 +122,7 @@ export default function Main(props: any) {
         <div className="row">
           <div className="col">
             <motion.button
-              className={`text-light btn ${isLike ? ('btn-outline-secondary') : ('btn-pumpkin')} w-100 ${likedislikeLoading || props.isSelf || !isAuthenticated ? ('disabled') : null}`}
+              className={`text-light btn ${isLike ? ('btn-outline-secondary') : ('btn-pumpkin')} w-100 ${likedislikeLoading || isSelf || !isAuthenticated ? ('disabled') : null}`}
               whileTap={{ scale: 0.9 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
               type="button"
@@ -164,7 +133,7 @@ export default function Main(props: any) {
           </div>
           <div className="col">
             <motion.button
-              className={`btn ${isDislike ? ('btn-outline-secondary') : ('btn-danger')} w-100 ${likedislikeLoading || props.isSelf || !isAuthenticated ? ('disabled') : null}`}
+              className={`btn ${isDislike ? ('btn-outline-secondary') : ('btn-danger')} w-100 ${likedislikeLoading || isSelf || !isAuthenticated ? ('disabled') : null}`}
               whileTap={{ scale: 0.9 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
               type="button"
@@ -180,7 +149,7 @@ export default function Main(props: any) {
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
               type="button"
             >
-              <i className="px-2 bi bi-gift-fill"></i>{props.isSelf ? 'Inventory' : 'Send Gifts'}
+              <i className="px-2 bi bi-gift-fill"></i>{isSelf ? 'Inventory' : 'Send Gifts'}
             </motion.button>
           </div>
         </div>

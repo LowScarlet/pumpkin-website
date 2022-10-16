@@ -19,10 +19,14 @@ import styles from './Style.module.css'
 const Main = (props: any) => {
   // Initial setup
   const router = useRouter()
+
   const { member } = router.query
+
   const [fetchingLoading, setFetchingLoading] = useState(true)
-  const [memberData, setMemberData] = useState<any>(null)
   const [isSelf, setIsSelf] = useState(false)
+  const [memberData, setMemberData] = useState<any>(null)
+  const [member_DiscordData, setMember_DiscordData] = useState<any>(null)
+
   const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
   const user_data = useSelector((state: any) => state.auth.user)
 
@@ -38,7 +42,8 @@ const Main = (props: any) => {
       const data = await res.json()
 
       if (res.status === 200) {
-        setMemberData(data)
+        setMemberData({user: data.user, profile:data.profile})
+        setMember_DiscordData(data.discord_account)
       }
     } catch {
       send_toast('error', FETCH_FAIL)
@@ -62,24 +67,24 @@ const Main = (props: any) => {
         <title>{member ? `Member - ${member}` : 'Member'}</title>
       </Head>
       <Layout>
-        <section style={{backgroundColor: '#bfccd4'}}>
+        <section style={{ backgroundColor: '#bfccd4' }}>
           <div className='container-sm py-4'>
             <div className="row">
               <div className="col-xl-5">
-                <Basic_Card/>
+                <Basic_Card />
                 <div className="col my-4">
                   {/* <Rank_Card/> */}
                 </div>
               </div>
               <div className="col">
                 <div className="col">
-                  <Stats_Card/>
+                  <Stats_Card />
                 </div>
                 <div className="col mt-4">
-                  <Link_Acc_Card/>
+                  <Link_Acc_Card />
                 </div>
                 <div className="col mt-4">
-                  <Money_Card/>
+                  <Money_Card />
                 </div>
               </div>
             </div>
@@ -96,7 +101,9 @@ const Main = (props: any) => {
       </Head>
     </>)
   }
-  
+
+  const sharing_props = { memberData, setMemberData, member_DiscordData, setMember_DiscordData, fetchingLoading, isSelf }
+
   // Here we go
   return (<>
     <Head>
@@ -107,20 +114,20 @@ const Main = (props: any) => {
         <div className='container-sm py-4'>
           <div className="row">
             <div className="col-xl-5">
-              <Basic_Card isSelf={isSelf} memberData={memberData} fetchingLoading={fetchingLoading}/>
+              <Basic_Card {...sharing_props} />
               {/* <div className="col my-4">
                 <Rank_Card memberData={memberData} fetchingLoading={fetchingLoading}/>
               </div> */}
             </div>
             <div className="col">
               <div className="col">
-                <Stats_Card isSelf={isSelf} memberData={memberData} fetchingLoading={fetchingLoading}/>
+                <Stats_Card {...sharing_props} />
               </div>
               <div className="col mt-4">
-                <Link_Acc_Card isSelf={isSelf} memberData={memberData} fetchingLoading={fetchingLoading}/>
+                <Link_Acc_Card {...sharing_props} />
               </div>
               <div className="col mt-4">
-                <Money_Card memberData={memberData} fetchingLoading={fetchingLoading}/>
+                <Money_Card {...sharing_props} />
               </div>
             </div>
           </div>

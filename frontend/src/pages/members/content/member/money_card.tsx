@@ -1,10 +1,14 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 import { motion } from 'framer-motion'
+import { useSelector } from 'react-redux'
 import styles from '../../Style.module.css'
 
 export default function Main(props: any) {
-  if (props.fetchingLoading || !props.memberData) {
+  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
+  const {fetchingLoading, memberData, member_DiscordData, isSelf} = props
+
+  if (fetchingLoading || !memberData) {
     return (
       <div className="shadow card placeholder-glow">
         <div className="card-body text-dark">
@@ -44,7 +48,7 @@ export default function Main(props: any) {
               <th scope="col">Gold Coin</th>
               <th scope="col">Silver Coin</th>
               {
-                Object.keys(props.memberData.discord_account).length !== 0 ? (
+                Object.keys(member_DiscordData).length !== 0 ? (
                   <th scope="col">Discord Coin</th>
                 ) : null
               }
@@ -52,25 +56,25 @@ export default function Main(props: any) {
           </thead>
           <tbody>
             <tr>
-              <td>{props.memberData.profile.pumpkincoin} <img src="/static/images/currency/pumpkin_coin.png" width={32} alt="" /></td>
-              <td>{props.memberData.profile.goldcoin} <img src="/static/images/currency/gold_coin.png" width={32} alt="" /></td>
-              <td>{props.memberData.profile.silvercoin} <img src="/static/images/currency/silver_coin.png" width={32} alt="" /></td>
+              <td>{memberData.profile.pumpkincoin} <img src="/static/images/currency/pumpkin_coin.png" width={32} alt="" /></td>
+              <td>{memberData.profile.goldcoin} <img src="/static/images/currency/gold_coin.png" width={32} alt="" /></td>
+              <td>{memberData.profile.silvercoin} <img src="/static/images/currency/silver_coin.png" width={32} alt="" /></td>
               {
-                Object.keys(props.memberData.discord_account).length !== 0 ? (
-                  <td>{props.memberData.discord_account.discordcoin} <img src="/static/images/currency/discord_coin.png" width={32} alt="" /></td>
+                Object.keys(member_DiscordData).length !== 0 ? (
+                  <td>{member_DiscordData.discordcoin} <img src="/static/images/currency/discord_coin.png" width={32} alt="" /></td>
                 ) : null
               }
             </tr>
           </tbody>
         </table>
         <motion.button
-          className={`btn btn-outline-secondary w-100 ${!props.isAuthenticated ? ('disabled') : ('')}`}
+          className={`btn btn-outline-secondary w-100 ${!isAuthenticated ? ('disabled') : ('')}`}
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
           type="button"
         >
           {
-            props.isSelf ? (
+            isSelf ? (
               'Top Up'
             ) : (
               'Transfer coin to this member!'
