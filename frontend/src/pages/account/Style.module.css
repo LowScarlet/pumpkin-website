@@ -11,3 +11,10 @@
         ), 
         url('/static/images/other/bg-maintenance.gif');
 }
+.bg-settings {
+    background-color: #c4d1d9;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('/static/images/other/bg-blue-island.png');
+}

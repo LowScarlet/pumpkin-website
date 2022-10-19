@@ -7,7 +7,7 @@ export default function Main(props: any) {
 
   if (fetchingLoading || !memberData) {
     return (
-      <div className="shadow card">
+      <div className="shadow card placeholder-glow">
         <div className="card-body text-center text-dark">
           <div className="row">
             <div className="col-4">

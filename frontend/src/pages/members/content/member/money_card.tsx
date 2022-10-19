@@ -39,7 +39,7 @@ export default function Main(props: any) {
   return (
     <div className="shadow card">
       <div className="card-body text-dark">
-        <h5 className="card-title"><i className="px-2 bi bi-link-45deg"></i>Money</h5>
+        <h5 className="card-title"><i className="px-2 bi bi-cash-coin"></i>Money</h5>
         <div className={`${styles['money-banner']} my-2 py-5 bg-dark`}></div>
         <table className="table table-sm table-borderless table-responsive text-center">
           <thead>

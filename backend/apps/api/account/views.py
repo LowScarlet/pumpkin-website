@@ -48,6 +48,87 @@ class UserViewSet(APIView):
     # User View Set
     permission_classes = [permissions.IsAuthenticated]
 
+    def patch(self, request):
+        serializer_context = {
+            'request': request,
+        }
+
+        user = request.user
+        
+        if settings.PRODUCTION and request.META.get('HTTP_SECRET_CODE') != settings.SECRET_CODE:
+            return Response(
+                {'detail': 'Requires Secret-Code header'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        try:
+            data = request.data
+
+            username = data.get('username')
+            first_name = data.get('first_name')
+            last_name = data.get('last_name')
+            email = data.get('email')
+            password = data.get('password')
+            re_password = data.get('re_password')
+
+            if first_name:
+                user.first_name = first_name
+                if not user.first_name:
+                    user.first_name = ''
+            
+            if last_name:
+                user.last_name = last_name
+                if not user.last_name:
+                    user.last_name = ''
+
+            if email:
+                if email != user.email and User.objects.filter(email=email).exists():
+                    return Response(
+                        {'detail': 'Email already used!'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                user.email = email
+
+            if password:
+                if len(password) < 8:
+                    return Response(
+                        {'detail': 'Password must be at least 8 characters'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                if password != re_password:
+                    return Response(
+                        {'detail': 'password does not match'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                user.password = password
+
+            if username:
+                if username != user.username and User.objects.filter(username=username).exists():
+                    return Response(
+                        {'detail': 'Username already exists!'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+                user.username = username
+            
+            user.save()
+
+            user_data = Full_UserSerializer(user, context=serializer_context)
+            profile_data = Full_ProfileSerializer(
+                user.profile, context=serializer_context)
+            return Response(
+                {
+                    'detail': 'Successfully edited your account!',
+                    'user': user_data.data,
+                    'profile': profile_data.data
+                },
+                status=status.HTTP_200_OK
+            )
+        except:
+            return Response(
+                {'detail': 'Unknown error! Contact Staff for consultation on this matter'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
     def get(self, request, format=None):
         serializer_context = {
             'request': request,
@@ -80,7 +161,7 @@ class User_RegisterViewSet(APIView):
     def post(self, request):
         if settings.PRODUCTION and request.META.get('HTTP_SECRET_CODE') != settings.SECRET_CODE:
             return Response(
-                {'detail': 'Requires SECRET-CODE header'},
+                {'detail': 'Requires Secret-Code header'},
                 status=status.HTTP_403_FORBIDDEN
             )
         try:

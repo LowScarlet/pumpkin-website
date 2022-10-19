@@ -129,6 +129,7 @@ class Full_Discord_AccountSerializer(serializers.HyperlinkedModelSerializer):
             'daily',
             'daily_day',
             'discordcoin',
+            'active',
 
             'avatar',
             'level',

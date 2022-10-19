@@ -68,27 +68,26 @@ const Main = (props: any) => {
       </Head>
       <Layout>
         <section style={{ backgroundColor: '#bfccd4' }}>
-          <div className='container-sm py-4'>
-            <div className="row">
-              <div className="col-xl-5">
-                <Basic_Card />
-                <div className="col my-4">
-                  {/* <Rank_Card/> */}
-                </div>
+        <div className='container-sm py-4'>
+          <div className="row">
+            <div className="col-xl-5">
+              <div className='col mb-3'>
+                <Basic_Card/>
+              </div>
+              <div className='col'>
+                <Stats_Card/>
+              </div>
+            </div>
+            <div className="col">
+              <div className="col mb-3">
+                <Link_Acc_Card/>
               </div>
               <div className="col">
-                <div className="col">
-                  <Stats_Card />
-                </div>
-                <div className="col mt-4">
-                  <Link_Acc_Card />
-                </div>
-                <div className="col mt-4">
-                  <Money_Card />
-                </div>
+                <Money_Card/>
               </div>
             </div>
           </div>
+        </div>
         </section>
       </Layout>
     </>)
@@ -114,19 +113,18 @@ const Main = (props: any) => {
         <div className='container-sm py-4'>
           <div className="row">
             <div className="col-xl-5">
-              <Basic_Card {...sharing_props} />
-              {/* <div className="col my-4">
-                <Rank_Card memberData={memberData} fetchingLoading={fetchingLoading}/>
-              </div> */}
-            </div>
-            <div className="col">
-              <div className="col">
+              <div className='col mb-3'>
+                <Basic_Card {...sharing_props} />
+              </div>
+              <div className='col'>
                 <Stats_Card {...sharing_props} />
               </div>
-              <div className="col mt-4">
+            </div>
+            <div className="col">
+              <div className="col mb-3">
                 <Link_Acc_Card {...sharing_props} />
               </div>
-              <div className="col mt-4">
+              <div className="col">
                 <Money_Card {...sharing_props} />
               </div>
             </div>

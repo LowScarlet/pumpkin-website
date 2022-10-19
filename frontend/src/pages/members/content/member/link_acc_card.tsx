@@ -11,8 +11,8 @@ import styles from '../../Style.module.css'
 
 function Discord_Account(props: any) {
   const [discordModal, setDiscordModal] = useState(false)
-  const {theNewWindow} = props
-  const {fetchingLoading, isSelf, memberData, member_DiscordData, setMember_DiscordData} = props.props
+  const { theNewWindow } = props
+  const { fetchingLoading, isSelf, memberData, member_DiscordData, setMember_DiscordData } = props.props
 
   const discordUnlinkHandler = async (e: any) => {
     e.preventDefault()
@@ -49,50 +49,64 @@ function Discord_Account(props: any) {
         </button>
       </h2>
       <div id="linked-account-accordion-flush-collapse-1" className="accordion-collapse collapse" aria-labelledby="linked-account-accordion-flush-heading-1" data-bs-parent="#linked-account-accordion-flush">
-        <div className="accordion-body">
-          <div className="row">
-            <div className="col col-sm-0 px-0">
-              <table className="table table-sm table-borderless table-responsive">
-                <tbody>
-                  <tr>
-                    <td><i className="pe-2 bi bi-hash" />Nickname</td>
-                    <td>{member_DiscordData.nickname}</td>
-                  </tr>
-                  <tr>
-                    <td><i className="pe-2 bi bi-hash" />Level</td>
-                    <td>
-                      {member_DiscordData.level} {member_DiscordData.is_level_max ? ('(Max)') : ('')}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><i className="pe-2 bi bi-hash" />Exp</td>
-                    <td>
-                      {member_DiscordData.exp} / {member_DiscordData.levelup_exp_needed} ({member_DiscordData.exp / member_DiscordData.levelup_exp_needed * 100}%)
-                      <div className="progress">
-                        <div className="progress-bar" role="progressbar" style={{ width: `${member_DiscordData.exp / member_DiscordData.levelup_exp_needed * 100}%` }} />
+        <div className="accordion-body p-0 pt-3">
+          <div className="card mb-3 border-0">
+            <div className="row g-0">
+              <div className="col-md-4">
+                <img src={`${member_DiscordData.avatar}`} width={"100%"} className="img-fluid rounded-start" alt={member_DiscordData.nickname} />
+              </div>
+              <div className="col-md-8">
+                <div className="card-body">
+                  <h5 className="card-title"><i className="bi bi-discord"></i> {member_DiscordData.nickname}</h5>
+                  <table className="table table-sm table-borderless table-responsive">
+                    <tbody>
+                      <tr>
+                        <td><i className="pe-2 bi bi-hash" />Level</td>
+                        <td>
+                          {member_DiscordData.level} {member_DiscordData.is_level_max ? ('(Max)') : ('')}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><i className="pe-2 bi bi-hash" />Exp</td>
+                        <td>
+                          {member_DiscordData.exp} / {member_DiscordData.levelup_exp_needed} ({member_DiscordData.exp / member_DiscordData.levelup_exp_needed * 100}%)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colSpan={2}>
+                          <div className="progress">
+                            <div className="progress-bar" role="progressbar" style={{ width: `${member_DiscordData.exp / member_DiscordData.levelup_exp_needed * 100}%` }} />
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  {
+                    isSelf ? (
+                      <div className='d-grid gap-1 d-sm-flex justify-content-sm-center justify-content-xl-start'>
+                        <button onClick={() => setDiscordModal(!discordModal)} className='col btn btn-sm btn-danger'>
+                          Unlink Account
+                        </button>
+                        <button onClick={(e) => {
+                          theNewWindow(DISCORD_OAUTH2, 'Discord Account')
+                        }} className='col btn btn-sm btn-primary'>
+                          Refresh/Update
+                        </button>
                       </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              {
-                isSelf ? (
-                  <div className='text-center mb-1'>
-                    <button onClick={() => setDiscordModal(!discordModal)} className='me-1 col btn btn-sm btn-danger'>
-                      Unlink Account
-                    </button>
-                    <button onClick={(e) => {
-                      theNewWindow(DISCORD_OAUTH2, 'Discord Account')
-                    }} className='col btn btn-sm btn-primary'>
-                      Refresh/Update
-                    </button>
-                  </div>
-                ) : (null)
-              }
+                    ) : (null)
+                  }
+                </div>
+              </div>
             </div>
-            <div className="col text-center">
-              <img className='rounded' src={`${member_DiscordData.avatar}`} width="150" alt="" />
-            </div>
+            {
+              !member_DiscordData.active ? (
+                <div className="mt-3 alert alert-danger" role="alert">
+                  Discord account is disabled because we don't have access back to your account, please refresh or update to update. <br /><br /> Do unlink the account if you want to change the discord account!
+                </div>
+              ) : (
+                null
+              )
+            }
           </div>
         </div>
       </div>
@@ -138,7 +152,7 @@ function Discord_Account(props: any) {
 export default function Main(props: any) {
   // Inital useState
   const [modal, setModal] = useState(false)
-  const {fetchingLoading, memberData, member_DiscordData, isSelf} = props
+  const { fetchingLoading, memberData, member_DiscordData, isSelf } = props
 
   const toggle = () => {
     setModal(!modal)
@@ -187,7 +201,7 @@ export default function Main(props: any) {
         <div className="accordion accordion-flush" id="linked-account-accordion-flush">
           {
             Object.keys(member_DiscordData).length !== 0 ? (
-              <Discord_Account {...{props,theNewWindow}}/>
+              <Discord_Account {...{ props, theNewWindow }} />
             ) : (
               <div className='px-3 text-center text-muted'>
                 {

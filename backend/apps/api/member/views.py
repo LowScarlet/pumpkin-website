@@ -81,7 +81,7 @@ class MemberViewSet(APIView):
     def post(self, request, member, cmd=None, format=None):
         if settings.PRODUCTION and request.META.get('HTTP_SECRET_CODE') != settings.SECRET_CODE:
             return Response(
-                {'detail': 'Requires SECRET-CODE header'},
+                {'detail': 'Requires Secret-Code header'},
                 status=status.HTTP_403_FORBIDDEN
             )
         user = request.user
