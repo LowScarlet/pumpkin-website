@@ -79,7 +79,7 @@ const Main = (props: any) => {
               </div>
             </div>
             <div className="col">
-              <div className="col mb-3">
+              <div className="col mt-3 mt-lg-0 mb-3">
                 <Link_Acc_Card/>
               </div>
               <div className="col">
