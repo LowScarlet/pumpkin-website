@@ -278,16 +278,16 @@ export default function Main(props:any) {
                                 </ul>
                             </li>
                             {
-                                isAuthenticated ? (
+                                isAuthenticated && user_data ? (
                                     <li className="nav-item dropdown">
                                         <a className="nav-link dropdown-toggle" id="navbarDropdownProfile" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img className='me-2' src={user_data?.profile.avatar} width="40" height="40" alt="" />
+                                            <img className='me-2' src={user_data.profile.avatar} width="40" height="40" alt="" />
                                             Account
                                         </a>
                                         <ul className="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdownBlog">
                                             <li><h6 className="dropdown-header">Member Account</h6></li>
                                             <li>
-                                                <Link href={`/members/${user_data?.user.username}`}>
+                                                <Link href={`/members/${user_data.user.username}`}>
                                                     <a className="dropdown-item">
                                                         <div className="px-3">
                                                             <img src="/static/images/navbar/detail_logo.png" width="55" height="55" alt="" />

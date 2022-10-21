@@ -54,7 +54,8 @@ const Main = async (req:any, res:any) => {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${access}`
+                    'Authorization': `Bearer ${access}`,
+                    'Secret-Code': `${process.env.SECRET_CODE}`
                 },
                 body: body
             })
