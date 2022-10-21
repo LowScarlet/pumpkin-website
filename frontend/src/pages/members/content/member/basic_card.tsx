@@ -6,11 +6,21 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
+import { send_toast } from '../../../../components/customToast'
+import { FETCH_FAIL } from '../../../../components/redux/messages'
 import styles from '../../Style.module.css'
 
 export default function Main(props: any) {
   // Initial useState
   const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
+
+  const [formEdit_Profile, setFormEdit_Profile] = useState({ username: '', first_name: '', last_name: '', email: '', bio: '' })
+  const { username, first_name, last_name, email, bio } = formEdit_Profile
+
+  const [formEdit_Password, setFormEdit_Password] = useState({ current_password: '', new_password: '', confirm_password: '' })
+  const { current_password, new_password, confirm_password } = formEdit_Password
+
+  const [editLoading, setEditLoading] = useState(false)
 
   const [likes, setLikes] = useState(0)
   const [dislikes, setDislikes] = useState(0)
@@ -20,11 +30,107 @@ export default function Main(props: any) {
 
   const [likedislikeLoading, setlikedislikeLoading] = useState(false)
 
-  const [bio, setBio] = useState("I have no data to show off!")
+  const [memberBio, setMemberBio] = useState("I have no data to show off!")
 
   const [editModal, setEditModal] = useState(false)
 
-  const { fetchingLoading, memberData, isSelf } = props
+  const { fetchingLoading, memberData, isSelf, setMemberData } = props
+
+  // Event
+  const onChange_edit_profile = (e: any) => {
+    setFormEdit_Profile({ ...formEdit_Profile, [e.target.name]: e.target.value })
+  }
+  const onChange_edit_password = (e: any) => {
+    setFormEdit_Password({ ...formEdit_Password, [e.target.name]: e.target.value })
+  }
+
+  // Some button
+  const onSubmit_edit_profile = async (e: any) => {
+    e.preventDefault()
+    setEditLoading(true)
+
+    const serializer = {
+      username, first_name, last_name, email, bio
+    }
+
+    Object.keys(serializer).forEach(function(key:any) {
+      const value = serializer[key as keyof typeof serializer]
+      if (value === '') delete serializer[key as keyof typeof serializer]
+    })
+    
+    const body = JSON.stringify(serializer)
+
+    try {
+      const res = await fetch('/api/account', {
+        method: 'PATCH',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: body
+      })
+
+      // Get response as Json
+      const data = await res.json()
+
+      // Validation
+      if (res.status === 200) {
+        send_toast('success', data.detail)
+        setMemberData({
+          user: data.user,
+          profile: data.profile,
+        })
+      } else {
+        send_toast('error', data.detail)
+      }
+    } catch {
+      send_toast('error', FETCH_FAIL)
+    }
+    setEditLoading(false)
+  }
+  const onSubmit_edit_password = async (e: any) => {
+    e.preventDefault()
+    setEditLoading(true)
+
+    const serializer = {
+      current_password, new_password, confirm_password
+    }
+
+    Object.keys(serializer).forEach(function(key:any) {
+      const value = serializer[key as keyof typeof serializer]
+      if (value === '') delete serializer[key as keyof typeof serializer]
+    })
+    
+    const body = JSON.stringify(serializer)
+
+    try {
+      const res = await fetch('/api/account', {
+        method: 'PATCH',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: body
+      })
+
+      // Get response as Json
+      const data = await res.json()
+
+      // Validation
+      if (res.status === 200) {
+        send_toast('success', data.detail)
+        setMemberData({
+          user: data.user,
+          profile: data.profile,
+        })
+      } else {
+        send_toast('error', data.detail)
+      }
+    } catch {
+      send_toast('error', FETCH_FAIL)
+    }
+    setEditLoading(false)
+  }
 
   useEffect(() => {
     if (!fetchingLoading && memberData) {
@@ -38,11 +144,11 @@ export default function Main(props: any) {
 
       if (memberData.profile.bio !== null) {
         if (memberData.profile.bio.length > 0) {
-          setBio(memberData.profile.bio)
+          setMemberBio(memberData.profile.bio)
         }
       }
     }
-  }, [fetchingLoading, isAuthenticated, isSelf, memberData])
+  }, [fetchingLoading, formEdit_Profile, isAuthenticated, isSelf, memberData])
 
   if (fetchingLoading || !memberData) {
     return (
@@ -162,7 +268,7 @@ export default function Main(props: any) {
           </h6>
           <p className='text-muted'>
             <small>
-              {bio}
+              {memberBio}
             </small>
           </p>
         </div>
@@ -171,14 +277,14 @@ export default function Main(props: any) {
     </div>
     {
       isSelf ? (
-        <Modal className='modal-dialog-centered modal-lg' toggle={() => setEditModal(!editModal)} isOpen={editModal}>
+        <Modal className='modal-dialog-centered modal-lg modal-fullscreen-sm-down' toggle={() => setEditModal(!editModal)} isOpen={editModal}>
           <ModalHeader toggle={() => setEditModal(!editModal)}>
             <h5 className="modal-title" id="exampleModalLabel">
               <i className="bi bi-gear-fill"></i> Edit your account!
             </h5>
           </ModalHeader>
           <ModalBody className='text-dark'>
-            <div className="row g-0">
+            <div className="row g-0 pb-4">
               <div className="col-12 col-md-4 pe-lg-5 text-center text-lg-start">
                 <span>Profile</span>
                 <p>
@@ -188,32 +294,41 @@ export default function Main(props: any) {
                 </p>
               </div>
               <div className="col-sm-6 col-md-8">
-                <form className="row g-3">
+                <form className="row g-3" onSubmit={onSubmit_edit_profile}>
                   <div className="col-md-12">
                     <label htmlFor="Username" className="form-label">Username</label>
-                    <input type="text" className="form-control" name="username" id="Username" placeholder={memberData.user.username} />
+                    <input type="text" className="form-control" name="username" id="Username" placeholder={memberData.user.username} pattern="[a-zA-Z0-9_]+"
+                      disabled={editLoading} onChange={onChange_edit_profile} value={username} />
                   </div>
                   <div className="col-6">
                     <label htmlFor="First_Name" className="form-label">First Name</label>
-                    <input type="text" className="form-control" name="first_name" id="First_Name" placeholder={memberData.user.first_name} />
+                    <input type="text" className="form-control" name="first_name" id="First_Name" placeholder={memberData.user.first_name}
+                      disabled={editLoading} onChange={onChange_edit_profile} value={first_name} />
                   </div>
                   <div className="col-6">
                     <label htmlFor="Last_Name" className="form-label">Last Name</label>
-                    <input type="text" className="form-control" name="last_name" id="Last_Name" placeholder={memberData.user.last_name} />
+                    <input type="text" className="form-control" name="last_name" id="Last_Name" placeholder={memberData.user.last_name}
+                      disabled={editLoading} onChange={onChange_edit_profile} value={last_name} />
                   </div>
                   <div className="col-md-12">
                     <label htmlFor="Email" className="form-label">Email</label>
-                    <input type="email" className="form-control" name="email" id="Email" placeholder={memberData.user.email} />
+                    <input type="email" className="form-control" name="email" id="Email" placeholder={memberData.user.email}
+                      disabled={editLoading} onChange={onChange_edit_profile} value={email} />
+                    <div className="mt-2 alert alert-danger" role="alert">
+                      A simple danger alert—check it out!
+                    </div>
                   </div>
                   <div className="col-md-12">
                     <label htmlFor="Bio" className="form-label">Bio</label>
-                    <textarea className="form-control" name="bio" id="Bio" rows={4} placeholder={memberData.profile.bio}></textarea>
+                    <textarea className="form-control" name="bio" id="Bio" rows={4} placeholder={memberData.profile.bio}
+                     disabled={editLoading} onChange={onChange_edit_profile} value={bio} />
                   </div>
-                  <button type='submit' className="btn btn-sm btn-success w-50">Save</button>
+                  <button disabled={editLoading} type='submit' className="btn btn-sm btn-success">Save</button>
                 </form>
               </div>
             </div>
-            <div className="row g-0 mt-5">
+            <hr />
+            <div className="row g-0 pt-4">
               <div className="col-12 col-md-4 pe-lg-5 text-center text-lg-start">
                 <span>Password</span>
                 <p>
@@ -223,20 +338,23 @@ export default function Main(props: any) {
                 </p>
               </div>
               <div className="col-sm-6 col-md-8">
-                <form className="row g-3">
+                <form className="row g-3" onSubmit={onSubmit_edit_password}>
                   <div className="col-md-12">
                     <label htmlFor="CurrentPassword" className="form-label">Current Password</label>
-                    <input type="password" className="form-control" name="curret_password" id="CurrentPassword" placeholder='Your current password' />
+                    <input type="password" className="form-control" name="current_password" id="CurrentPassword" placeholder='Your current password'
+                      disabled={editLoading} onChange={onChange_edit_password} value={current_password} />
                   </div>
                   <div className="col-md-12">
                     <label htmlFor="NewPassword" className="form-label">Current Password</label>
-                    <input type="password" className="form-control" name="new_password" id="NewPassword" placeholder='Your new password' />
+                    <input type="password" className="form-control" name="new_password" id="NewPassword" placeholder='Your new password'
+                      disabled={editLoading} onChange={onChange_edit_password} value={new_password} />
                   </div>
                   <div className="col-md-12">
                     <label htmlFor="ConfirmPassword" className="form-label">Confirm Password</label>
-                    <input type="password" className="form-control" name="new_password" id="NewPassword" placeholder='Your new password (For Confirmation)' />
+                    <input type="password" className="form-control" name="confirm_password" id="ConfirmPassword" placeholder='Your new password (For Confirmation)'
+                      disabled={editLoading} onChange={onChange_edit_password} value={confirm_password} />
                   </div>
-                  <button type='submit' className="btn btn-sm btn-success w-50">Save</button>
+                  <button disabled={editLoading} type='submit' className="btn btn-sm btn-success">Save</button>
                 </form>
               </div>
             </div>

@@ -1,3 +1,4 @@
+import re
 from django.conf import settings
 from api.account.models import Discord_Account
 from api.account.rank import BENEFIT, RANK
@@ -9,6 +10,8 @@ from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import requests
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 # Rank & Benefits
 
@@ -54,54 +57,118 @@ class UserViewSet(APIView):
         }
 
         user = request.user
-        
+
         if settings.PRODUCTION and request.META.get('HTTP_SECRET_CODE') != settings.SECRET_CODE:
             return Response(
                 {'detail': 'Requires Secret-Code header'},
                 status=status.HTTP_403_FORBIDDEN
             )
-        try:
-            data = request.data
 
+        data = request.data
+        if not data:
+            return Response(
+                {'detail': 'None of the data you submitted was changed!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
             username = data.get('username')
             first_name = data.get('first_name')
             last_name = data.get('last_name')
             email = data.get('email')
-            password = data.get('password')
-            re_password = data.get('re_password')
+            bio = data.get('bio')
+            current_password = data.get('current_password')
+            password = data.get('new_password')
+            re_password = data.get('confirm_password')
+
+            if bio:
+                if len(bio) < 13:
+                    return Response(
+                        {'detail': 'The minimum length of the bio is more than 12 characters!'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                user.profile.bio = bio
 
             if first_name:
+                if len(first_name) < 5:
+                    return Response(
+                        {'detail': 'The minimum length of the first name is more than 4 characters!'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
                 user.first_name = first_name
                 if not user.first_name:
                     user.first_name = ''
-            
+
             if last_name:
+                if len(first_name) < 5:
+                    return Response(
+                        {'detail': 'The minimum length of the last name is more than 4 characters!'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
                 user.last_name = last_name
                 if not user.last_name:
                     user.last_name = ''
 
             if email:
+                if len(email) < 1:
+                    return Response(
+                        {'detail': 'Enter email value!'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                try:
+                    validate_email(email)
+                except ValidationError:
+                    return Response(
+                        {'detail': 'Invalid Email'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
                 if email != user.email and User.objects.filter(email=email).exists():
                     return Response(
                         {'detail': 'Email already used!'},
                         status=status.HTTP_400_BAD_REQUEST
                     )
+
+                user.email_confirmation = False
                 user.email = email
 
-            if password:
+            if current_password:
+                if not user.check_password(current_password):
+                    return Response(
+                        {'detail': 'The password you entered is invalid!'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                
+                if not password and not re_password:
+                    return Response(
+                        {'detail': 'You must enter your new password!'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
                 if len(password) < 8:
                     return Response(
                         {'detail': 'Password must be at least 8 characters'},
                         status=status.HTTP_400_BAD_REQUEST
                     )
+
                 if password != re_password:
                     return Response(
                         {'detail': 'password does not match'},
                         status=status.HTTP_400_BAD_REQUEST
                     )
-                user.password = password
-
+                
+                user.set_password(password)
+            
             if username:
+                if not re.match('^[a-zA-Z0-9_]+$', username): 
+                    return Response(
+                        {'detail': 'You can only create usernames with alphanumeric and underscore as spaces if needed!'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                if len(username) < 5:
+                    return Response(
+                        {'detail': 'The minimum length of the username is more than 4 characters!'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
                 if username != user.username and User.objects.filter(username=username).exists():
                     return Response(
                         {'detail': 'Username already exists!'},
@@ -173,6 +240,12 @@ class User_RegisterViewSet(APIView):
             email = data.get('email')
             password = data.get('password')
             re_password = data.get('re_password')
+            
+            if not re.match('^[a-zA-Z0-9_]+$', username): 
+                return Response(
+                    {'detail': 'You can only create usernames with alphanumeric and underscore as spaces if needed!'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
             if not password or not re_password:
                 return Response(
@@ -180,9 +253,9 @@ class User_RegisterViewSet(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            if not first_name or not last_name:
+            if not first_name:
                 return Response(
-                    {'detail': 'First and last name required!'},
+                    {'detail': 'First name required!'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 

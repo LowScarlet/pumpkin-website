@@ -27,7 +27,7 @@ class Profile(models.Model):
         User, null=True, blank=True, related_name="profile", on_delete=models.CASCADE)
 
     # Basic
-    email_confirmation = models.BooleanField(null=True, blank=True, default=False)
+    email_confirmation = models.BooleanField(blank=True, default=False)
     views = models.IntegerField(default=0)
     gender = models.CharField(
         max_length=12, choices=GENDER_CHOICES, blank=True, default="male")

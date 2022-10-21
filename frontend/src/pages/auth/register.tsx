@@ -151,7 +151,7 @@ const Main = () => {
                                     </div>
                                     <div className="col form-outline">
                                         <input name="last_name" type="text" className="form-control text-center" placeholder="Last Name"
-                                            onChange={onChange} value={last_name} required disabled={submitLoading}
+                                            onChange={onChange} value={last_name} disabled={submitLoading}
                                         />
                                     </div>
                                 </div>

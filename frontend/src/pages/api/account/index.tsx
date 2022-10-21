@@ -53,6 +53,7 @@ const Main = async (req:any, res:any) => {
                 method: 'PATCH',
                 headers: {
                     'Accept': 'application/json',
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${access}`
                 },
                 body: body
