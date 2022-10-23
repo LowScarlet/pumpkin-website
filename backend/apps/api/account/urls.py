@@ -14,13 +14,18 @@ urlpatterns = [
 
     # User
     path('user', views.UserViewSet.as_view(), name='api_user'),
+
     path('user/register', views.User_RegisterViewSet.as_view(),
          name='api_user_register'),
+
     path('user/token', TokenObtainPairView.as_view(), name='api_jwt_token'),
     path('user/token/refresh', TokenRefreshView.as_view(),
          name='api_jwt_token_refresh'),
     path('user/token/verify', TokenVerifyView.as_view(),
          name='api_jwt_token_verify'),
+
+    path('user/email_confirmation', views.User_Email_ConfirmationViewSet.as_view(),
+         name='api_email_confirmation'),
 
     # User Third Party
     path('third_party/discord',

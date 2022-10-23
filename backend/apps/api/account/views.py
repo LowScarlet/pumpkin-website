@@ -1,3 +1,6 @@
+import random
+import string
+from django.core.mail import EmailMessage
 import re
 from django.conf import settings
 from api.account.models import Discord_Account
@@ -137,7 +140,7 @@ class UserViewSet(APIView):
                         {'detail': 'The password you entered is invalid!'},
                         status=status.HTTP_400_BAD_REQUEST
                     )
-                
+
                 if not password and not re_password:
                     return Response(
                         {'detail': 'You must enter your new password!'},
@@ -155,11 +158,11 @@ class UserViewSet(APIView):
                         {'detail': 'password does not match'},
                         status=status.HTTP_400_BAD_REQUEST
                     )
-                
+
                 user.set_password(password)
-            
+
             if username:
-                if not re.match('^[a-zA-Z0-9_]+$', username): 
+                if not re.match('^[a-zA-Z0-9_]+$', username):
                     return Response(
                         {'detail': 'You can only create usernames with alphanumeric and underscore as spaces if needed!'},
                         status=status.HTTP_400_BAD_REQUEST
@@ -176,7 +179,7 @@ class UserViewSet(APIView):
                     )
 
                 user.username = username
-            
+
             user.save()
 
             user_data = Full_UserSerializer(user, context=serializer_context)
@@ -240,8 +243,8 @@ class User_RegisterViewSet(APIView):
             email = data.get('email')
             password = data.get('password')
             re_password = data.get('re_password')
-            
-            if not re.match('^[a-zA-Z0-9_]+$', username): 
+
+            if not re.match('^[a-zA-Z0-9_]+$', username):
                 return Response(
                     {'detail': 'You can only create usernames with alphanumeric and underscore as spaces if needed!'},
                     status=status.HTTP_400_BAD_REQUEST
@@ -333,7 +336,8 @@ class Third_Party_DiscordViewSet(APIView):
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
-        r = requests.post('%s/oauth2/token' % self.api_end_point, data=data, headers=headers)
+        r = requests.post('%s/oauth2/token' %
+                          self.api_end_point, data=data, headers=headers)
         if r.status_code == 200:
             return r.json(), r.status_code
         return {'detail': r.json()['error_description']}, r.status_code
@@ -395,7 +399,7 @@ class Third_Party_DiscordViewSet(APIView):
                 {'detail': 'User does not match'},
                 status=400
             )
-        
+
         member = Discord_Account.objects.filter(uid=get_me.get('id'))
         if member.exists():
             member = member.first()
@@ -450,7 +454,56 @@ class Third_Party_DiscordViewSet(APIView):
             {'detail': 'You haven''t linked a discord account before!'},
             status=400
         )
+
+
+class User_Email_ConfirmationViewSet(APIView):
+    # User View Set
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        code = request.GET.get('code')
         
+        if not user.profile.email_confirmation_code:
+            return Response(
+                {'detail': 'You have not generated an email confirmation code'},
+                status=400
+            )
 
+        if code != user.profile.email_confirmation_code:
+            return Response(
+                {'detail': 'Email Confirmation The code you received seems to have expired or is incorrect!'},
+                status=400
+            )
 
-            
+        user.profile.email_confirmation_code = None
+        user.profile.email_confirmation = True
+        user.save()
+
+        return Response(
+            {'detail': 'Email Confirmed Successfully!'},
+            status=200
+        )
+
+    def post(self, request):
+        user = request.user
+
+        if settings.PRODUCTION and request.META.get('HTTP_SECRET_CODE') != settings.SECRET_CODE:
+            return Response(
+                {'detail': 'Requires Secret-Code header'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        code = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+
+        msg = EmailMessage('Pumpkin Project - Email Confirmation',
+                           f'Here your code: {code}.', to=[f'{user.email}'])
+        user.profile.email_confirmation_code = code
+
+        msg.send()
+        user.save()
+
+        return Response(
+            {'detail': 'Successfully sent Confirmation Email message'},
+            status=200
+        )

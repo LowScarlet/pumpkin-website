@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import unique
 import requests
 from api.account.rank import RANK
 from api.guild.models import Guild
@@ -28,6 +29,7 @@ class Profile(models.Model):
 
     # Basic
     email_confirmation = models.BooleanField(blank=True, default=False)
+    email_confirmation_code = models.CharField(max_length=32, null=True, blank=True)
     views = models.IntegerField(default=0)
     gender = models.CharField(
         max_length=12, choices=GENDER_CHOICES, blank=True, default="male")

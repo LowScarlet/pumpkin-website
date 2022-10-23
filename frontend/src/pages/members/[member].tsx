@@ -5,14 +5,12 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import useSWR from 'swr'
-import { BACKEND_URL } from '../../components/config'
 import { send_toast } from '../../components/customToast'
 import Layout from '../../components/layout'
 import { FETCH_FAIL } from '../../components/redux/messages'
 import Basic_Card from './content/member/basic_card'
 import Link_Acc_Card from './content/member/link_acc_card'
 import Money_Card from './content/member/money_card'
-import Rank_Card from './content/member/rank_card'
 import Stats_Card from './content/member/stats_card'
 import styles from './Style.module.css'
 
@@ -42,7 +40,7 @@ const Main = (props: any) => {
       const data = await res.json()
 
       if (res.status === 200) {
-        setMemberData({user: data.user, profile:data.profile})
+        setMemberData({ user: data.user, profile: data.profile })
         setMember_DiscordData(data.discord_account)
       }
     } catch {
@@ -68,26 +66,26 @@ const Main = (props: any) => {
       </Head>
       <Layout>
         <section style={{ backgroundColor: '#bfccd4' }}>
-        <div className='container-sm py-4'>
-          <div className="row">
-            <div className="col-xl-5">
-              <div className='col mb-3'>
-                <Basic_Card/>
-              </div>
-              <div className='col'>
-                <Stats_Card/>
-              </div>
-            </div>
-            <div className="col">
-              <div className="col mt-3 mt-lg-0 mb-3">
-                <Link_Acc_Card/>
+          <div className='container-sm py-4'>
+            <div className="row">
+              <div className="col-xl-5">
+                <div className='col mb-3'>
+                  <Basic_Card />
+                </div>
+                <div className='col'>
+                  <Stats_Card />
+                </div>
               </div>
               <div className="col">
-                <Money_Card/>
+                <div className="col mt-3 mt-lg-0 mb-3">
+                  <Link_Acc_Card />
+                </div>
+                <div className="col">
+                  <Money_Card />
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </section>
       </Layout>
     </>)

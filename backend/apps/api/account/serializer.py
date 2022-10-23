@@ -78,6 +78,7 @@ class Full_ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'dislikes',
             'bio',
             'views',
+            'email_confirmation',
 
             'avatar',
             'banner',

@@ -174,8 +174,8 @@ const Main = () => {
                                 </div>
                                 
                                 <div className="form-check d-flex justify-content-end mb-3">
-                                    <Link href="/account/forgot-password">
-                                        <a className="text-pumpkin">I forgot my password</a>
+                                    <Link href="/auth/forgot-password">
+                                        <a className="text-pumpkin">I just forgot my password</a>
                                     </Link>
                                 </div>
 

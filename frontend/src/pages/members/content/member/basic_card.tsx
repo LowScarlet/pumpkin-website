@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import { send_toast } from '../../../../components/customToast'
+import VerifyingEmail from '../../../../components/embed/verifying-email'
 import { FETCH_FAIL } from '../../../../components/redux/messages'
 import styles from '../../Style.module.css'
 
@@ -53,11 +54,11 @@ export default function Main(props: any) {
       username, first_name, last_name, email, bio
     }
 
-    Object.keys(serializer).forEach(function(key:any) {
+    Object.keys(serializer).forEach(function (key: any) {
       const value = serializer[key as keyof typeof serializer]
       if (value === '') delete serializer[key as keyof typeof serializer]
     })
-    
+
     const body = JSON.stringify(serializer)
 
     try {
@@ -96,11 +97,11 @@ export default function Main(props: any) {
       current_password, new_password, confirm_password
     }
 
-    Object.keys(serializer).forEach(function(key:any) {
+    Object.keys(serializer).forEach(function (key: any) {
       const value = serializer[key as keyof typeof serializer]
       if (value === '') delete serializer[key as keyof typeof serializer]
     })
-    
+
     const body = JSON.stringify(serializer)
 
     try {
@@ -285,6 +286,7 @@ export default function Main(props: any) {
           </ModalHeader>
           <ModalBody className='text-dark'>
             <div className="row g-0 pb-4">
+              <VerifyingEmail {...{memberData, setMemberData}}/>
               <div className="col-12 col-md-4 pe-lg-5 text-center text-lg-start">
                 <span>Profile</span>
                 <p>
@@ -296,9 +298,9 @@ export default function Main(props: any) {
               <div className="col-sm-6 col-md-8">
                 <form className="row g-3" onSubmit={onSubmit_edit_profile}>
                   <div className="col-md-12">
-                    <label htmlFor="Username" className="form-label">Username</label>
+                    <label htmlFor="Username" className="form-label">Username <span className="badge bg-pumpkin">⚠️ Iron rank or above required!</span></label>
                     <input type="text" className="form-control" name="username" id="Username" placeholder={memberData.user.username} pattern="[a-zA-Z0-9_]+"
-                      disabled={editLoading} onChange={onChange_edit_profile} value={username} />
+                      disabled={true} onChange={onChange_edit_profile} value={username} />
                   </div>
                   <div className="col-6">
                     <label htmlFor="First_Name" className="form-label">First Name</label>
@@ -314,14 +316,11 @@ export default function Main(props: any) {
                     <label htmlFor="Email" className="form-label">Email</label>
                     <input type="email" className="form-control" name="email" id="Email" placeholder={memberData.user.email}
                       disabled={editLoading} onChange={onChange_edit_profile} value={email} />
-                    <div className="mt-2 alert alert-danger" role="alert">
-                      A simple danger alert—check it out!
-                    </div>
                   </div>
                   <div className="col-md-12">
                     <label htmlFor="Bio" className="form-label">Bio</label>
                     <textarea className="form-control" name="bio" id="Bio" rows={4} placeholder={memberData.profile.bio}
-                     disabled={editLoading} onChange={onChange_edit_profile} value={bio} />
+                      disabled={editLoading} onChange={onChange_edit_profile} value={bio} />
                   </div>
                   <button disabled={editLoading} type='submit' className="btn btn-sm btn-success">Save</button>
                 </form>
@@ -341,17 +340,17 @@ export default function Main(props: any) {
                 <form className="row g-3" onSubmit={onSubmit_edit_password}>
                   <div className="col-md-12">
                     <label htmlFor="CurrentPassword" className="form-label">Current Password</label>
-                    <input type="password" className="form-control" name="current_password" id="CurrentPassword" placeholder='Your current password'
+                    <input type="password" className="form-control" autoComplete="on" name="current_password" id="CurrentPassword" placeholder='Your current password'
                       disabled={editLoading} onChange={onChange_edit_password} value={current_password} />
                   </div>
                   <div className="col-md-12">
                     <label htmlFor="NewPassword" className="form-label">Current Password</label>
-                    <input type="password" className="form-control" name="new_password" id="NewPassword" placeholder='Your new password'
+                    <input type="password" className="form-control" autoComplete="on" name="new_password" id="NewPassword" placeholder='Your new password'
                       disabled={editLoading} onChange={onChange_edit_password} value={new_password} />
                   </div>
                   <div className="col-md-12">
                     <label htmlFor="ConfirmPassword" className="form-label">Confirm Password</label>
-                    <input type="password" className="form-control" name="confirm_password" id="ConfirmPassword" placeholder='Your new password (For Confirmation)'
+                    <input type="password" className="form-control" autoComplete="on" name="confirm_password" id="ConfirmPassword" placeholder='Your new password (For Confirmation)'
                       disabled={editLoading} onChange={onChange_edit_password} value={confirm_password} />
                   </div>
                   <button disabled={editLoading} type='submit' className="btn btn-sm btn-success">Save</button>
