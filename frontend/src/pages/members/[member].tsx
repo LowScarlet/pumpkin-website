@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -96,6 +97,24 @@ const Main = (props: any) => {
       <Head>
         <title>404 - Member Not Found</title>
       </Head>
+      <Layout>
+        <section className={`${styles['heroes']}`}>
+          <div className='container-sm p-5 text-center text-light' style={{ minHeight: '500px' }}>
+            <img src="/static/images/apps/members/member-not-found.png" alt="" width={180} />
+            <h4><strong>
+              The member you wanted to see was not found!
+            </strong></h4>
+            <p className='text-muted'>
+              You may have mistyped the username or maybe the member is no longer a member of the pumpkin project
+            </p>
+            <span className='px-2'>
+              <Link href="/members">
+                <a className='btn btn-outline-primary'>Find more members</a>
+              </Link>
+            </span>
+          </div>
+        </section>
+      </Layout>
     </>)
   }
 
