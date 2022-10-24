@@ -1,6 +1,7 @@
 import random
 import string
 from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 import re
 from django.conf import settings
 from api.account.models import Discord_Account
@@ -496,9 +497,16 @@ class User_Email_ConfirmationViewSet(APIView):
 
         code = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
 
+        msg_content = render_to_string('email/user-verification.html',{
+            'username': user.username,
+            'code': code
+        })
+
         msg = EmailMessage('Pumpkin Project - Email Confirmation',
-                           f'Here your code: {code}.', to=[f'{user.email}'])
+                           msg_content, to=[f'{user.email}'])
         user.profile.email_confirmation_code = code
+
+        msg.content_subtype = "html"
 
         msg.send()
         user.save()
