@@ -99,7 +99,7 @@ function Discord_Account(props: any) {
               </div>
             </div>
             {
-              !member_DiscordData.active ? (
+              member_DiscordData.active === false ? (
                 <div className="mt-3 alert alert-danger" role="alert">
                   Discord account is disabled because we don't have access back to your account, please refresh or update to update. <br /><br /> Do unlink the account if you want to change the discord account!
                 </div>
