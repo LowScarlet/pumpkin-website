@@ -10,6 +10,7 @@ const Main = () => {
     // Initial setup
     const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
     const data = useSelector((state:any) => state.global.data)
+    const user_data = useSelector((state: any) => state.auth.user)
     
     // Some button
     const exploreButton = () => {
@@ -79,37 +80,25 @@ const Main = () => {
                                     Be a part of the Pumpkin Project family by signing up to become our member!
                                 </p>
                                 <div className="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-                                    <motion.button
-                                        className='btn btn-pumpkin btn-lg px-4 me-sm-3'
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                                    >
-                                        {
-                                            isAuthenticated ? 
-                                                <Link href="/account">
-                                                    <a className="text-light text-decoration-none">
-                                                        My Profile
-                                                    </a>
-                                                </Link> : 
-                                                <Link href="/auth/login">
-                                                    <a className="text-light text-decoration-none">
-                                                        Join Now!
-                                                    </a>
-                                                </Link>
-                                        }
-                                    </motion.button>
-                                    <motion.button
-                                        className='btn btn-outline-secondary btn-lg px-4 me-sm-3'
+                                    <Link href={`${isAuthenticated && user_data ? `/members/${user_data.user.username}`:'/auth/login'}`}>
+                                        <motion.a
+                                            className='btn btn-pumpkin btn-lg px-4 me-sm-3 text-light'
+                                            whileHover={{ scale: 1.1 }}
+                                            whileTap={{ scale: 0.9 }}
+                                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                                        >
+                                            {`${isAuthenticated && user_data ? 'My Profile':'Join Now!'}`}
+                                        </motion.a>
+                                    </Link>
+                                    <motion.a
+                                        className='btn btn-outline-secondary btn-lg px-4 me-sm-3 text-decoration-none text-light'
                                         whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 0.9 }}
                                         transition={{ type: "spring", stiffness: 400, damping: 17 }}
                                         onClick={() => exploreButton()}
                                     >
-                                        <a className="text-light text-decoration-none">
-                                            Explore
-                                        </a>
-                                    </motion.button>
+                                        Explore
+                                    </motion.a>
                                 </div>
                             </div>
                         </div>
