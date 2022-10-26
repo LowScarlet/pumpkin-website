@@ -1,11 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
+import { post } from 'jquery'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import useSWR from 'swr'
+import { BACKEND_URL } from '../../components/config'
 import { send_toast } from '../../components/customToast'
 import Layout from '../../components/layout'
 import { FETCH_FAIL } from '../../components/redux/messages'
@@ -13,6 +15,7 @@ import Basic_Card from './content/member/basic_card'
 import Link_Acc_Card from './content/member/link_acc_card'
 import Money_Card from './content/member/money_card'
 import Stats_Card from './content/member/stats_card'
+import Rank_Card from './content/member/rank_card'
 import styles from './Style.module.css'
 
 const Main = (props: any) => {
@@ -28,6 +31,8 @@ const Main = (props: any) => {
 
   const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
   const user_data = useSelector((state: any) => state.auth.user)
+
+  const { rank_list, benefits_list } = props
 
   const fetcher = async (...args: any) => {
     try {
@@ -73,8 +78,11 @@ const Main = (props: any) => {
                 <div className='col mb-3'>
                   <Basic_Card />
                 </div>
-                <div className='col'>
+                <div className='col mb-3'>
                   <Stats_Card />
+                </div>
+                <div className='col'>
+                  <Rank_Card />
                 </div>
               </div>
               <div className="col">
@@ -118,7 +126,7 @@ const Main = (props: any) => {
     </>)
   }
 
-  const sharing_props = { memberData, setMemberData, member_DiscordData, setMember_DiscordData, fetchingLoading, isSelf }
+  const sharing_props = { memberData, setMemberData, member_DiscordData, setMember_DiscordData, fetchingLoading, isSelf, rank_list, benefits_list }
 
   // Here we go
   return (<>
@@ -133,8 +141,11 @@ const Main = (props: any) => {
               <div className='col mb-3'>
                 <Basic_Card {...sharing_props} />
               </div>
-              <div className='col'>
+              <div className='col mb-3'>
                 <Stats_Card {...sharing_props} />
+              </div>
+              <div className='col'>
+                <Rank_Card {...sharing_props} />
               </div>
             </div>
             <div className="col">
@@ -150,6 +161,28 @@ const Main = (props: any) => {
       </section>
     </Layout>
   </>)
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [], //indicates that no page needs be created at build time
+    fallback: 'blocking' //indicates the type of fallback
+  }
+}
+
+export async function getStaticProps() {
+  const res = await fetch(`${BACKEND_URL}/account/ranks`)
+  const rank_list = await res.json()
+
+  const res2 = await fetch(`${BACKEND_URL}/account/benefits`)
+  const benefits_list = await res2.json()
+
+  return {
+    props: {
+      rank_list,
+      benefits_list
+    },
+  }
 }
 
 export default Main

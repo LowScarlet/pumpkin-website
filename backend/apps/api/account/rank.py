@@ -4,12 +4,9 @@ rank_raw = {
         "id": "wooden",
         "value": 0,
         "cost": 0,
+        "displayname": "Wooden",
         
-        "attribute": {
-            "icon": "wooden.png",
-            "banner": "wooden_bg.png",
-            "displayname": "Wooden",
-        },
+        "media_type": ['png','png'],
         
         "benefits_feature": [],
 
@@ -19,12 +16,9 @@ rank_raw = {
         "id": "stone",
         "value": 1,
         "cost": 50,
-        
-        "attribute": {
-            "icon": "stone.png",
-            "banner": "stone_bg.png",
-            "displayname": "Stone",
-        },
+        "displayname": "Stone",
+
+        "media_type": ['png','png'],
         
         "benefits_feature": [
             "create_guild",
@@ -38,12 +32,9 @@ rank_raw = {
         "id": "iron",
         "value": 2,
         "cost": 75,
+        "displayname": "Iron",
 
-        "attribute": {
-            "icon": "iron.png",
-            "banner": "iron_bg.png",
-            "displayname": "Iron",
-        },
+        "media_type": ['png','png'],
         
         "benefits_feature": [
             "change_username",
@@ -58,12 +49,9 @@ rank_raw = {
         "id": "gold",
         "value": 3,
         "cost": 75,
+        "displayname": "Gold",
 
-        "attribute": {
-            "icon": "gold.png",
-            "banner": "gold_bg.png",
-            "displayname": "Gold",
-        },
+        "media_type": ['png','png'],
         
         "benefits_feature": [
             "custom_profile_banner",

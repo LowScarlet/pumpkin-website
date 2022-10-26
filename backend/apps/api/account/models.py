@@ -16,7 +16,7 @@ GENDER_CHOICES = (
 # CHOICES *Rank
 RANK_CHOICES = []
 for x in RANK:
-    RANK_CHOICES.append((x, RANK[x]["attribute"]["displayname"]))
+    RANK_CHOICES.append((x, RANK[x]["displayname"]))
 
 # Discord Leveling Map
 def levelmap():

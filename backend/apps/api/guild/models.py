@@ -13,6 +13,7 @@ class Guild(models.Model):
     # Basic
     guildname = models.CharField(max_length=12)
     guildname_short = models.CharField(max_length=4)
+    bio = models.TextField(max_length=500, blank=True, null=True)
 
     # Media
     banner_img = models.ImageField(

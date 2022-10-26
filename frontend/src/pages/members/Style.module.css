@@ -39,5 +39,10 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #222;
-    background-image: url('/static/images/apps/members/money-bg.png');
+    background-image: 
+        linear-gradient(
+            rgba(0, 0, 0, 0.9),
+            rgba(0, 0, 0, 0.2),
+            rgba(0, 0, 0, 0.9)
+        ), url('/static/images/apps/members/money-bg.png');
 }
