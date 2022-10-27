@@ -1,3 +1,4 @@
+![](https://github.com/LowScarlet/pumpkin-website/blob/main/frontend/public/static/images/meta/meta-og-2.png)
 <h1 align="center">Pumpkin Project Website</h1>
 
 ### 🎯 About Project
