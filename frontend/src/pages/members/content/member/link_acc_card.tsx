@@ -45,7 +45,9 @@ function Discord_Account(props: any) {
     <div className="accordion-item">
       <h2 className="accordion-header" id="linked-account-accordion-flush-heading-1">
         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#linked-account-accordion-flush-collapse-1" aria-expanded="false" aria-controls="linked-account-accordion-flush-collapse-1">
-          <i className="px-2 bi bi-discord"></i>{member_DiscordData.nickname}
+          <img src={`${member_DiscordData.avatar}`} width={32} className="img-fluid rounded text-end" alt={member_DiscordData.nickname} />
+          <span className="px-2">{member_DiscordData.nickname}</span>
+          <i className="bi bi-discord"></i>
         </button>
       </h2>
       <div id="linked-account-accordion-flush-collapse-1" className="accordion-collapse collapse" aria-labelledby="linked-account-accordion-flush-heading-1" data-bs-parent="#linked-account-accordion-flush">
@@ -197,8 +199,9 @@ export default function Main(props: any) {
   return (<>
     <div className="shadow card">
       <div className="card-body text-dark">
-        <h5 className="card-title"><i className="px-2 bi bi-link-45deg"></i>Linked Account</h5>
-        <div className="accordion accordion-flush" id="linked-account-accordion-flush">
+        <h5 className="card-title"><i className="px-2 bi bi-link-45deg"></i>Third Party Account</h5>
+        <div className={`${styles['linkend-account-banner']} py-5 bg-dark`}></div>
+        <div className="accordion accordion-flush border" id="linked-account-accordion-flush">
           {
             Object.keys(member_DiscordData).length !== 0 ? (
               <Discord_Account {...{ props, theNewWindow }} />

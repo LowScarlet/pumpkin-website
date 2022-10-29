@@ -16,6 +16,7 @@ import Link_Acc_Card from './content/member/link_acc_card'
 import Money_Card from './content/member/money_card'
 import Stats_Card from './content/member/stats_card'
 import Rank_Card from './content/member/rank_card'
+import Guild_Parties_Card from './content/member/guild_parties'
 import styles from './Style.module.css'
 
 const Main = (props: any) => {
@@ -137,21 +138,35 @@ const Main = (props: any) => {
       <section className={`${styles['bg']}`}>
         <div className='container-sm py-4'>
           <div className="row">
-            <div className="col-xl-5">
+            <div className="col-xl-5 mb-3">
               <div className='col mb-3'>
                 <Basic_Card {...sharing_props} />
               </div>
-              <div className='col mb-3'>
-                <Stats_Card {...sharing_props} />
-              </div>
               <div className='col'>
-                <Rank_Card {...sharing_props} />
+                <Stats_Card {...sharing_props} />
               </div>
             </div>
             <div className="col">
-              <div className="col mt-3 mt-lg-0 mb-3">
+              <div className="col mb-3">
                 <Link_Acc_Card {...sharing_props} />
               </div>
+
+              <div className="col mb-3">
+                <div className='card shadow'>
+                  <div className="card-body">
+                    <h5 className="card-title"><i className="px-2 bi bi-box"></i>Account Rank & Guild</h5>
+                    <div className="row row-cols-1 row-cols-md-2 gx-3">
+                      <div className="col mb-3">
+                        <Rank_Card {...sharing_props} />
+                      </div>
+                      <div className="col">
+                        <Rank_Card {...sharing_props} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className="col">
                 <Money_Card {...sharing_props} />
               </div>

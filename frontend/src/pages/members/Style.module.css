@@ -46,3 +46,27 @@
             rgba(0, 0, 0, 0.9)
         ), url('/static/images/apps/members/money-bg.png');
 }
+.guild-banner {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #222;
+    background-image: 
+        linear-gradient(
+            rgba(0, 0, 0, 0.9),
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.9)
+        ), url('/static/images/apps/community/guild-bg.jpg');
+}
+.linkend-account-banner {
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #222;
+    background-image: 
+        linear-gradient(
+            rgba(0, 0, 0, 0.9),
+            rgba(0, 0, 0, 0.2),
+            rgba(0, 0, 0, 0.9)
+        ), url('/static/images/apps/members/linked-account-bg.jpg');
+}
