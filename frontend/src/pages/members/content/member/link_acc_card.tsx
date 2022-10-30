@@ -1,8 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
+import millify from 'millify'
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, UncontrolledTooltip } from 'reactstrap'
 import useSWR from 'swr'
 import { DISCORD_OAUTH2, FRONTEND_URL } from '../../../../components/config'
 import { send_toast } from '../../../../components/customToast'
@@ -65,19 +66,38 @@ function Discord_Account(props: any) {
                       <tr>
                         <td><i className="pe-2 bi bi-hash" />Level</td>
                         <td>
-                          {member_DiscordData.level} {member_DiscordData.is_level_max ? ('(Max)') : ('')}
+                          : {member_DiscordData.level} {member_DiscordData.is_level_max ? (<small><span className="badge bg-danger">Max 🔥</span></small>) : ('')}
                         </td>
                       </tr>
                       <tr>
                         <td><i className="pe-2 bi bi-hash" />Exp</td>
                         <td>
-                          {member_DiscordData.exp} / {member_DiscordData.levelup_exp_needed} ({member_DiscordData.exp / member_DiscordData.levelup_exp_needed * 100}%)
+                          : {millify(member_DiscordData.exp)} / {member_DiscordData.is_level_max ? '∞' : millify(member_DiscordData.levelup_exp)} <i id="tooltip-discord-exp-info" className="bi bi-question-circle" />
                         </td>
+                        <UncontrolledTooltip
+                          placement="right"
+                          target="tooltip-discord-exp-info"
+                          trigger="click hover focus"
+                        >
+                          You have {member_DiscordData.exp} exp
+                          <br /><br />
+                          {member_DiscordData.is_level_max ? (
+                            'You are already at the maximum level'
+                          ) : (
+                            `You need about ${member_DiscordData.levelup_exp_needed} more exp to level up!`
+                          )}
+                        </UncontrolledTooltip>
                       </tr>
                       <tr>
                         <td colSpan={2}>
                           <div className="progress">
-                            <div className="progress-bar" role="progressbar" style={{ width: `${member_DiscordData.exp / member_DiscordData.levelup_exp_needed * 100}%` }} />
+                            {
+                              member_DiscordData.is_level_max ? (
+                                <div className="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" style={{ width: '100%' }}>100%</div>
+                              ) : (
+                                <div className="progress-bar progress-bar-striped bg-pumpkin progress-bar-animated" role="progressbar" style={{ width: `${member_DiscordData.exp / member_DiscordData.levelup_exp * 100}%` }}>{(member_DiscordData.exp / member_DiscordData.levelup_exp * 100).toFixed(2)}%</div>
+                              )
+                            }
                           </div>
                         </td>
                       </tr>

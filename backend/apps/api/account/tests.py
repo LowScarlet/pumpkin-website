@@ -1,9 +1,7 @@
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core.mail import EmailMessage
+import sys
 
-msg = EmailMessage('Request Callback',
-                    'Here is the message.', to=['namaetohyaakiradesu@gmail.com'])
-msg.send()
-
-print("Success")
+print([(x*10)**2 for x in range(25)]+[sys.maxsize])
+print(len([(x*10)**2 for x in range(25)]))

@@ -6,6 +6,7 @@ from api.guild.models import Guild
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+import sys
 
 # CHOICES *Gender
 GENDER_CHOICES = (
@@ -20,7 +21,7 @@ for x in RANK:
 
 # Discord Leveling Map
 def levelmap():
-    return [(x*10)**2 for x in range(25)]
+    return [(x*10)**2 for x in range(26)]+[sys.maxsize]
 
 # Profile Model
 class Profile(models.Model):
@@ -145,9 +146,15 @@ class Discord_Account(models.Model):
         return levelmap().index(v)
     
     # Get Total Exp to Levelup
+    def levelup_exp(self):
+        return levelmap()[self.level()+1]
+    
+    # Get Total Exp require to Levelup
     def levelup_exp_needed(self):
         return levelmap()[self.level()+1]-self.exp
     
     # Is Level max
     def is_level_max(self):
-        return True
+        if self.level() >= len(levelmap())-2:
+            return True
+        return False

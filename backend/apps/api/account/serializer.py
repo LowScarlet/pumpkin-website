@@ -104,6 +104,7 @@ class Basic_Discord_AccountSerializer(serializers.HyperlinkedModelSerializer):
 
             'avatar',
             'level',
+            'levelup_exp',
             'levelup_exp_needed',
             'is_level_max',
         ]
@@ -134,6 +135,7 @@ class Full_Discord_AccountSerializer(serializers.HyperlinkedModelSerializer):
 
             'avatar',
             'level',
+            'levelup_exp',
             'levelup_exp_needed',
             'is_level_max',
         ]

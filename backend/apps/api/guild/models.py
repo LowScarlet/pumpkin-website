@@ -23,8 +23,6 @@ class Guild(models.Model):
     # Admin, Staff & Member list
     admins = models.ManyToManyField(
         User, blank=True, related_name='get_guild_as_admin')
-    staffs = models.ManyToManyField(
-        User, blank=True, related_name='get_guild_as_staff')
     members = models.ManyToManyField(
         User, blank=True, related_name='get_guild_as_member')
 
