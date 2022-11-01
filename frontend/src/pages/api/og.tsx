@@ -41,7 +41,7 @@ export default async function handler(req: NextRequest) {
             borderRadius: 128,
           }}
         />
-        <p>github.com/{username}</p>
+        <p className='text-pumpkin'>github.com/{username}</p>
       </div>
     ),
     {
