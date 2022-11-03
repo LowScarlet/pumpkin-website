@@ -32,7 +32,12 @@
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: auto;
-    background-image: url('/static/images/other/bg-blue-island.png');
+    background-image: 
+        linear-gradient(
+            rgba(0, 0, 0, 0.9),
+            rgba(0, 0, 0, 0.2),
+            rgba(0, 0, 0, 0.9)
+        ), url('/static/images/apps/members/bg-dark.jpg');
 }
 .money-banner {
     background-position: bottom;

@@ -5,7 +5,7 @@ import millify from 'millify'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
+import { Button, CloseButton, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import { send_toast } from '../../../../components/customToast'
 import VerifyingEmail from '../../../../components/embed/verifying-email'
 import { FETCH_FAIL } from '../../../../components/redux/messages'
@@ -34,6 +34,11 @@ export default function Main(props: any) {
   const [memberBio, setMemberBio] = useState("I have no data to show off!")
 
   const [editModal, setEditModal] = useState(false)
+  const modalBtn = (
+    <div className="bg-dark p-3">
+      <CloseButton variant="white" onClick={() => setEditModal(!editModal)} />
+    </div>
+  )
 
   const { fetchingLoading, memberData, isSelf, setMemberData } = props
 
@@ -186,14 +191,14 @@ export default function Main(props: any) {
   }
 
   return (<>
-    <div className="shadow card">
-      <div className="card-body text-dark">
+    <div className="shadow card bg-dark">
+      <div className="card-body text-light">
         <div className={`${styles['member-banner']} py-5 bg-dark`} style={{ backgroundImage: `url('${memberData.profile.banner}')` }} />
 
         <div className="mt-3 mb-1">
           <div className="dropdown float-end">
             <a href="#" className="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false" />
-            <div className="dropdown-menu dropdown-menu-end">
+            <div className="dropdown-menu dropdown-menu-end dropdown-menu-dark">
               {
                 isSelf ? (
                   <button onClick={() => setEditModal(!editModal)} className="dropdown-item">
@@ -214,7 +219,7 @@ export default function Main(props: any) {
           </div>
 
           <div className="d-flex align-items-start">
-            <div className={`${styles['member-avatar']} w-100 rounded border border-5`} style={{ backgroundImage: `url('${memberData.profile.avatar}')` }} />
+            <div className={`${styles['member-avatar']} w-100 rounded`} style={{ backgroundImage: `url('${memberData.profile.avatar}')` }} />
             <div className="w-100 ms-3">
               <h4 className="my-0 text-uppercase">
                 {memberData.user.get_full_name.length === 0 ? (
@@ -279,88 +284,90 @@ export default function Main(props: any) {
     {
       isSelf ? (
         <Modal className='modal-dialog-centered modal-lg modal-fullscreen-sm-down' toggle={() => setEditModal(!editModal)} isOpen={editModal}>
-          <ModalHeader toggle={() => setEditModal(!editModal)}>
-            <h5 className="modal-title" id="exampleModalLabel">
-              <i className="bi bi-gear-fill"></i> Edit your account!
-            </h5>
-          </ModalHeader>
-          <ModalBody className='text-dark'>
-            <div className="row g-0 pb-4">
-              <VerifyingEmail {...{memberData, setMemberData}}/>
-              <div className="col-12 col-md-4 pe-lg-5 text-center text-lg-start">
-                <span>Profile</span>
-                <p>
-                  <small>
-                    Your username is your identity on Pumpkin Project and is used to log in.
-                  </small>
-                </p>
+          <div className="bg-dark">
+            <ModalHeader className='text-light' toggle={() => setEditModal(!editModal)} close={modalBtn}>
+              <h5 className="modal-title" id="exampleModalLabel">
+                <i className="bi bi-gear-fill"></i> Edit your account!
+              </h5>
+            </ModalHeader>
+            <ModalBody className='text-light'>
+              <div className="row g-0 pb-4">
+                <VerifyingEmail {...{ memberData, setMemberData }} />
+                <div className="col-12 col-md-4 pe-lg-5 text-center text-lg-start">
+                  <span>Profile</span>
+                  <p>
+                    <small>
+                      Your username is your identity on Pumpkin Project and is used to log in.
+                    </small>
+                  </p>
+                </div>
+                <div className="col-sm-6 col-md-8">
+                  <form className="row g-3" onSubmit={onSubmit_edit_profile}>
+                    <div className="col-md-12">
+                      <label htmlFor="Username" className="form-label">Username <span className="badge bg-pumpkin">⚠️ Iron rank or above required!</span></label>
+                      <input type="text" className="form-control" name="username" id="Username" placeholder={memberData.user.username} pattern="[a-zA-Z0-9_]+"
+                        disabled={true} onChange={onChange_edit_profile} value={username} />
+                    </div>
+                    <div className="col-6">
+                      <label htmlFor="First_Name" className="form-label">First Name</label>
+                      <input type="text" className="form-control" name="first_name" id="First_Name" placeholder={memberData.user.first_name}
+                        disabled={editLoading} onChange={onChange_edit_profile} value={first_name} />
+                    </div>
+                    <div className="col-6">
+                      <label htmlFor="Last_Name" className="form-label">Last Name</label>
+                      <input type="text" className="form-control" name="last_name" id="Last_Name" placeholder={memberData.user.last_name}
+                        disabled={editLoading} onChange={onChange_edit_profile} value={last_name} />
+                    </div>
+                    <div className="col-md-12">
+                      <label htmlFor="Email" className="form-label">Email</label>
+                      <input type="email" className="form-control" name="email" id="Email" placeholder={memberData.user.email}
+                        disabled={editLoading} onChange={onChange_edit_profile} value={email} />
+                    </div>
+                    <div className="col-md-12">
+                      <label htmlFor="Bio" className="form-label">Bio</label>
+                      <textarea className="form-control" name="bio" id="Bio" rows={4} placeholder={memberData.profile.bio}
+                        disabled={editLoading} onChange={onChange_edit_profile} value={bio} />
+                    </div>
+                    <button disabled={editLoading} type='submit' className="btn btn-sm btn-success">Save</button>
+                  </form>
+                </div>
               </div>
-              <div className="col-sm-6 col-md-8">
-                <form className="row g-3" onSubmit={onSubmit_edit_profile}>
-                  <div className="col-md-12">
-                    <label htmlFor="Username" className="form-label">Username <span className="badge bg-pumpkin">⚠️ Iron rank or above required!</span></label>
-                    <input type="text" className="form-control" name="username" id="Username" placeholder={memberData.user.username} pattern="[a-zA-Z0-9_]+"
-                      disabled={true} onChange={onChange_edit_profile} value={username} />
-                  </div>
-                  <div className="col-6">
-                    <label htmlFor="First_Name" className="form-label">First Name</label>
-                    <input type="text" className="form-control" name="first_name" id="First_Name" placeholder={memberData.user.first_name}
-                      disabled={editLoading} onChange={onChange_edit_profile} value={first_name} />
-                  </div>
-                  <div className="col-6">
-                    <label htmlFor="Last_Name" className="form-label">Last Name</label>
-                    <input type="text" className="form-control" name="last_name" id="Last_Name" placeholder={memberData.user.last_name}
-                      disabled={editLoading} onChange={onChange_edit_profile} value={last_name} />
-                  </div>
-                  <div className="col-md-12">
-                    <label htmlFor="Email" className="form-label">Email</label>
-                    <input type="email" className="form-control" name="email" id="Email" placeholder={memberData.user.email}
-                      disabled={editLoading} onChange={onChange_edit_profile} value={email} />
-                  </div>
-                  <div className="col-md-12">
-                    <label htmlFor="Bio" className="form-label">Bio</label>
-                    <textarea className="form-control" name="bio" id="Bio" rows={4} placeholder={memberData.profile.bio}
-                      disabled={editLoading} onChange={onChange_edit_profile} value={bio} />
-                  </div>
-                  <button disabled={editLoading} type='submit' className="btn btn-sm btn-success">Save</button>
-                </form>
+              <hr />
+              <div className="row g-0 pt-4">
+                <div className="col-12 col-md-4 pe-lg-5 text-center text-lg-start">
+                  <span>Password</span>
+                  <p>
+                    <small>
+                      Changing your password will also reset your Token.
+                    </small>
+                  </p>
+                </div>
+                <div className="col-sm-6 col-md-8">
+                  <form className="row g-3" onSubmit={onSubmit_edit_password}>
+                    <div className="col-md-12">
+                      <label htmlFor="CurrentPassword" className="form-label">Current Password</label>
+                      <input type="password" className="form-control" autoComplete="on" name="current_password" id="CurrentPassword" placeholder='Your current password'
+                        disabled={editLoading} onChange={onChange_edit_password} value={current_password} />
+                    </div>
+                    <div className="col-md-12">
+                      <label htmlFor="NewPassword" className="form-label">Current Password</label>
+                      <input type="password" className="form-control" autoComplete="on" name="new_password" id="NewPassword" placeholder='Your new password'
+                        disabled={editLoading} onChange={onChange_edit_password} value={new_password} />
+                    </div>
+                    <div className="col-md-12">
+                      <label htmlFor="ConfirmPassword" className="form-label">Confirm Password</label>
+                      <input type="password" className="form-control" autoComplete="on" name="confirm_password" id="ConfirmPassword" placeholder='Your new password (For Confirmation)'
+                        disabled={editLoading} onChange={onChange_edit_password} value={confirm_password} />
+                    </div>
+                    <button disabled={editLoading} type='submit' className="btn btn-sm btn-success">Save</button>
+                  </form>
+                </div>
               </div>
-            </div>
-            <hr />
-            <div className="row g-0 pt-4">
-              <div className="col-12 col-md-4 pe-lg-5 text-center text-lg-start">
-                <span>Password</span>
-                <p>
-                  <small>
-                    Changing your password will also reset your Token.
-                  </small>
-                </p>
-              </div>
-              <div className="col-sm-6 col-md-8">
-                <form className="row g-3" onSubmit={onSubmit_edit_password}>
-                  <div className="col-md-12">
-                    <label htmlFor="CurrentPassword" className="form-label">Current Password</label>
-                    <input type="password" className="form-control" autoComplete="on" name="current_password" id="CurrentPassword" placeholder='Your current password'
-                      disabled={editLoading} onChange={onChange_edit_password} value={current_password} />
-                  </div>
-                  <div className="col-md-12">
-                    <label htmlFor="NewPassword" className="form-label">Current Password</label>
-                    <input type="password" className="form-control" autoComplete="on" name="new_password" id="NewPassword" placeholder='Your new password'
-                      disabled={editLoading} onChange={onChange_edit_password} value={new_password} />
-                  </div>
-                  <div className="col-md-12">
-                    <label htmlFor="ConfirmPassword" className="form-label">Confirm Password</label>
-                    <input type="password" className="form-control" autoComplete="on" name="confirm_password" id="ConfirmPassword" placeholder='Your new password (For Confirmation)'
-                      disabled={editLoading} onChange={onChange_edit_password} value={confirm_password} />
-                  </div>
-                  <button disabled={editLoading} type='submit' className="btn btn-sm btn-success">Save</button>
-                </form>
-              </div>
-            </div>
-          </ModalBody>
-          <ModalFooter className='py-3 text-muted'>
-            By using Pumpkin Project services, you are agreeing to our <Link href='/terms'><a className='text-pumpkin'>terms and conditions.</a></Link>
-          </ModalFooter>
+            </ModalBody>
+            <ModalFooter className='py-3 text-muted'>
+              By using Pumpkin Project services, you are agreeing to our <Link href='/terms'><a className='text-pumpkin'>terms and conditions.</a></Link>
+            </ModalFooter>
+          </div>
         </Modal>
       ) : null
     }
