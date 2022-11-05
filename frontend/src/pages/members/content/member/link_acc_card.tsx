@@ -13,7 +13,7 @@ import styles from '../../Style.module.css'
 function Discord_Account(props: any) {
   const [discordModal, setDiscordModal] = useState(false)
   const { theNewWindow } = props
-  const { fetchingLoading, isSelf, memberData, member_DiscordData, setMember_DiscordData } = props.props
+  const { isDark, fetchingLoading, isSelf, memberData, member_DiscordData, setMember_DiscordData } = props.props
 
   const discordUnlinkHandler = async (e: any) => {
     e.preventDefault()
@@ -43,25 +43,27 @@ function Discord_Account(props: any) {
   }
 
   return (<>
-    <div className="accordion-item">
+    <div className={`accordion-item ${isDark ? 'bg-dark' : ''}`}>
       <h2 className="accordion-header" id="linked-account-accordion-flush-heading-1">
-        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#linked-account-accordion-flush-collapse-1" aria-expanded="false" aria-controls="linked-account-accordion-flush-collapse-1">
-          <img src={`${member_DiscordData.avatar}`} width={32} className="img-fluid rounded text-end" alt={member_DiscordData.nickname} />
-          <span className="px-2">{member_DiscordData.nickname}</span>
-          <i className="bi bi-discord"></i>
-        </button>
+        <div className={`${isDark ? 'bg-dark' : ''}`}>
+          <button className={`${isDark ? 'text-bg-dark' : ''} accordion-button collapsed`} data-bs-toggle="collapse" data-bs-target="#linked-account-accordion-flush-collapse-1" aria-expanded="false" aria-controls="linked-account-accordion-flush-collapse-1">
+            <img src={`${member_DiscordData.avatar}`} width={32} className="img-fluid rounded text-end" alt={member_DiscordData.nickname} />
+            <span className="px-2">{member_DiscordData.nickname}</span>
+            <i className="bi bi-discord"></i>
+          </button>
+        </div>
       </h2>
       <div id="linked-account-accordion-flush-collapse-1" className="accordion-collapse collapse" aria-labelledby="linked-account-accordion-flush-heading-1" data-bs-parent="#linked-account-accordion-flush">
         <div className="accordion-body p-0 pt-3">
-          <div className="card mb-3 border-0">
+          <div className={`card mb-3 border-0 ${isDark ? 'text-bg-dark' : ''}`}>
             <div className="row g-0">
               <div className="col-md-4">
                 <img src={`${member_DiscordData.avatar}`} width={"100%"} className="img-fluid rounded-start" alt={member_DiscordData.nickname} />
               </div>
               <div className="col-md-8">
-                <div className="card-body">
+                <div className={`card-body`}>
                   <h5 className="card-title"><i className="bi bi-discord"></i> {member_DiscordData.nickname}</h5>
-                  <table className="table table-sm table-borderless table-responsive">
+                  <table className={`text-muted table table-sm table-borderless table-responsive`}>
                     <tbody>
                       <tr>
                         <td><i className="pe-2 bi bi-hash" />Level</td>
@@ -174,7 +176,7 @@ function Discord_Account(props: any) {
 export default function Main(props: any) {
   // Inital useState
   const [modal, setModal] = useState(false)
-  const { fetchingLoading, memberData, member_DiscordData, isSelf } = props
+  const { isDark, fetchingLoading, memberData, member_DiscordData, isSelf } = props
 
   const toggle = () => {
     setModal(!modal)
@@ -192,36 +194,21 @@ export default function Main(props: any) {
 
   if (fetchingLoading || !memberData) {
     return (
-      <div className="shadow card placeholder-glow">
-        <div className="card-body text-dark">
+      <div className={`shadow card placeholder-glow ${isDark ? 'text-bg-dark' : ''}`}>
+        <div className="card-body">
           <h5 className="card-title placeholder col-3"></h5>
-          <div className="accordion accordion-flush" id="linked-account-accordion-flush">
-            <div className="accordion-item">
-              <h2 className="accordion-header">
-                <button className="accordion-button collapsed">
-                  <span className='placeholder col-6'></span>
-                </button>
-              </h2>
-            </div>
-            <div className="accordion-item">
-              <h2 className="accordion-header">
-                <button className="accordion-button collapsed">
-                  <span className='placeholder col-6'></span>
-                </button>
-              </h2>
-            </div>
-          </div>
+          <div className={`py-5 ${isDark ? 'bg-black' : 'bg-light'}`}></div>
         </div>
       </div>
     )
   }
 
   return (<>
-    <div className="shadow card">
-      <div className="card-body text-dark">
+    <div className={`shadow card ${isDark ? 'text-bg-dark' : ''}`}>
+      <div className="card-body">
         <h5 className="card-title"><i className="px-2 bi bi-link-45deg"></i>Third Party Account</h5>
         <div className={`${styles['linkend-account-banner']} py-5 bg-dark`}></div>
-        <div className="accordion accordion-flush border" id="linked-account-accordion-flush">
+        <div className={`accordion accordion-flush border ${isDark ? 'border-black' : ''}`} id="linked-account-accordion-flush">
           {
             Object.keys(member_DiscordData).length !== 0 ? (
               <Discord_Account {...{ props, theNewWindow }} />

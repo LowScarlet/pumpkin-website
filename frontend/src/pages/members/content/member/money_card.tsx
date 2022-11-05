@@ -6,14 +6,14 @@ import styles from '../../Style.module.css'
 
 export default function Main(props: any) {
   const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
-  const {fetchingLoading, memberData, member_DiscordData, isSelf} = props
+  const {isDark, fetchingLoading, memberData, member_DiscordData, isSelf} = props
 
   if (fetchingLoading || !memberData) {
     return (
-      <div className="shadow card placeholder-glow">
-        <div className="card-body text-dark">
+      <div className={`shadow card placeholder-glow ${isDark ? 'text-bg-dark' : ''}`}>
+        <div className="card-body">
           <h5 className="card-title placeholder col-3"></h5>
-          <div className='my-2 py-5 bg-light'></div>
+          <div className={`my-2 py-5 ${isDark ? 'bg-black' : 'bg-light'}`}></div>
           <table className="table table-sm table-borderless table-responsive text-center">
             <thead>
               <tr>
@@ -37,11 +37,11 @@ export default function Main(props: any) {
     )
   }
   return (
-    <div className="shadow card">
-      <div className="card-body text-dark">
+    <div className={`shadow card ${isDark ? 'text-bg-dark' : ''}`}>
+      <div className="card-body">
         <h5 className="card-title"><i className="px-2 bi bi-cash-coin"></i>Bank</h5>
         <div className={`${styles['money-banner']} my-2 py-5 bg-dark`}></div>
-        <table className="table table-sm table-borderless table-responsive text-center">
+        <table className={`table table-sm table-borderless table-responsive text-center ${isDark ? 'text-white-50' : 'text-dark'}`}>
           <thead>
             <tr>
               <th scope="col">Pumpkin Coin</th>

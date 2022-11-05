@@ -27,8 +27,15 @@
     background-size: cover;
     background-color: #222;
 }
-.bg {
+.bg-light {
     background-color: #c4d1d9;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-image: url('/static/images/apps/members/bg-light.png');
+}
+.bg-dark {
+    background-color: #11030f;
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: auto;
@@ -44,34 +51,19 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #222;
-    background-image: 
-        linear-gradient(
-            rgba(0, 0, 0, 0.9),
-            rgba(0, 0, 0, 0.2),
-            rgba(0, 0, 0, 0.9)
-        ), url('/static/images/apps/members/money-bg.png');
+    background-image: url('/static/images/apps/members/money-bg.png');
 }
 .guild-banner {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #222;
-    background-image: 
-        linear-gradient(
-            rgba(0, 0, 0, 0.9),
-            rgba(0, 0, 0, 0.5),
-            rgba(0, 0, 0, 0.9)
-        ), url('/static/images/apps/community/guild-bg.jpg');
+    background-image: url('/static/images/apps/community/guild-bg.jpg');
 }
 .linkend-account-banner {
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #222;
-    background-image: 
-        linear-gradient(
-            rgba(0, 0, 0, 0.9),
-            rgba(0, 0, 0, 0.2),
-            rgba(0, 0, 0, 0.9)
-        ), url('/static/images/apps/members/linked-account-bg.jpg');
+    background-image: url('/static/images/apps/members/linked-account-bg.jpg');
 }

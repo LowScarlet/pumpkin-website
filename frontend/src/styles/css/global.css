@@ -107,3 +107,17 @@ body::-webkit-scrollbar {
         transform: rotate(360deg)
     }
 }
+
+/*  */
+.text-bg-dark .accordion-button:not(.collapsed)::after {
+    background-image: url("/static/images/button/down-light.png");
+  }
+.text-bg-dark .accordion-button::after {
+    background-image: url("/static/images/button/down-light.png");
+}
+.accordion-button:not(.collapsed)::after {
+    background-image: url("/static/images/button/down-dark.png");
+}
+.accordion-button::after {
+    background-image: url("/static/images/button/down-dark.png");
+}

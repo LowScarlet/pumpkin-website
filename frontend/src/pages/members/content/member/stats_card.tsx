@@ -3,29 +3,29 @@
 import millify from 'millify'
 
 export default function Main(props: any) {
-  const {fetchingLoading, memberData} = props
+  const {isDark, fetchingLoading, memberData} = props
 
   if (fetchingLoading || !memberData) {
     return (
-      <div className="shadow card placeholder-glow">
+      <div className={`shadow card placeholder-glow ${isDark ? 'bg-dark' : ''}`}>
         <div className="card-body text-center text-dark">
           <div className="row">
             <div className="col-4">
               <div className="border-bottom border-5 border-primary">
                 <h5 className="text-muted mt-1 mb-2 fw-normal placeholder col-6"></h5>
-                <h2 className="mb-0 fw-bold"><span className='placeholder col-3' /></h2>
+                <h2 className="mb-0 fw-bold"><span className='placeholder col-3 bg-light' /></h2>
               </div>
             </div>
             <div className="col-4">
               <div className="border-bottom border-5 border-success">
                 <h5 className="text-muted mt-1 mb-2 fw-normal placeholder col-6"></h5>
-                <h2 className="mb-0 fw-bold"><span className='placeholder col-3' /></h2>
+                <h2 className="mb-0 fw-bold"><span className='placeholder col-3 bg-light' /></h2>
               </div>
             </div>
             <div className="col-4">
               <div className="border-bottom border-5 border-warning">
                 <h5 className="text-muted mt-1 mb-2 fw-normal placeholder col-6"></h5>
-                <h2 className="mb-0 fw-bold"><span className='placeholder col-3' /></h2>
+                <h2 className="mb-0 fw-bold"><span className='placeholder col-3 bg-light' /></h2>
               </div>
             </div>
           </div>
@@ -35,8 +35,8 @@ export default function Main(props: any) {
   }
 
   return (
-    <div className="shadow card">
-      <div className="card-body text-center text-dark">
+    <div className={`shadow card ${isDark ? 'bg-dark' : ''}`}>
+      <div className={`card-body text-center ${isDark ? 'text-white-50' : 'text-dark'}`}>
         <div className="row">
           <div className="col-4 px-sm-2 px-0">
             <div className="border-bottom border-5 border-success">

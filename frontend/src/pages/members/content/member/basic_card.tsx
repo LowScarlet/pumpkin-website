@@ -15,6 +15,8 @@ export default function Main(props: any) {
   // Initial useState
   const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
 
+  const { isDark, fetchingLoading, memberData, isSelf, setMemberData } = props
+
   const [formEdit_Profile, setFormEdit_Profile] = useState({ username: '', first_name: '', last_name: '', email: '', bio: '' })
   const { username, first_name, last_name, email, bio } = formEdit_Profile
 
@@ -35,12 +37,8 @@ export default function Main(props: any) {
 
   const [editModal, setEditModal] = useState(false)
   const modalBtn = (
-    <div className="bg-dark p-3">
-      <CloseButton variant="white" onClick={() => setEditModal(!editModal)} />
-    </div>
+      <CloseButton variant={`${isDark ? 'white' : 'black'}`} onClick={() => setEditModal(!editModal)} />
   )
-
-  const { fetchingLoading, memberData, isSelf, setMemberData } = props
 
   // Event
   const onChange_edit_profile = (e: any) => {
@@ -158,9 +156,9 @@ export default function Main(props: any) {
 
   if (fetchingLoading || !memberData) {
     return (
-      <div className="shadow card placeholder-glow">
-        <div className="card-body text-dark">
-          <div className='py-5 bg-light'></div>
+      <div className={`shadow card ${isDark ? 'bg-dark' : ''}`}>
+        <div className={`card-body placeholder-glow ${isDark ? 'text-light' : ''}`}>
+          <div className={`py-5 ${isDark ? 'bg-black' : 'bg-light'}`}></div>
 
           <div className="my-3">
             <div className="d-flex align-items-start">
@@ -191,14 +189,14 @@ export default function Main(props: any) {
   }
 
   return (<>
-    <div className="shadow card bg-dark">
-      <div className="card-body text-light">
+    <div className={`shadow card ${isDark ? 'bg-dark' : ''}`}>
+      <div className={`card-body ${isDark ? 'text-light' : ''}`}>
         <div className={`${styles['member-banner']} py-5 bg-dark`} style={{ backgroundImage: `url('${memberData.profile.banner}')` }} />
 
         <div className="mt-3 mb-1">
           <div className="dropdown float-end">
             <a href="#" className="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false" />
-            <div className="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+            <div className={`dropdown-menu dropdown-menu-end ${isDark ? 'dropdown-menu-dark' : ''}`}>
               {
                 isSelf ? (
                   <button onClick={() => setEditModal(!editModal)} className="dropdown-item">
@@ -284,13 +282,13 @@ export default function Main(props: any) {
     {
       isSelf ? (
         <Modal className='modal-dialog-centered modal-lg modal-fullscreen-sm-down' toggle={() => setEditModal(!editModal)} isOpen={editModal}>
-          <div className="bg-dark">
-            <ModalHeader className='text-light' toggle={() => setEditModal(!editModal)} close={modalBtn}>
+          <div className={`${isDark ? 'bg-dark' : ''}`}>
+            <ModalHeader className={`${isDark ? 'text-light' : ''}`} toggle={() => setEditModal(!editModal)} close={modalBtn}>
               <h5 className="modal-title" id="exampleModalLabel">
                 <i className="bi bi-gear-fill"></i> Edit your account!
               </h5>
             </ModalHeader>
-            <ModalBody className='text-light'>
+            <ModalBody className={`${isDark ? 'text-light' : ''}`}>
               <div className="row g-0 pb-4">
                 <VerifyingEmail {...{ memberData, setMemberData }} />
                 <div className="col-12 col-md-4 pe-lg-5 text-center text-lg-start">

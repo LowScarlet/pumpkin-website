@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify"
 import { useEffect } from "react"
 import NProgress from "nprogress"
 import { Router } from "next/router"
+import { ThemeProvider } from 'next-themes'
 
 function Main({ Component, pageProps }: AppProps) {
   // Initial setup
@@ -39,7 +40,9 @@ function Main({ Component, pageProps }: AppProps) {
       </Head>
       <Init>
         <ToastContainer />
-        <Component {...pageProps}/>
+        <ThemeProvider>
+          <Component {...pageProps}/>
+        </ThemeProvider>
       </Init>
     </Provider>
   </>)

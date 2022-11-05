@@ -18,13 +18,13 @@ import Stats_Card from './content/member/stats_card'
 import Rank_Card from './content/member/rank_card'
 import Guild_Parties_Card from './content/member/guild_parties'
 import styles from './Style.module.css'
+import { useTheme } from 'next-themes'
 
 const Main = (props: any) => {
   // Initial setup
   const router = useRouter()
 
   const { member } = router.query
-  console.log(router)
 
   const [fetchingLoading, setFetchingLoading] = useState(true)
   const [isSelf, setIsSelf] = useState(false)
@@ -35,6 +35,13 @@ const Main = (props: any) => {
   const user_data = useSelector((state: any) => state.auth.user)
 
   const { rank_list, benefits_list } = props
+  
+  // Theme
+  const { theme } = useTheme()
+  const [isDark, setIsDark] = useState(false)
+  useEffect(() => {
+    setIsDark(theme === 'dark')
+  }, [theme])
 
   const fetcher = async (...args: any) => {
     try {
@@ -73,26 +80,26 @@ const Main = (props: any) => {
         <title>{member ? `Member - ${member}` : 'Member'}</title>
       </Head>
       <Layout>
-        <section style={{ backgroundColor: '#bfccd4' }}>
+        <section style={{ backgroundColor: `${isDark ? '#11030f' : '#bfccd4'}` }}>
           <div className='container-sm py-4'>
             <div className="row">
               <div className="col-xl-5">
                 <div className='col mb-3'>
-                  <Basic_Card />
+                  <Basic_Card isDark={isDark}/>
                 </div>
                 <div className='col mb-3'>
-                  <Stats_Card />
+                  <Stats_Card isDark={isDark} />
                 </div>
                 <div className='col'>
-                  <Rank_Card />
+                  <Rank_Card isDark={isDark} />
                 </div>
               </div>
               <div className="col">
                 <div className="col mt-3 mt-lg-0 mb-3">
-                  <Link_Acc_Card />
+                  <Link_Acc_Card isDark={isDark} />
                 </div>
                 <div className="col">
-                  <Money_Card />
+                  <Money_Card isDark={isDark} />
                 </div>
               </div>
             </div>
@@ -128,7 +135,7 @@ const Main = (props: any) => {
     </>)
   }
 
-  const sharing_props = { memberData, setMemberData, member_DiscordData, setMember_DiscordData, fetchingLoading, isSelf, rank_list, benefits_list }
+  const sharing_props = { isDark, memberData, setMemberData, member_DiscordData, setMember_DiscordData, fetchingLoading, isSelf, rank_list, benefits_list }
 
   // Here we go
   return (<>
@@ -136,24 +143,24 @@ const Main = (props: any) => {
       <title>{member ? `Member - ${member}` : 'Member'}</title>
     </Head>
     <Layout>
-      <section className={`${styles['bg']}`}>
+      <section className={`${styles[`${isDark ? 'bg-dark' : 'bg-light'}`]}`}>
         <div className='container-sm py-4'>
           <div className="row">
             <div className="col-xl-5 mb-3">
               <div className='col mb-3'>
                 <Basic_Card {...sharing_props} />
               </div>
-              {/* <div className='col'>
+              <div className='col'>
                 <Stats_Card {...sharing_props} />
-              </div> */}
+              </div>
             </div>
             <div className="col">
-              {/* <div className="col mb-3">
+              <div className="col mb-3">
                 <Link_Acc_Card {...sharing_props} />
-              </div> */}
+              </div>
 
               <div className="col mb-3">
-                {/* <div className='card shadow'>
+                <div className={`card shadow ${isDark ? 'text-bg-dark' : ''}`}>
                   <div className="card-body">
                     <h5 className="card-title"><i className="px-2 bi bi-box"></i>Account Rank & Guild</h5>
                     <div className="row row-cols-1 row-cols-md-2 gx-3">
@@ -165,12 +172,12 @@ const Main = (props: any) => {
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
               </div>
 
-              {/* <div className="col">
+              <div className="col">
                 <Money_Card {...sharing_props} />
-              </div> */}
+              </div>
             </div>
           </div>
         </div>
@@ -187,17 +194,21 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps() {
-  const res = await fetch(`${BACKEND_URL}/account/ranks`)
-  const rank_list = await res.json()
+  try {
+    const res = await fetch(`${BACKEND_URL}/account/ranks`)
+    const rank_list = await res.json()
 
-  const res2 = await fetch(`${BACKEND_URL}/account/benefits`)
-  const benefits_list = await res2.json()
+    const res2 = await fetch(`${BACKEND_URL}/account/benefits`)
+    const benefits_list = await res2.json()
 
-  return {
-    props: {
-      rank_list,
-      benefits_list
-    },
+    return {
+      props: {
+        rank_list,
+        benefits_list
+      },
+    }
+  } catch{
+    return {props: {}}
   }
 }
 

@@ -1,19 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
 import { send_toast } from '../../../customToast'
 import { logout } from '../../../redux/authentication/auth'
 import { FETCH_FAIL } from '../../../redux/messages'
 import styles from '../../Style.module.css'
+import { useTheme } from 'next-themes'
 
-export default function Main(props:any) {
+export default function Main(props: any) {
     // Initial setup
     const dispatch = useDispatch()
     const [logout_modal, setLogout_Modal] = useState(false)
     const [submitLoading, setSubmitLoading] = useState(false)
-    const {data, isAuthenticated, user_data} = props
+    const { theme, setTheme } = useTheme()
+    const { data, isAuthenticated, user_data } = props
+  
+    // Theme
+    const [isDark, setIsDark] = useState(false)
+    useEffect(() => {
+      setIsDark(theme === 'dark')
+    }, [theme])
 
     // Some button
     const logoutHandler = async (e: any) => {
@@ -28,10 +36,10 @@ export default function Main(props:any) {
                         'Content-Type': 'application/json'
                     }
                 })
-        
+
                 // Get response as Json
                 const data = await res.json()
-        
+
                 // Validation
                 if (res.status === 200) {
                     dispatch(logout(res.status, data) as any)
@@ -54,7 +62,7 @@ export default function Main(props:any) {
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div className="container-sm placeholder-glow">
                         <span className='bg-pumpkin placeholder me-2' style={{ width: 50, height: 50 }}></span>
-                        <span className='bg-light placeholder col-2'/>
+                        <span className='bg-light placeholder col-2' />
 
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"></span></button>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -316,6 +324,16 @@ export default function Main(props:any) {
                                                     </a>
                                                 </Link>
                                             </li>
+                                            <li>
+                                                <button className="dropdown-item"
+                                                    onClick={() => setTheme(`${isDark ? 'system' : 'dark'}`)}
+                                                >
+                                                    <div className="px-3">
+                                                        <img src={`/static/images/navbar/${isDark ? 'dark_mode' : 'light_mode'}_logo.png`} width="55" height="55" alt="" />
+                                                        Theme: {isDark ? 'Dark' : 'Default'}
+                                                    </div>
+                                                </button>
+                                            </li>
                                             <hr />
                                             <li>
                                                 <button className="dropdown-item"
@@ -340,17 +358,17 @@ export default function Main(props:any) {
         </div>
         <Modal className='modal-dialog-centered' toggle={() => setLogout_Modal(!logout_modal)} isOpen={logout_modal}>
             <div className="modal-header text-dark ">
-            <h5 className="modal-title" id="exampleModalLabel">
-                Confirm your action
-            </h5>
-            <button
-                aria-label="Close"
-                className="btn-close"
-                type="button"
-                onClick={() => setLogout_Modal(!logout_modal)}
-            >
-                <span aria-hidden={true}></span>
-            </button>
+                <h5 className="modal-title" id="exampleModalLabel">
+                    Confirm your action
+                </h5>
+                <button
+                    aria-label="Close"
+                    className="btn-close"
+                    type="button"
+                    onClick={() => setLogout_Modal(!logout_modal)}
+                >
+                    <span aria-hidden={true}></span>
+                </button>
             </div>
             <ModalBody className='text-dark'>
                 Do you want to log out?
